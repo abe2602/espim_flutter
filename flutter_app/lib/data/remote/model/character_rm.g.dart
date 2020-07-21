@@ -8,7 +8,7 @@ part of 'character_rm.dart';
 
 CharacterRM _$CharacterRMFromJson(Map<String, dynamic> json) {
   return CharacterRM(
-    id: json['id'] as int,
+    id: json['char_id'] as int,
     name: json['name'] as String,
     imgUrl: json['img'] as String,
   );
@@ -16,7 +16,7 @@ CharacterRM _$CharacterRMFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$CharacterRMToJson(CharacterRM instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'char_id': instance.id,
       'name': instance.name,
       'img': instance.imgUrl,
     };

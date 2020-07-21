@@ -4,5 +4,5 @@ import 'package:flutter_app/presentation/character_list/character_list_page.dart
 
 class HomeScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => CharacterListPage();
+  Widget build(BuildContext context) => CharacterListPage.create(context);
 }
