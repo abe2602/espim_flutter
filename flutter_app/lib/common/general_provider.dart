@@ -1,14 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:domain/data_repository/character_data_repository.dart';
+import 'package:domain/data_repository/user_data_repository.dart';
 import 'package:domain/use_case/get_character_list_uc.dart';
+import 'package:domain/use_case/check_is_user_logged_uc.dart';
+import 'package:domain/use_case/check_has_shown_tutorial_uc.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/data/cache/user_cds.dart';
+import 'package:flutter_app/data/remote/data_source/auh_rds.dart';
 import 'package:flutter_app/data/remote/data_source/character_rds.dart';
 import 'package:flutter_app/data/remote/infrastructure/espim_dio.dart';
-import 'package:flutter_app/data/remote/repository/character_repository.dart';
+import 'package:domain/data_repository/auth_data_repository.dart';
+import 'package:flutter_app/data/repository/auth_repository.dart';
+import 'package:flutter_app/data/repository/character_repository.dart';
+import 'package:flutter_app/data/repository/user_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import 'home_screen.dart';
+import 'main_container/main_container_screen.dart';
 import 'navigation_utils.dart';
 
 
@@ -20,6 +28,7 @@ class GeneralProvider extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
     providers: [
       ..._buildRDSProviders(),
+      ..._buildCDSProviders(),
       ..._buildRepositoryProviders(),
       ..._buildUseCaseProviders(),
       ..._buildRouteFactory(),
@@ -41,12 +50,31 @@ class GeneralProvider extends StatelessWidget {
     ProxyProvider<Dio, CharacterRDS>(
       update: (context, dio, _) => CharacterRDS(dio: dio),
     ),
+    ProxyProvider<Dio, AuthRDS>(
+      update: (context, dio, _) => AuthRDS(dio: dio),
+    ),
+  ];
+
+  List<SingleChildWidget> _buildCDSProviders() => [
+    ProxyProvider<Dio, UserCDS>(
+      update: (context, dio, _) => UserCDS(),
+    ),
   ];
 
   List<SingleChildWidget> _buildRepositoryProviders() => [
     ProxyProvider<CharacterRDS, CharacterDataRepository>(
       update: (context, characterRDS, _) => CharacterRepository(
         characterRDS: characterRDS,
+      ),
+    ),
+    ProxyProvider<AuthRDS, AuthDataRepository>(
+      update: (context, authRDS, _) => AuthRepository(
+        authRDS: authRDS,
+      ),
+    ),
+    ProxyProvider<UserCDS, UserDataRepository>(
+      update: (context, userCDS, _) => UserRepository(
+        userCDS: userCDS,
       ),
     ),
   ];
@@ -57,6 +85,16 @@ class GeneralProvider extends StatelessWidget {
         characterRepository: characterRepository,
       ),
     ),
+    ProxyProvider<AuthDataRepository, CheckIsUserLoggedUC>(
+      update: (context, authRepository, _) => CheckIsUserLoggedUC(
+        authRepository: authRepository,
+      ),
+    ),
+    ProxyProvider<UserDataRepository, CheckHasShownTutorialUC>(
+      update: (context, userRepository, _) => CheckHasShownTutorialUC(
+        userRepository: userRepository,
+      ),
+    ),
   ];
 
   List<SingleChildWidget> _buildRouteFactory() => [
@@ -65,7 +103,7 @@ class GeneralProvider extends StatelessWidget {
         ..define(
           '/',
           handler: Handler(
-            handlerFunc: (context, params) => HomeScreen(),
+            handlerFunc: (context, params) => MainContainerScreen.create(),
           ),
         )
     ),

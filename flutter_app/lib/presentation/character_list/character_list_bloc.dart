@@ -7,8 +7,8 @@ import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:domain/model/user.dart';
 
-class CharacterListPageBloc with SubscriptionBag {
-  CharacterListPageBloc({@required this.getCharacterListUC})
+class CharacterListBloc with SubscriptionBag {
+  CharacterListBloc({@required this.getCharacterListUC})
       : assert(getCharacterListUC != null) {
     MergeStream([
       _getCharacterList(),

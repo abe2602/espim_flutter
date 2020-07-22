@@ -8,13 +8,13 @@ import 'character_list_models.dart';
 
 class CharacterListPage extends StatelessWidget {
   const CharacterListPage({@required this.bloc}) : assert(bloc != null);
-  final CharacterListPageBloc bloc;
+  final CharacterListBloc bloc;
 
-  static Widget create(BuildContext context) =>
-      ProxyProvider<GetCharacterListUC, CharacterListPageBloc>(
+  static Widget create() =>
+      ProxyProvider<GetCharacterListUC, CharacterListBloc>(
         update: (context, getCharacterListUC, _) =>
-            CharacterListPageBloc(getCharacterListUC: getCharacterListUC),
-        child: Consumer<CharacterListPageBloc>(
+            CharacterListBloc(getCharacterListUC: getCharacterListUC),
+        child: Consumer<CharacterListBloc>(
           builder: (context, bloc, _) => CharacterListPage(
             bloc: bloc,
           ),

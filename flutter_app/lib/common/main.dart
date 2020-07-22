@@ -4,7 +4,7 @@ import 'package:flutter_app/common/general_provider.dart';
 import 'package:flutter_app/presentation/character_detail/character_detail_page.dart';
 import 'package:provider/provider.dart';
 
-import 'home_screen.dart';
+import 'main_container/main_container_screen.dart';
 
 //todo: Estou tendo problemas para injetar o Fluro
 // então irei seguir sem a injeção, fazendo "na mão"
@@ -14,7 +14,7 @@ void main() {
     ..define(
       '/',
       handler: Handler(
-        handlerFunc: (context, _) => HomeScreen(),
+        handlerFunc: (context, _) => MainContainerScreen.create(),
       ),
     )
     ..define(
