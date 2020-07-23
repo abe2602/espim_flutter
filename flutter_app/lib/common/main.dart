@@ -1,7 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/general_provider.dart';
+import 'package:flutter_app/presentation/auth/login/login_page.dart';
 import 'package:flutter_app/presentation/character_detail/character_detail_page.dart';
+import 'package:flutter_app/presentation/character_list/character_list_page.dart';
 import 'package:provider/provider.dart';
 
 import 'main_container/main_container_screen.dart';
@@ -18,9 +20,21 @@ void main() {
       ),
     )
     ..define(
+      'accompaniment',
+      handler: Handler(
+        handlerFunc: (context, _) => CharacterListPage.create(),
+      ),
+    )
+    ..define(
       'details',
       handler: Handler(
         handlerFunc: (context, _) => CharacterDetailPage(),
+      ),
+    )
+    ..define(
+      'login',
+      handler: Handler(
+        handlerFunc: (context, _) => LoginPage(),
       ),
     );
 

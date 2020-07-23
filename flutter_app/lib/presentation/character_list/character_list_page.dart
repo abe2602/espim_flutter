@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:provider/provider.dart';
 import 'package:domain/use_case/get_character_list_uc.dart';
@@ -92,11 +93,14 @@ class CharacterCard extends StatelessWidget {
                 Navigator.of(context).pushNamed('details');
               },
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
-                    color: const Color(0xff1976d5),
-                    child: Text(
-                      id.toString(),
+                  Center(
+                    child: Container(
+                      color: const Color(0xff1976d5),
+                      child: Text(
+                        id.toString(),
+                      ),
                     ),
                   ),
                   Column(
@@ -105,7 +109,7 @@ class CharacterCard extends StatelessWidget {
                       Text(name),
                       Text(name),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
