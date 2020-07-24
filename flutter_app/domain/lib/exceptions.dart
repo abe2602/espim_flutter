@@ -1,7 +1,9 @@
-abstract class EspimException implements Exception {}
+abstract class SensemException implements Exception {}
 
-class NoInternetException implements EspimException {}
+class NoInternetException implements SensemException {}
 
-class GenericException implements EspimException {}
+class GenericException implements SensemException {}
 
-class UnexpectedException implements EspimException {}
+class TutorialNotShownException implements SensemException {}
+
+class UnexpectedException implements SensemException {}

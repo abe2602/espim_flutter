@@ -10,5 +10,8 @@ class UserRepository implements UserDataRepository {
   final UserCDS userCDS;
 
   @override
-  Future<bool> checkHasShownTutorial() => userCDS.checkHasShowTutorial();
+  Future<bool> checkHasShownLandingPage() => userCDS.checkHasShownLandingPage();
+
+  @override
+  Future<void> markLandingPageAsSeen() => userCDS.markLandingPageAsSeen();
 }

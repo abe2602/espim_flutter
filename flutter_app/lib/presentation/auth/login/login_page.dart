@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/presentation/common/sensem_colors.dart';
 
 class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Color(0xff105197),
+    backgroundColor: SenSemColors.primaryColor,
     body: SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(right: 8, left: 8),
@@ -29,6 +30,6 @@ class LoginPage extends StatelessWidget {
           ],
         ),
       ),
-    )
+    ),
   );
 }

@@ -1,5 +1,5 @@
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
-import 'package:domain/use_case/check_has_shown_tutorial_uc.dart';
+import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,7 +18,7 @@ class MainContainerBloc with SubscriptionBag {
   }
 
   final CheckIsUserLoggedUC checkIsUserLoggedUC;
-  final CheckHasShownTutorialUC checkHasShownTutorialUC;
+  final CheckHasShownLandingPageUC checkHasShownTutorialUC;
   final _onNewStateSubject = BehaviorSubject<MainScreenResponseState>();
 
   Stream<MainScreenResponseState> get onNewState => _onNewStateSubject;
@@ -31,9 +31,9 @@ class MainContainerBloc with SubscriptionBag {
       ]);
 
       final isUserLogged = flowConditions[0];
-      final hasShowTutorial = flowConditions[0];
+      final hasShowTutorial = flowConditions[1];
 
-      if (hasShowTutorial) {
+      if (!hasShowTutorial) {
         yield TutorialNotShownError();
       } else if (!isUserLogged) {
         yield UserNotLoggedError();

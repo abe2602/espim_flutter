@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 
 import 'use_case.dart';
 
-class CheckHasShownTutorialUC extends UseCase<void, bool> {
-  CheckHasShownTutorialUC({
+class MarkLandingPageAsSeenUC extends UseCase<void, void> {
+  MarkLandingPageAsSeenUC({
     @required this.userRepository,
   }) : assert(userRepository != null);
 
   final UserDataRepository userRepository;
 
   @override
-  Future<bool> getRawFuture({void params}) =>
-      userRepository.checkHasShownTutorial();
+  Future<void> getRawFuture({void params}) =>
+      userRepository.markLandingPageAsSeen();
 }

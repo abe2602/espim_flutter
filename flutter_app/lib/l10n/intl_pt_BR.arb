@@ -1,0 +1,10 @@
+{
+  "sensem_title": "SENSEM",
+  "sensem_description": "SENSEM é um aplicativo utilizado para receber e executar tarefas. Seu médico, terapeuta, família, e ainda é possível agendar tarefas no website: espim.com.br",
+  "tasks_title": "TAREFAS",
+  "tasks_description": "Existe uma variedade de tarefas, como responder perguntas, tirar uma foto, ou gravar um áudio.",
+  "notifications_title": "NOTIFICAÇÃO",
+  "notifications_description": "Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme.",
+  "got_it_title": "ENTENDI",
+  "begin_title": "COMEÇAR"
+}

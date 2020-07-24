@@ -9,7 +9,7 @@ abstract class UseCase<Params, Response> {
   Future<Response> getFuture({Params params}) =>
       getRawFuture(params: params).catchError(
             (error) {
-          if (error is! EspimException) {
+          if (error is! SensemException) {
             throw UnexpectedException();
           } else {
             throw error;

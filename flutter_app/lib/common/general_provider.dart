@@ -3,7 +3,7 @@ import 'package:domain/data_repository/character_data_repository.dart';
 import 'package:domain/data_repository/user_data_repository.dart';
 import 'package:domain/use_case/get_character_list_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
-import 'package:domain/use_case/check_has_shown_tutorial_uc.dart';
+import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
@@ -14,6 +14,7 @@ import 'package:domain/data_repository/auth_data_repository.dart';
 import 'package:flutter_app/data/repository/auth_repository.dart';
 import 'package:flutter_app/data/repository/character_repository.dart';
 import 'package:flutter_app/data/repository/user_repository.dart';
+import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'main_container/main_container_screen.dart';
@@ -90,27 +91,17 @@ class GeneralProvider extends StatelessWidget {
         authRepository: authRepository,
       ),
     ),
-    ProxyProvider<UserDataRepository, CheckHasShownTutorialUC>(
-      update: (context, userRepository, _) => CheckHasShownTutorialUC(
+    ProxyProvider<UserDataRepository, CheckHasShownLandingPageUC>(
+      update: (context, userRepository, _) => CheckHasShownLandingPageUC(
+        userRepository: userRepository,
+      ),
+    ),
+    ProxyProvider<UserDataRepository, MarkLandingPageAsSeenUC>(
+      update: (context, userRepository, _) => MarkLandingPageAsSeenUC(
         userRepository: userRepository,
       ),
     ),
   ];
 
-  List<SingleChildWidget> _buildRouteFactory() => [
-    Provider<Router>(
-      create: (context) => Router()
-        ..define(
-          '/',
-          handler: Handler(
-            handlerFunc: (context, params) => MainContainerScreen.create(),
-          ),
-        )
-    ),
-
-    ProxyProvider<Router, RouteFactory>(
-      update: (context, router, _) =>
-          (settings) => router.routeGeneratorFactory(context, settings),
-    ),
-  ];
+  List<SingleChildWidget> _buildRouteFactory() => [];
 }

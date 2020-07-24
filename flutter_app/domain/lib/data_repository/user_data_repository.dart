@@ -1,3 +1,4 @@
 abstract class UserDataRepository {
-  Future<bool> checkHasShownTutorial();
+  Future<bool> checkHasShownLandingPage();
+  Future<void> markLandingPageAsSeen();
 }
