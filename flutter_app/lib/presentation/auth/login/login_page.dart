@@ -2,6 +2,7 @@ import 'package:domain/use_case/login_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/common/sensem_action_listener.dart';
+import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_models.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'login_bloc.dart';
 
+//todo: criar dialogs de erros mais bonitinhos!
 class LoginPage extends StatefulWidget {
   const LoginPage({@required this.bloc}) : assert(bloc != null);
   final LoginBloc bloc;
@@ -37,11 +39,26 @@ class LoginPageState extends State<LoginPage> {
           actionStream: widget.bloc.onActionEvent,
           onReceived: (event) {
             if(event is LoginError) {
-
-            } else if(event is Success) {
+              showDialog(
+                context: context,
+                child: AlertDialog(
+                  title: Text(
+                    S.of(context).non_blocking_generic_error_message,
+                  ),
+                ),
+              );
+            } else if(event is NoInternetError) {
+              showDialog(
+                context: context,
+                child: AlertDialog(
+                  title: Text(
+                  S.of(context).non_blocking_no_internet_error_message,
+                  ),
+                ),
+              );
+            }else if(event is Success) {
               Navigator.pushReplacementNamed(context, 'accompaniment');
             }
-            //
           },
           child: SafeArea(
             child: Padding(

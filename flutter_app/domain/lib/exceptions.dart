@@ -8,6 +8,8 @@ class TutorialNotShownException implements SensemException {}
 
 class UserNotLoggedException implements SensemException {}
 
+class UserLoginException implements SensemException {}
+
 class UnexpectedException implements SensemException {}
 
 

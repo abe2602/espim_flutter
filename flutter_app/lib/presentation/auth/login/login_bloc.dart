@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:domain/exceptions.dart';
 import 'package:domain/use_case/login_uc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
@@ -28,8 +29,11 @@ class LoginBloc with SubscriptionBag {
       await loginUC.getFuture();
       yield Success();
     }catch (error) {
-      print(error.toString());
-      yield LoginError();
+      if(error is NoInternetException) {
+        yield NoInternetError();
+      } else {
+        yield LoginError();
+      }
     }
   }
 

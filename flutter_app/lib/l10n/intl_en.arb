@@ -6,5 +6,7 @@
   "notifications_title": "NOTIFICATIONS",
   "notifications_description": "If you have a task  scheduled, you will receive alerts on your device to remember to execute them. To start the tasks, simply click on the notification icon or respond to the sound alert.",
   "got_it_title": "GOT IT",
-  "begin_title": "BEGIN"
+  "begin_title": "BEGIN",
+  "non_blocking_generic_error_message": "Oops! Something went wrong!\n Please try again later!",
+  "non_blocking_no_internet_error_message": "Looks like you're offline! \n Try connection to the Internet!"
 }

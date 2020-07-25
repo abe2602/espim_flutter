@@ -112,6 +112,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Oops! Something went wrong!\n Please try again later!`
+  String get non_blocking_generic_error_message {
+    return Intl.message(
+      'Oops! Something went wrong!\n Please try again later!',
+      name: 'non_blocking_generic_error_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Looks like you're offline! \n Try connection to the Internet!`
+  String get non_blocking_no_internet_error_message {
+    return Intl.message(
+      'Looks like you\'re offline! \n Try connection to the Internet!',
+      name: 'non_blocking_no_internet_error_message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -6,5 +6,7 @@
   "notifications_title": "NOTIFICAÇÃO",
   "notifications_description": "Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme.",
   "got_it_title": "ENTENDI",
-  "begin_title": "COMEÇAR"
+  "begin_title": "COMEÇAR",
+  "non_blocking_generic_error_message": "Oops! Alguma coisa deu errado. \n Tente novamente mais tarde!",
+  "non_blocking_no_internet_error_message": "Parece que você está offline \n Tente se conectar à uma rede Wifi!"
 }

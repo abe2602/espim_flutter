@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "begin_title" : MessageLookupByLibrary.simpleMessage("BEGIN"),
     "got_it_title" : MessageLookupByLibrary.simpleMessage("GOT IT"),
+    "non_blocking_generic_error_message" : MessageLookupByLibrary.simpleMessage("Oops! Something went wrong!\n Please try again later!"),
+    "non_blocking_no_internet_error_message" : MessageLookupByLibrary.simpleMessage("Looks like you\'re offline! \n Try connection to the Internet!"),
     "notifications_description" : MessageLookupByLibrary.simpleMessage("If you have a task  scheduled, you will receive alerts on your device to remember to execute them. To start the tasks, simply click on the notification icon or respond to the sound alert."),
     "notifications_title" : MessageLookupByLibrary.simpleMessage("NOTIFICATIONS"),
     "sensem_description" : MessageLookupByLibrary.simpleMessage("SENSEM is an application used to receive and execute tasks. Your doctor, your therapist, your family or even you can schedule these tasks in this website: espim.com.br"),
