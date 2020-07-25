@@ -15,8 +15,8 @@ class LandingBloc with SubscriptionBag {
   }
 
   final MarkLandingPageAsSeenUC markLandingPageAsSeenUC;
-  final _onMarkLandingPageAsSeen = StreamController<void>();
-  final _onNewActionEvent = StreamController<void>();
+  final _onMarkLandingPageAsSeen = PublishSubject<void>();
+  final _onNewActionEvent = PublishSubject<void>();
 
   Sink<void> get onMarkLandingPageAsSeen => _onMarkLandingPageAsSeen.sink;
 
@@ -26,9 +26,9 @@ class LandingBloc with SubscriptionBag {
   Stream<void> markLandingPageAsSeen() async* {
     try {
       await markLandingPageAsSeenUC.getFuture();
-      yield* Stream.value(null);
+      yield null;
     } catch (e) {
-      yield* Stream.value(null);
+      yield null;
     }
   }
 

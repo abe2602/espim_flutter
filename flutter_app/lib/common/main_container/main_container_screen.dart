@@ -39,7 +39,7 @@ class MainContainerScreen extends StatelessWidget {
               if (errorState is TutorialNotShownError) {
                 return LandingPage.create();
               } else if (errorState is UserNotLoggedError) {
-                return LoginPage();
+                return LoginPage.create();
               }
               return CharacterListPage.create();
             },

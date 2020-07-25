@@ -41,7 +41,7 @@ Future<void> main() async {
     ..define(
       'login',
       handler: Handler(
-        handlerFunc: (context, _) => LoginPage(),
+        handlerFunc: (context, _) => LoginPage.create(),
       ),
     );
 

@@ -35,6 +35,9 @@ dependencies:
   path_provider: ^1.5.1
   carousel_slider: ^2.2.1
   hive: ^1.2.0
+  google_sign_in: ^4.4.4
+  firebase_core: 0.2.5+1
+  firebase_auth:
   domain:
     path: domain
 

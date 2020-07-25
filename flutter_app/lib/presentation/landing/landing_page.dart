@@ -30,9 +30,9 @@ class LandingPage extends StatefulWidget {
 class LandingPageState extends State<LandingPage> {
   final CarouselController _carouselController = CarouselController();
   final List _imgList = [
-    'images/img_notification.png',
-    'images/img_tasklist.png',
-    'images/img_notebadge.png',
+    Image.asset('images/img_notification.png'),
+    Image.asset('images/img_tasklist.png'),
+    Image.asset('images/img_notebadge.png'),
   ];
 
   int _current = 0;
@@ -86,7 +86,8 @@ class LandingPageState extends State<LandingPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
-                                          child: Image.asset(_imgList[index])),
+                                        child: _imgList[index],
+                                      ),
                                       Text(
                                         _titleTextList[index],
                                         style: TextStyle(
@@ -161,7 +162,9 @@ class LandingPageState extends State<LandingPage> {
                           setState(() {
                             if (_current != 2) {
                               _current++;
-                              _carouselController.jumpToPage(_current);
+                              _carouselController.animateToPage(_current,
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeInCirc);
                             }
                           });
                         },
