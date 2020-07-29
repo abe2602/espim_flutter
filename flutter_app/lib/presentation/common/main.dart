@@ -1,11 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/general_provider.dart';
+import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/flutter_app/lib/presentation/common/general_provider.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_page.dart';
 import 'package:flutter_app/presentation/character_detail/character_detail_page.dart';
-import 'package:flutter_app/presentation/character_list/character_list_page.dart';
-import 'package:flutter_app/generated/l10n.dart';
+import 'package:flutter_app/presentation/events_list/events_list_page.dart';
+import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,26 +22,37 @@ Future<void> main() async {
   Router.appRouter
     ..define(
       '/',
+      transitionType: TransitionType.nativeModal,
       handler: Handler(
         handlerFunc: (context, _) => MainContainerScreen.create(),
       ),
     )
     ..define(
       'accompaniment',
+      transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (context, _) => CharacterListPage.create(),
+        handlerFunc: (context, _) => EventsListPage.create(),
       ),
     )
     ..define(
       'details',
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (context, _) => CharacterDetailPage(),
       ),
     )
     ..define(
       'login',
+      transitionType: TransitionType.nativeModal,
       handler: Handler(
         handlerFunc: (context, _) => LoginPage.create(),
+      ),
+    )
+    ..define(
+      'settings',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (context, _) => SettingsPage(),
       ),
     );
 
@@ -52,7 +63,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GeneralProvider(
         child: MaterialApp(
-          title: 'Espim',
+          title: 'Sensem',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,

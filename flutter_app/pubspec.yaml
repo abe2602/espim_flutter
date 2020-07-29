@@ -38,6 +38,7 @@ dependencies:
   google_sign_in: ^4.4.4
   firebase_core: 0.2.5+1
   firebase_auth:
+  google_fonts: ^1.1.0
   domain:
     path: domain
 

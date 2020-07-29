@@ -3,13 +3,10 @@ import 'package:meta/meta.dart';
 class User {
   const User(
       {@required this.id,
-      @required this.name,
-      @required this.accompanimentNumber})
+      @required this.name})
       : assert(id != null),
-        assert(name != null),
-        assert(accompanimentNumber != null);
+        assert(name != null);
 
   final int id;
-  final int accompanimentNumber;
   final String name;
 }

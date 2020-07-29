@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:domain/exceptions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/data/remote/model/login_rm.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 //todo: Integrar com o server do Intermedia
@@ -15,16 +18,22 @@ class AuthRDS {
   final Dio dio;
   final GoogleSignIn googleSignIn;
 
-  Future<void> login() => googleSignIn.signIn().then((_) => null).catchError(
-        (error) {
-          if (error is PlatformException && error.code == 'network_error') {
-            throw NoInternetException();
-          } else {
-            throw UserNotLoggedException();
-          }
-        },
+  // Infelizmente, sem acesso ao firebase não posso continuar, porém, a classe
+  // que deve criar o token é essa: GoogleAuthethicationRestFacade
+  Future<String> signInWithGoogle() => googleSignIn.signIn().then(
+        (googleSignIn) => googleSignIn.authentication.then(
+          (auth) {
+            dio.options.headers[HttpHeaders.authorizationHeader] =
+                'Token 8769c2dd8dca82c850188b62e9603e3d790bd88d';
+
+            return googleSignIn.email;
+          },
+        ),
       );
 
-  Future<void> logout() =>
-      googleSignIn.signOut().then((_) => null).catchError((error) {});
+
+  Future<void> login(String email) => dio.get(
+      'participants/search/findByEmail?email=$email');
+
+  Future<void> logout() => googleSignIn.signOut().then((_) => null);
 }

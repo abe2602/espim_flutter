@@ -1,12 +1,21 @@
 {
-  "sensem_title": "SENSEM",
+  "sensem_label": "SENSEM",
   "sensem_description": "SENSEM é um aplicativo utilizado para receber e executar tarefas. Seu médico, terapeuta, família, e ainda é possível agendar tarefas no website: espim.com.br",
-  "tasks_title": "TAREFAS",
+  "tasks_label": "TAREFAS",
   "tasks_description": "Existe uma variedade de tarefas, como responder perguntas, tirar uma foto, ou gravar um áudio.",
-  "notifications_title": "NOTIFICAÇÃO",
+  "notifications_label": "NOTIFICAÇÃO",
   "notifications_description": "Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme.",
-  "got_it_title": "ENTENDI",
-  "begin_title": "COMEÇAR",
+  "got_it_label": "ENTENDI",
+  "begin_label": "COMEÇAR",
   "non_blocking_generic_error_message": "Oops! Alguma coisa deu errado. \n Tente novamente mais tarde!",
-  "non_blocking_no_internet_error_message": "Parece que você está offline \n Tente se conectar à uma rede Wifi!"
+  "non_blocking_no_internet_error_message": "Parece que você está offline \n Tente se conectar à uma rede Wifi!",
+  "events_label": "Eventos",
+  "settings_label": "Configurações",
+  "sign_out_label": "Sair",
+  "google_sign_in": "Entre com o Google!",
+  "welcome": "Bem vindo, ",
+  "ongoing_events": "{howMany, plural, one{1 evento em andamento} other{{howMany} eventos em andamento}}",
+  "no_events_label": "Nenhum evento",
+  "no_events_description": "Você ainda não possui eventos",
+  "refresh_label": "Atualizar"
 }

@@ -2,7 +2,7 @@ import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/auth/login/login_page.dart';
-import 'package:flutter_app/presentation/character_list/character_list_page.dart';
+import 'package:flutter_app/presentation/events_list/events_list_page.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/landing/landing_page.dart';
 import 'package:provider/provider.dart';
@@ -34,14 +34,14 @@ class MainContainerScreen extends StatelessWidget {
           builder: (context, snapshot) =>
               AsyncSnapshotResponseView<Loading, Error, Success>(
             snapshot: snapshot,
-            successWidgetBuilder: (successState) => CharacterListPage.create(),
+            successWidgetBuilder: (successState) => EventsListPage.create(),
             errorWidgetBuilder: (errorState) {
               if (errorState is TutorialNotShownError) {
                 return LandingPage.create();
               } else if (errorState is UserNotLoggedError) {
                 return LoginPage.create();
               }
-              return CharacterListPage.create();
+              return EventsListPage.create();
             },
           ),
         ),

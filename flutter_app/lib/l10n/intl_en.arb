@@ -1,12 +1,21 @@
 {
-  "sensem_title": "SENSEM",
+  "sensem_label": "SENSEM",
   "sensem_description": "SENSEM is an application used to receive and execute tasks. Your doctor, your therapist, your family or even you can schedule these tasks in this website: espim.com.br",
-  "tasks_title": "TASKS",
+  "tasks_label": "TASKS",
   "tasks_description": "The tasks can be varied, such as answering questions, taking a picture, or recording an audio.",
-  "notifications_title": "NOTIFICATIONS",
+  "notifications_label": "NOTIFICATIONS",
   "notifications_description": "If you have a task  scheduled, you will receive alerts on your device to remember to execute them. To start the tasks, simply click on the notification icon or respond to the sound alert.",
-  "got_it_title": "GOT IT",
-  "begin_title": "BEGIN",
+  "got_it_label": "GOT IT",
+  "begin_label": "BEGIN",
   "non_blocking_generic_error_message": "Oops! Something went wrong!\n Please try again later!",
-  "non_blocking_no_internet_error_message": "Looks like you're offline! \n Try connection to the Internet!"
+  "non_blocking_no_internet_error_message": "Looks like you're offline! \n Try connection to the Internet!",
+  "events_label": "Events",
+  "settings_label": "Settings",
+  "sign_out_label": "Sign out",
+  "google_sign_in": "Sign in with Google!",
+  "welcome": "Welcome, ",
+  "ongoing_events": "{howMany, plural, one{1 ongoing event} other{{howMany} ongoing events}}",
+  "no_events_label": "No events",
+  "no_events_description": "You don't have events yet",
+  "refresh_label": "Refresh"
 }

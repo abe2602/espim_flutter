@@ -1,7 +1,7 @@
 import 'package:domain/use_case/login_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/common/sensem_action_listener.dart';
+import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/flutter_app/lib/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_models.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
@@ -30,15 +30,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: SenSemColors.primaryColor,
         body: SensemActionListener(
           actionStream: widget.bloc.onActionEvent,
           onReceived: (event) {
-            if(event is LoginError) {
+            if (event is LoginError) {
               showDialog(
                 context: context,
                 child: AlertDialog(
@@ -47,17 +45,19 @@ class LoginPageState extends State<LoginPage> {
                   ),
                 ),
               );
-            } else if(event is NoInternetError) {
+            } else if (event is NoInternetError) {
               showDialog(
                 context: context,
                 child: AlertDialog(
                   title: Text(
-                  S.of(context).non_blocking_no_internet_error_message,
+                    S.of(context).non_blocking_no_internet_error_message,
                   ),
                 ),
               );
-            }else if(event is Success) {
-              Navigator.pushReplacementNamed(context, 'accompaniment');
+            } else if (event is Success) {
+              Navigator.of(context, rootNavigator: false)
+                  .pushNamedAndRemoveUntil(
+                      'accompaniment', (route) => false);
             }
           },
           child: SafeArea(
@@ -69,22 +69,14 @@ class LoginPageState extends State<LoginPage> {
                   Image.asset('images/img_splash.png'),
                   FlatButton(
                     color: Colors.white,
-                    onPressed: ()  {
+                    onPressed: () {
                       widget.bloc.onLogin.add(null);
-//                      try {
-//                        var userCredentials = await googleSignIn.signIn();
-//                        print(userCredentials.toString());
-//                        setState(() {});
-//                      } catch (error) {
-//                        print(error.toString());
-//                      }
-                      //Navigator.of(context).pushReplacementNamed('accompaniment');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset('images/google_icon.png'),
-                        const Text('LOGIN COM GOOGLE!'),
+                        Text(S.of(context).google_sign_in),
                       ],
                     ),
                   ),

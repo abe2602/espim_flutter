@@ -1,13 +1,20 @@
-import 'package:flutter_app/data/remote/model/character_rm.dart';
-import 'package:domain/model/character.dart';
+import 'package:domain/model/user.dart';
+import 'package:domain/model/event.dart';
+import 'package:flutter_app/data/remote/model/event_rm.dart';
 
-extension CharacterRMToDM on CharacterRM {
-  Character toDM() => Character(id: id, name: name, imgUrl: imgUrl);
+import 'model/user_rm.dart';
+
+extension EventRMToDM on EventRM {
+  Event toDM() =>
+      Event(id: id, title: title, description: description, owner: owner);
 }
 
-extension CharacterListRMToDM on List<CharacterRM> {
-  List<Character> toDM() => map(
-        (character) => Character(
-            id: character.id, name: character.name, imgUrl: character.imgUrl),
+extension EventsListRMToDM on List<EventRM> {
+  List<Event> toDM() => map(
+        (event) => event.toDM(),
       ).toList();
+}
+
+extension UserRMToDM on UserRM {
+  User toDM() => User(id: id, name: name);
 }

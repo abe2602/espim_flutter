@@ -19,17 +19,28 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_BR';
 
+  static m0(howMany) => "${Intl.plural(howMany, one: '1 evento em andamento', other: '${howMany} eventos em andamento')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "begin_title" : MessageLookupByLibrary.simpleMessage("COMEÇAR"),
-    "got_it_title" : MessageLookupByLibrary.simpleMessage("ENTENDI"),
+    "begin_label" : MessageLookupByLibrary.simpleMessage("COMEÇAR"),
+    "events_label" : MessageLookupByLibrary.simpleMessage("Eventos"),
+    "google_sign_in" : MessageLookupByLibrary.simpleMessage("Entre com o Google!"),
+    "got_it_label" : MessageLookupByLibrary.simpleMessage("ENTENDI"),
+    "no_events_description" : MessageLookupByLibrary.simpleMessage("Você ainda não possui eventos"),
+    "no_events_label" : MessageLookupByLibrary.simpleMessage("Nenhum evento"),
     "non_blocking_generic_error_message" : MessageLookupByLibrary.simpleMessage("Oops! Alguma coisa deu errado. \n Tente novamente mais tarde!"),
     "non_blocking_no_internet_error_message" : MessageLookupByLibrary.simpleMessage("Parece que você está offline \n Tente se conectar à uma rede Wifi!"),
     "notifications_description" : MessageLookupByLibrary.simpleMessage("Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme."),
-    "notifications_title" : MessageLookupByLibrary.simpleMessage("NOTIFICAÇÃO"),
+    "notifications_label" : MessageLookupByLibrary.simpleMessage("NOTIFICAÇÃO"),
+    "ongoing_events" : m0,
+    "refresh_label" : MessageLookupByLibrary.simpleMessage("Atualizar"),
     "sensem_description" : MessageLookupByLibrary.simpleMessage("SENSEM é um aplicativo utilizado para receber e executar tarefas. Seu médico, terapeuta, família, e ainda é possível agendar tarefas no website: espim.com.br"),
-    "sensem_title" : MessageLookupByLibrary.simpleMessage("SENSEM"),
+    "sensem_label" : MessageLookupByLibrary.simpleMessage("SENSEM"),
+    "settings_label" : MessageLookupByLibrary.simpleMessage("Configurações"),
+    "sign_out_label" : MessageLookupByLibrary.simpleMessage("Sair"),
     "tasks_description" : MessageLookupByLibrary.simpleMessage("Existe uma variedade de tarefas, como responder perguntas, tirar uma foto, ou gravar um áudio."),
-    "tasks_title" : MessageLookupByLibrary.simpleMessage("TAREFAS")
+    "tasks_label" : MessageLookupByLibrary.simpleMessage("TAREFAS"),
+    "welcome" : MessageLookupByLibrary.simpleMessage("Bem vindo, ")
   };
 }

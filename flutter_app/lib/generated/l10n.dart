@@ -34,10 +34,10 @@ class S {
   }
 
   /// `SENSEM`
-  String get sensem_title {
+  String get sensem_label {
     return Intl.message(
       'SENSEM',
-      name: 'sensem_title',
+      name: 'sensem_label',
       desc: '',
       args: [],
     );
@@ -54,10 +54,10 @@ class S {
   }
 
   /// `TASKS`
-  String get tasks_title {
+  String get tasks_label {
     return Intl.message(
       'TASKS',
-      name: 'tasks_title',
+      name: 'tasks_label',
       desc: '',
       args: [],
     );
@@ -74,10 +74,10 @@ class S {
   }
 
   /// `NOTIFICATIONS`
-  String get notifications_title {
+  String get notifications_label {
     return Intl.message(
       'NOTIFICATIONS',
-      name: 'notifications_title',
+      name: 'notifications_label',
       desc: '',
       args: [],
     );
@@ -94,20 +94,20 @@ class S {
   }
 
   /// `GOT IT`
-  String get got_it_title {
+  String get got_it_label {
     return Intl.message(
       'GOT IT',
-      name: 'got_it_title',
+      name: 'got_it_label',
       desc: '',
       args: [],
     );
   }
 
   /// `BEGIN`
-  String get begin_title {
+  String get begin_label {
     return Intl.message(
       'BEGIN',
-      name: 'begin_title',
+      name: 'begin_label',
       desc: '',
       args: [],
     );
@@ -128,6 +128,98 @@ class S {
     return Intl.message(
       'Looks like you\'re offline! \n Try connection to the Internet!',
       name: 'non_blocking_no_internet_error_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Events`
+  String get events_label {
+    return Intl.message(
+      'Events',
+      name: 'events_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings_label {
+    return Intl.message(
+      'Settings',
+      name: 'settings_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign out`
+  String get sign_out_label {
+    return Intl.message(
+      'Sign out',
+      name: 'sign_out_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with Google!`
+  String get google_sign_in {
+    return Intl.message(
+      'Sign in with Google!',
+      name: 'google_sign_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome, `
+  String get welcome {
+    return Intl.message(
+      'Welcome, ',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{howMany, plural, one{1 ongoing event} other{{howMany} ongoing events}}`
+  String ongoing_events(num howMany) {
+    return Intl.plural(
+      howMany,
+      one: '1 ongoing event',
+      other: '$howMany ongoing events',
+      name: 'ongoing_events',
+      desc: '',
+      args: [howMany],
+    );
+  }
+
+  /// `No events`
+  String get no_events_label {
+    return Intl.message(
+      'No events',
+      name: 'no_events_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have events yet`
+  String get no_events_description {
+    return Intl.message(
+      'You don\'t have events yet',
+      name: 'no_events_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get refresh_label {
+    return Intl.message(
+      'Refresh',
+      name: 'refresh_label',
       desc: '',
       args: [],
     );

@@ -1,5 +1,4 @@
 import 'package:domain/data_repository/auth_data_repository.dart';
-import 'package:domain/exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/auh_rds.dart';
@@ -17,12 +16,14 @@ class AuthRepository implements AuthDataRepository {
   Future<bool> checkIsUserLogged() => userCDS.checkIsUserLogged();
 
   @override
-  Future<void> login() => authRDS.login().then(
-        (_) => userCDS.markUserAsLogged(),
+  Future<void> login() => authRDS.signInWithGoogle().then(
+        (email) => authRDS.login(email).then(
+              (value) => userCDS.upsertUserEmail(email),
+            ),
       );
 
   @override
   Future<void> logout() => authRDS.logout().then(
-        (_) => userCDS.markUserAsSignOut(),
-  );
+        (_) => userCDS.deleteUserEmail(),
+      );
 }

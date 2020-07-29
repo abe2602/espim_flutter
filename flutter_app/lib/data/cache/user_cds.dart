@@ -14,12 +14,27 @@ class UserCDS {
   Future<void> markLandingPageAsSeen() =>
       _openLandingPageBox().then((box) => box.put(_landingPageBoxKey, true));
 
-  Future<bool> checkIsUserLogged() =>
-      _openLoginBox().then((box) => box.get(_loginBoxKey) ?? false);
+  Future<bool> checkIsUserLogged() => _openLoginBox().then(
+        (box) {
+          final String isLogged = box.get(_loginBoxKey);
 
-  Future<void> markUserAsLogged() =>
-      _openLoginBox().then((box) => box.put(_loginBoxKey, true));
+          if (isLogged == null) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+      );
 
-  Future<void> markUserAsSignOut() =>
-      _openLoginBox().then((box) => box.put(_loginBoxKey, false));
+  Future<String> getEmail() => _openLoginBox().then(
+        (box) => box.get(_loginBoxKey),
+      );
+
+  Future<void> upsertUserEmail(String email) => _openLoginBox().then(
+        (box) => box.put(_loginBoxKey, email),
+      );
+
+  Future<void> deleteUserEmail() => _openLoginBox().then(
+        (box) => box.delete(_loginBoxKey),
+      );
 }

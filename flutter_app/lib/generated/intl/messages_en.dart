@@ -19,17 +19,28 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static m0(howMany) => "${Intl.plural(howMany, one: '1 ongoing event', other: '${howMany} ongoing events')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "begin_title" : MessageLookupByLibrary.simpleMessage("BEGIN"),
-    "got_it_title" : MessageLookupByLibrary.simpleMessage("GOT IT"),
+    "begin_label" : MessageLookupByLibrary.simpleMessage("BEGIN"),
+    "events_label" : MessageLookupByLibrary.simpleMessage("Events"),
+    "google_sign_in" : MessageLookupByLibrary.simpleMessage("Sign in with Google!"),
+    "got_it_label" : MessageLookupByLibrary.simpleMessage("GOT IT"),
+    "no_events_description" : MessageLookupByLibrary.simpleMessage("You don\'t have events yet"),
+    "no_events_label" : MessageLookupByLibrary.simpleMessage("No events"),
     "non_blocking_generic_error_message" : MessageLookupByLibrary.simpleMessage("Oops! Something went wrong!\n Please try again later!"),
     "non_blocking_no_internet_error_message" : MessageLookupByLibrary.simpleMessage("Looks like you\'re offline! \n Try connection to the Internet!"),
     "notifications_description" : MessageLookupByLibrary.simpleMessage("If you have a task  scheduled, you will receive alerts on your device to remember to execute them. To start the tasks, simply click on the notification icon or respond to the sound alert."),
-    "notifications_title" : MessageLookupByLibrary.simpleMessage("NOTIFICATIONS"),
+    "notifications_label" : MessageLookupByLibrary.simpleMessage("NOTIFICATIONS"),
+    "ongoing_events" : m0,
+    "refresh_label" : MessageLookupByLibrary.simpleMessage("Refresh"),
     "sensem_description" : MessageLookupByLibrary.simpleMessage("SENSEM is an application used to receive and execute tasks. Your doctor, your therapist, your family or even you can schedule these tasks in this website: espim.com.br"),
-    "sensem_title" : MessageLookupByLibrary.simpleMessage("SENSEM"),
+    "sensem_label" : MessageLookupByLibrary.simpleMessage("SENSEM"),
+    "settings_label" : MessageLookupByLibrary.simpleMessage("Settings"),
+    "sign_out_label" : MessageLookupByLibrary.simpleMessage("Sign out"),
     "tasks_description" : MessageLookupByLibrary.simpleMessage("The tasks can be varied, such as answering questions, taking a picture, or recording an audio."),
-    "tasks_title" : MessageLookupByLibrary.simpleMessage("TASKS")
+    "tasks_label" : MessageLookupByLibrary.simpleMessage("TASKS"),
+    "welcome" : MessageLookupByLibrary.simpleMessage("Welcome, ")
   };
 }

@@ -1,18 +1,21 @@
 import 'package:dio/dio.dart';
-import 'package:domain/data_repository/character_data_repository.dart';
+import 'package:domain/data_repository/events_data_repository.dart';
 import 'package:domain/data_repository/user_data_repository.dart';
-import 'package:domain/use_case/get_character_list_uc.dart';
+import 'package:domain/use_case/get_events_list_uc.dart';
+import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/login_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
 import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
+import 'package:domain/use_case/logout_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/auh_rds.dart';
-import 'package:flutter_app/data/remote/data_source/character_rds.dart';
+import 'package:flutter_app/data/remote/data_source/events_rds.dart';
+import 'package:flutter_app/data/remote/data_source/user_rds.dart';
 import 'package:flutter_app/data/remote/infrastructure/espim_dio.dart';
 import 'package:domain/data_repository/auth_data_repository.dart';
 import 'package:flutter_app/data/repository/auth_repository.dart';
-import 'package:flutter_app/data/repository/character_repository.dart';
+import 'package:flutter_app/data/repository/events_repository.dart';
 import 'package:flutter_app/data/repository/user_repository.dart';
 import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -40,14 +43,17 @@ class GeneralProvider extends StatelessWidget {
         Provider<Dio>(
           create: (context) {
             final options = BaseOptions(
-              baseUrl: 'https://www.breakingbadapi.com/api/',
+              baseUrl: 'https://www.espim.com.br:8000/',
             );
 
             return EspimDio(options);
           },
         ),
-        ProxyProvider<Dio, CharacterRDS>(
-          update: (context, dio, _) => CharacterRDS(dio: dio),
+        ProxyProvider<Dio, EventsRDS>(
+          update: (context, dio, _) => EventsRDS(dio: dio),
+        ),
+        ProxyProvider<Dio, UserRDS>(
+          update: (context, dio, _) => UserRDS(dio: dio),
         ),
         ProxyProvider2<Dio, GoogleSignIn, AuthRDS>(
           update: (context, dio, googleSignIn, _) =>
@@ -62,9 +68,10 @@ class GeneralProvider extends StatelessWidget {
       ];
 
   List<SingleChildWidget> _buildRepositoryProviders() => [
-        ProxyProvider<CharacterRDS, CharacterDataRepository>(
-          update: (context, characterRDS, _) => CharacterRepository(
-            characterRDS: characterRDS,
+        ProxyProvider2<EventsRDS, UserCDS, EventsDataRepository>(
+          update: (context, eventsRDS, userCDS, _) => EventsRepository(
+            eventsRDS: eventsRDS,
+            userCDS: userCDS,
           ),
         ),
         ProxyProvider2<AuthRDS, UserCDS, AuthDataRepository>(
@@ -73,17 +80,23 @@ class GeneralProvider extends StatelessWidget {
             userCDS: userCDS,
           ),
         ),
-        ProxyProvider<UserCDS, UserDataRepository>(
-          update: (context, userCDS, _) => UserRepository(
+        ProxyProvider2<UserCDS, UserRDS, UserDataRepository>(
+          update: (context, userCDS, userRDS, _) => UserRepository(
             userCDS: userCDS,
+            userRDS: userRDS,
           ),
         ),
       ];
 
   List<SingleChildWidget> _buildUseCaseProviders() => [
-        ProxyProvider<CharacterDataRepository, GetCharacterListUC>(
-          update: (context, characterRepository, _) => GetCharacterListUC(
-            characterRepository: characterRepository,
+        ProxyProvider<EventsDataRepository, GetEventsListUC>(
+          update: (context, eventsRepository, _) => GetEventsListUC(
+            eventsRepository: eventsRepository,
+          ),
+        ),
+        ProxyProvider<UserDataRepository, GetLoggedUserUC>(
+          update: (context, userRepository, _) => GetLoggedUserUC(
+            userRepository: userRepository,
           ),
         ),
         ProxyProvider<AuthDataRepository, CheckIsUserLoggedUC>(
@@ -103,6 +116,11 @@ class GeneralProvider extends StatelessWidget {
         ),
         ProxyProvider<AuthDataRepository, LoginUC>(
           update: (context, authRepository, _) => LoginUC(
+            authRepository: authRepository,
+          ),
+        ),
+        ProxyProvider<AuthDataRepository, LogoutUC>(
+          update: (context, authRepository, _) => LogoutUC(
             authRepository: authRepository,
           ),
         ),

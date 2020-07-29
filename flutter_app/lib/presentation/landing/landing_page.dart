@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/sensem_action_listener.dart';
+import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/flutter_app/lib/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:provider/provider.dart';
@@ -49,9 +49,9 @@ class LandingPageState extends State<LandingPage> {
     ];
 
     _titleTextList = [
-      S.of(context).sensem_title,
-      S.of(context).tasks_title,
-      S.of(context).notifications_title,
+      S.of(context).sensem_label,
+      S.of(context).tasks_label,
+      S.of(context).notifications_label,
     ];
   }
 
@@ -171,8 +171,8 @@ class LandingPageState extends State<LandingPage> {
                         color: SenSemColors.aquaGreen,
                         child: Text(
                           _current != 2
-                              ? S.of(context).got_it_title
-                              : S.of(context).begin_title,
+                              ? S.of(context).got_it_label
+                              : S.of(context).begin_label,
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
