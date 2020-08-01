@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:domain/data_repository/events_data_repository.dart';
+import 'package:domain/data_repository/programs_data_repository.dart';
 import 'package:domain/data_repository/user_data_repository.dart';
-import 'package:domain/use_case/get_events_list_uc.dart';
+import 'package:domain/use_case/get_programs_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/login_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
@@ -15,7 +15,7 @@ import 'package:flutter_app/data/remote/data_source/user_rds.dart';
 import 'package:flutter_app/data/remote/infrastructure/espim_dio.dart';
 import 'package:domain/data_repository/auth_data_repository.dart';
 import 'package:flutter_app/data/repository/auth_repository.dart';
-import 'package:flutter_app/data/repository/events_repository.dart';
+import 'package:flutter_app/data/repository/programs_repository.dart';
 import 'package:flutter_app/data/repository/user_repository.dart';
 import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -49,8 +49,8 @@ class GeneralProvider extends StatelessWidget {
             return EspimDio(options);
           },
         ),
-        ProxyProvider<Dio, EventsRDS>(
-          update: (context, dio, _) => EventsRDS(dio: dio),
+        ProxyProvider<Dio, ProgramsRDS>(
+          update: (context, dio, _) => ProgramsRDS(dio: dio),
         ),
         ProxyProvider<Dio, UserRDS>(
           update: (context, dio, _) => UserRDS(dio: dio),
@@ -68,8 +68,8 @@ class GeneralProvider extends StatelessWidget {
       ];
 
   List<SingleChildWidget> _buildRepositoryProviders() => [
-        ProxyProvider2<EventsRDS, UserCDS, EventsDataRepository>(
-          update: (context, eventsRDS, userCDS, _) => EventsRepository(
+        ProxyProvider2<ProgramsRDS, UserCDS, ProgramDataRepository>(
+          update: (context, eventsRDS, userCDS, _) => ProgramsRepository(
             eventsRDS: eventsRDS,
             userCDS: userCDS,
           ),
@@ -89,9 +89,9 @@ class GeneralProvider extends StatelessWidget {
       ];
 
   List<SingleChildWidget> _buildUseCaseProviders() => [
-        ProxyProvider<EventsDataRepository, GetEventsListUC>(
-          update: (context, eventsRepository, _) => GetEventsListUC(
-            eventsRepository: eventsRepository,
+        ProxyProvider<ProgramDataRepository, GetProgramsListUC>(
+          update: (context, eventsRepository, _) => GetProgramsListUC(
+            programsRepository: eventsRepository,
           ),
         ),
         ProxyProvider<UserDataRepository, GetLoggedUserUC>(

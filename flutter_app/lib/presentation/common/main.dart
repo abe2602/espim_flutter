@@ -4,7 +4,7 @@ import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/flutter_app/lib/p
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_page.dart';
 import 'package:flutter_app/presentation/character_detail/character_detail_page.dart';
-import 'package:flutter_app/presentation/events_list/events_list_page.dart';
+import 'package:flutter_app/presentation/programs_list/programs_list_page.dart';
 import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
@@ -31,7 +31,7 @@ Future<void> main() async {
       'accompaniment',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (context, _) => EventsListPage.create(),
+        handlerFunc: (context, _) => ProgramsListPage.create(),
       ),
     )
     ..define(

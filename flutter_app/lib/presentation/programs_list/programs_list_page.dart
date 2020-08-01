@@ -1,5 +1,6 @@
 import 'package:domain/model/event.dart';
-import 'package:domain/use_case/get_events_list_uc.dart';
+import 'package:domain/model/program.dart';
+import 'package:domain/use_case/get_programs_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,23 +12,23 @@ import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:provider/provider.dart';
 
-import 'events_list_bloc.dart';
-import 'events_list_models.dart';
+import 'programs_list_bloc.dart';
+import 'programs_list_models.dart';
 
-class EventsListPage extends StatelessWidget {
-  const EventsListPage({@required this.bloc}) : assert(bloc != null);
-  final EventsListBloc bloc;
+class ProgramsListPage extends StatelessWidget {
+  const ProgramsListPage({@required this.bloc}) : assert(bloc != null);
+  final ProgramsListBloc bloc;
 
-  static Widget create() => ProxyProvider3<GetEventsListUC, GetLoggedUserUC,
-          LogoutUC, EventsListBloc>(
+  static Widget create() => ProxyProvider3<GetProgramsListUC, GetLoggedUserUC,
+          LogoutUC, ProgramsListBloc>(
         update: (context, getCharacterListUC, getLoggedUserUC, logoutUC, _) =>
-            EventsListBloc(
-                getCharacterListUC: getCharacterListUC,
+            ProgramsListBloc(
+                getProgramsListUC: getCharacterListUC,
                 getLoggedUserUC: getLoggedUserUC,
                 logoutUC: logoutUC),
         dispose: (context, bloc) => bloc.dispose,
-        child: Consumer<EventsListBloc>(
-          builder: (context, bloc, _) => EventsListPage(
+        child: Consumer<ProgramsListBloc>(
+          builder: (context, bloc, _) => ProgramsListPage(
             bloc: bloc,
           ),
         ),
@@ -74,8 +75,7 @@ class EventsListPage extends StatelessWidget {
         onReceived: (event) {
           if (event is LogoutSuccess) {
             Navigator.of(context, rootNavigator: false)
-                .pushNamedAndRemoveUntil(
-                'login', (route) => false);
+                .pushNamedAndRemoveUntil('login', (route) => false);
           }
         },
         child: StreamBuilder(
@@ -84,7 +84,7 @@ class EventsListPage extends StatelessWidget {
               AsyncSnapshotResponseView<Loading, Error, Success>(
             snapshot: snapshot,
             successWidgetBuilder: (successState) {
-              final eventsList = successState.eventsList;
+              final eventsList = successState.programsList;
               final user = successState.user;
 
               return RefreshIndicator(
@@ -122,9 +122,10 @@ class EventsListPage extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return EventCard(
-                        event: eventsList[index],
+                      return ProgramCard(
+                        program: eventsList[index],
                         borderRadius: 4,
+                        index: index,
                       );
                     }
                   },
@@ -190,13 +191,18 @@ class EventsListPage extends StatelessWidget {
   }
 }
 
-class EventCard extends StatelessWidget {
-  const EventCard({@required this.event, @required this.borderRadius})
-      : assert(event != null),
-        assert(borderRadius != null);
+class ProgramCard extends StatelessWidget {
+  const ProgramCard({
+    @required this.program,
+    @required this.borderRadius,
+    @required this.index,
+  })  : assert(program != null),
+        assert(borderRadius != null),
+        assert(index != null);
 
-  final Event event;
+  final Program program;
   final double borderRadius;
+  final int index;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -238,7 +244,7 @@ class EventCard extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           top: 8, bottom: 8, left: 12, right: 12),
                       child: Text(
-                        event.id.toString(),
+                        index.toString(),
                         style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,
@@ -246,38 +252,45 @@ class EventCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          event.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
+                  Flexible(
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              program.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.fade,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              program.description,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13,
+                                color: SenSemColors.mediumGray,
+                              ),
+                            ),
+                            Text(
+                              'Responsável Abe',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: SenSemColors.mediumGray,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          event.description,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 13,
-                            color: SenSemColors.mediumGray,
-                          ),
-                        ),
-                        Text(
-                          event.owner,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11,
-                            color: SenSemColors.mediumGray,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
