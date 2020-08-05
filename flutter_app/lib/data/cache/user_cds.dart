@@ -1,3 +1,4 @@
+import 'package:flutter_app/data/cache/model/intervention_cm.dart';
 import 'package:hive/hive.dart';
 
 class UserCDS {

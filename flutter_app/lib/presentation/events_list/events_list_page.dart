@@ -1,5 +1,7 @@
 import 'package:domain/model/event.dart';
+import 'package:domain/model/intervention.dart';
 import 'package:domain/model/program.dart';
+import 'package:domain/use_case/get_actives_events_list_uc.dart';
 import 'package:domain/use_case/get_programs_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
@@ -8,27 +10,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:provider/provider.dart';
 
-import 'programs_list_bloc.dart';
-import 'programs_list_models.dart';
+import 'events_list_bloc.dart';
+import 'events_list_models.dart';
 
-class ProgramsListPage extends StatelessWidget {
-  const ProgramsListPage({@required this.bloc}) : assert(bloc != null);
-  final ProgramsListBloc bloc;
+class EventsListPage extends StatelessWidget {
+  const EventsListPage({@required this.bloc}) : assert(bloc != null);
+  final EventsListBloc bloc;
 
-  static Widget create() => ProxyProvider3<GetProgramsListUC, GetLoggedUserUC,
-          LogoutUC, ProgramsListBloc>(
-        update: (context, getCharacterListUC, getLoggedUserUC, logoutUC, _) =>
-            ProgramsListBloc(
-                getProgramsListUC: getCharacterListUC,
+  static Widget create() => ProxyProvider3<GetActiveEventsListUC,
+          GetLoggedUserUC, LogoutUC, EventsListBloc>(
+        update: (context, getEventsListUC, getLoggedUserUC, logoutUC, _) =>
+            EventsListBloc(
+                getEventsListUC: getEventsListUC,
                 getLoggedUserUC: getLoggedUserUC,
                 logoutUC: logoutUC),
         dispose: (context, bloc) => bloc.dispose,
-        child: Consumer<ProgramsListBloc>(
-          builder: (context, bloc, _) => ProgramsListPage(
+        child: Consumer<EventsListBloc>(
+          builder: (context, bloc, _) => EventsListPage(
             bloc: bloc,
           ),
         ),
@@ -56,7 +59,7 @@ class ProgramsListPage extends StatelessWidget {
                       onTap: () {
                         if (choice == S.of(context).settings_label) {
                           Navigator.of(context, rootNavigator: true)
-                              .pushNamed('settings');
+                              .pushNamed(RouteNameBuilder.settingsPage());
                         } else if (choice == S.of(context).sign_out_label) {
                           bloc.onLogout.add(null);
                         }
@@ -74,8 +77,8 @@ class ProgramsListPage extends StatelessWidget {
         actionStream: bloc.onActionEvent,
         onReceived: (event) {
           if (event is LogoutSuccess) {
-            Navigator.of(context, rootNavigator: false)
-                .pushNamedAndRemoveUntil('login', (route) => false);
+            Navigator.of(context, rootNavigator: false).pushNamedAndRemoveUntil(
+                RouteNameBuilder.loginPage(), (route) => false);
           }
         },
         child: StreamBuilder(
@@ -84,7 +87,7 @@ class ProgramsListPage extends StatelessWidget {
               AsyncSnapshotResponseView<Loading, Error, Success>(
             snapshot: snapshot,
             successWidgetBuilder: (successState) {
-              final eventsList = successState.programsList;
+              final eventsList = successState.eventsList;
               final user = successState.user;
 
               return RefreshIndicator(
@@ -123,7 +126,7 @@ class ProgramsListPage extends StatelessWidget {
                       );
                     } else {
                       return ProgramCard(
-                        program: eventsList[index],
+                        event: eventsList[index],
                         borderRadius: 4,
                         index: index,
                       );
@@ -193,14 +196,14 @@ class ProgramsListPage extends StatelessWidget {
 
 class ProgramCard extends StatelessWidget {
   const ProgramCard({
-    @required this.program,
+    @required this.event,
     @required this.borderRadius,
     @required this.index,
-  })  : assert(program != null),
+  })  : assert(event != null),
         assert(borderRadius != null),
         assert(index != null);
 
-  final Program program;
+  final Event event;
   final double borderRadius;
   final int index;
 
@@ -214,7 +217,10 @@ class ProgramCard extends StatelessWidget {
           elevation: 2,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('details');
+              Navigator.of(context).pushNamed(
+                RouteNameBuilder.interventionType(
+                    event.interventionList[0].type, event.id, 0),
+              );
             },
             child: Container(
               decoration: BoxDecoration(
@@ -261,7 +267,7 @@ class ProgramCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              program.title,
+                              event.title,
                               maxLines: 2,
                               overflow: TextOverflow.fade,
                               style: const TextStyle(
@@ -271,18 +277,10 @@ class ProgramCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              program.description,
+                              event.description,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
-                                color: SenSemColors.mediumGray,
-                              ),
-                            ),
-                            Text(
-                              'Responsável Abe',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 12,
                                 color: SenSemColors.mediumGray,
                               ),
                             ),

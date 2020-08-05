@@ -2,15 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:domain/data_repository/programs_data_repository.dart';
 import 'package:domain/data_repository/user_data_repository.dart';
 import 'package:domain/use_case/get_programs_list_uc.dart';
+import 'package:domain/use_case/get_actives_events_list_uc.dart';
+import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/login_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
 import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/data/cache/programs_cds.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/auh_rds.dart';
-import 'package:flutter_app/data/remote/data_source/events_rds.dart';
+import 'package:flutter_app/data/remote/data_source/programs_rds.dart';
 import 'package:flutter_app/data/remote/data_source/user_rds.dart';
 import 'package:flutter_app/data/remote/infrastructure/espim_dio.dart';
 import 'package:domain/data_repository/auth_data_repository.dart';
@@ -62,16 +65,22 @@ class GeneralProvider extends StatelessWidget {
       ];
 
   List<SingleChildWidget> _buildCDSProviders() => [
-        ProxyProvider<Dio, UserCDS>(
-          update: (context, dio, _) => UserCDS(),
+        Provider<UserCDS>(
+          create: (context) => UserCDS(),
+        ),
+        Provider<ProgramsCDS>(
+          create: (context) => ProgramsCDS(),
         ),
       ];
 
   List<SingleChildWidget> _buildRepositoryProviders() => [
-        ProxyProvider2<ProgramsRDS, UserCDS, ProgramDataRepository>(
-          update: (context, eventsRDS, userCDS, _) => ProgramsRepository(
-            eventsRDS: eventsRDS,
+        ProxyProvider3<ProgramsRDS, UserCDS, ProgramsCDS,
+            ProgramDataRepository>(
+          update: (context, eventsRDS, userCDS, programsCDS, _) =>
+              ProgramsRepository(
+            programsRDS: eventsRDS,
             userCDS: userCDS,
+            programsCDS: programsCDS,
           ),
         ),
         ProxyProvider2<AuthRDS, UserCDS, AuthDataRepository>(
@@ -90,8 +99,18 @@ class GeneralProvider extends StatelessWidget {
 
   List<SingleChildWidget> _buildUseCaseProviders() => [
         ProxyProvider<ProgramDataRepository, GetProgramsListUC>(
-          update: (context, eventsRepository, _) => GetProgramsListUC(
-            programsRepository: eventsRepository,
+          update: (context, programsRepository, _) => GetProgramsListUC(
+            programsRepository: programsRepository,
+          ),
+        ),
+        ProxyProvider<ProgramDataRepository, GetActiveEventsListUC>(
+          update: (context, programsRepository, _) => GetActiveEventsListUC(
+            programsRepository: programsRepository,
+          ),
+        ),
+        ProxyProvider<ProgramDataRepository, GetInterventionUC>(
+          update: (context, programsRepository, _) => GetInterventionUC(
+            programsRepository: programsRepository,
           ),
         ),
         ProxyProvider<UserDataRepository, GetLoggedUserUC>(

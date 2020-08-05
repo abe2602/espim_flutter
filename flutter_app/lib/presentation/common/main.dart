@@ -1,10 +1,24 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/flutter_app/lib/presentation/common/general_provider.dart';
+import 'package:flutter_app/data/cache/model/complex_condition_cm.dart';
+import 'package:flutter_app/data/cache/model/event_cm.dart';
+import 'package:flutter_app/data/cache/model/event_trigger_cm.dart';
+import 'package:flutter_app/data/cache/model/intervention_cm.dart';
+import 'package:flutter_app/data/cache/model/media_information_cm.dart';
+import 'package:flutter_app/data/cache/model/observer_cm.dart';
+import 'package:flutter_app/data/cache/model/participant_cm.dart';
+import 'package:flutter_app/data/cache/model/program_cm.dart';
+import 'package:flutter_app/data/cache/model/sensor_cm.dart';
+import 'package:flutter_app/data/cache/model/task_parameter_cm.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_page.dart';
-import 'package:flutter_app/presentation/character_detail/character_detail_page.dart';
-import 'package:flutter_app/presentation/programs_list/programs_list_page.dart';
+import 'package:flutter_app/presentation/common/general_provider.dart';
+import 'package:flutter_app/presentation/common/route_name_builder.dart';
+import 'package:flutter_app/presentation/events_list/events_list_page.dart';
+import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_page.dart';
 import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
@@ -17,39 +31,74 @@ import 'main_container/main_container_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Hive.init((await getApplicationDocumentsDirectory()).path);
+  Hive
+    ..init((await getApplicationDocumentsDirectory()).path)
+    ..registerAdapter(EventCMAdapter())
+    ..registerAdapter(ComplexConditionCMAdapter())
+    ..registerAdapter(EventTriggerCMAdapter())
+    ..registerAdapter(InterventionCMAdapter())
+    ..registerAdapter(MediaInformationCMAdapter())
+    ..registerAdapter(ObserverCMAdapter())
+    ..registerAdapter(ParticipantCMAdapter())
+    ..registerAdapter(ProgramCMAdapter())
+    ..registerAdapter(SensorCMAdapter())
+    ..registerAdapter(TaskParameterCMAdapter());
 
   Router.appRouter
     ..define(
-      '/',
+      RouteNameBuilder.root,
       transitionType: TransitionType.nativeModal,
       handler: Handler(
         handlerFunc: (context, _) => MainContainerScreen.create(),
       ),
     )
     ..define(
-      'accompaniment',
+      RouteNameBuilder.accompaniment,
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (context, _) => ProgramsListPage.create(),
+        handlerFunc: (context, _) => EventsListPage.create(),
       ),
     )
     ..define(
-      'details',
-      transitionType: TransitionType.native,
+      '${RouteNameBuilder.taskIntervention}/:id',
+      transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (context, _) => CharacterDetailPage(),
+        handlerFunc: (context, _) => TaskInterventionPage(),
       ),
     )
     ..define(
-      'login',
+      '${RouteNameBuilder.emptyIntervention}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (_, params) => EmptyInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['pageNumber'][0]),
+        ),
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.questionIntervention}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (context, _) => QuestionInterventionPage(),
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.mediaIntervention}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (context, _) => MediaInterventionPage(),
+      ),
+    )
+    ..define(
+      RouteNameBuilder.login,
       transitionType: TransitionType.nativeModal,
       handler: Handler(
         handlerFunc: (context, _) => LoginPage.create(),
       ),
     )
     ..define(
-      'settings',
+      RouteNameBuilder.settings,
       transitionType: TransitionType.nativeModal,
       handler: Handler(
         handlerFunc: (context, _) => SettingsPage(),

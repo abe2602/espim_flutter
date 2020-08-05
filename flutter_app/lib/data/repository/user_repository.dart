@@ -3,7 +3,7 @@ import 'package:domain/model/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/user_rds.dart';
-import 'package:flutter_app/data/remote/mappers.dart';
+import 'package:flutter_app/data/remote/remote_to_domain_mappers.dart';
 
 class UserRepository implements UserDataRepository {
   const UserRepository({
