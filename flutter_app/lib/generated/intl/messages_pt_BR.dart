@@ -24,9 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "begin_label" : MessageLookupByLibrary.simpleMessage("COMEÇAR"),
+    "emptyFieldError" : MessageLookupByLibrary.simpleMessage("Campo Vazio"),
     "events_label" : MessageLookupByLibrary.simpleMessage("Eventos"),
     "google_sign_in" : MessageLookupByLibrary.simpleMessage("Entre com o Google!"),
     "got_it_label" : MessageLookupByLibrary.simpleMessage("ENTENDI"),
+    "invalidFieldError" : MessageLookupByLibrary.simpleMessage("Formato Invalido"),
+    "next" : MessageLookupByLibrary.simpleMessage("Continuar"),
     "no_events_description" : MessageLookupByLibrary.simpleMessage("Você ainda não possui eventos"),
     "no_events_label" : MessageLookupByLibrary.simpleMessage("Nenhum evento"),
     "non_blocking_generic_error_message" : MessageLookupByLibrary.simpleMessage("Oops! Alguma coisa deu errado. \n Tente novamente mais tarde!"),
@@ -34,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notifications_description" : MessageLookupByLibrary.simpleMessage("Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme."),
     "notifications_label" : MessageLookupByLibrary.simpleMessage("NOTIFICAÇÃO"),
     "ongoing_events" : m0,
+    "question_label" : MessageLookupByLibrary.simpleMessage("Pergunta"),
     "refresh_label" : MessageLookupByLibrary.simpleMessage("Atualizar"),
     "sensem_description" : MessageLookupByLibrary.simpleMessage("SENSEM é um aplicativo utilizado para receber e executar tarefas. Seu médico, terapeuta, família, e ainda é possível agendar tarefas no website: espim.com.br"),
     "sensem_label" : MessageLookupByLibrary.simpleMessage("SENSEM"),

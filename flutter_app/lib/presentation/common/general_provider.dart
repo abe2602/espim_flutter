@@ -9,6 +9,7 @@ import 'package:domain/use_case/login_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
 import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
+import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/data/cache/programs_cds.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
@@ -98,6 +99,9 @@ class GeneralProvider extends StatelessWidget {
       ];
 
   List<SingleChildWidget> _buildUseCaseProviders() => [
+        Provider<ValidateOpenQuestionTextUC>(
+          create: (context) => ValidateOpenQuestionTextUC(),
+        ),
         ProxyProvider<ProgramDataRepository, GetProgramsListUC>(
           update: (context, programsRepository, _) => GetProgramsListUC(
             programsRepository: programsRepository,

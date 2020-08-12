@@ -224,6 +224,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Question`
+  String get question_label {
+    return Intl.message(
+      'Question',
+      name: 'question_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty Field`
+  String get emptyFieldError {
+    return Intl.message(
+      'Empty Field',
+      name: 'emptyFieldError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid Field`
+  String get invalidFieldError {
+    return Intl.message(
+      'Invalid Field',
+      name: 'invalidFieldError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Answer`
+  String get openQuestionLabel {
+    return Intl.message(
+      'Answer',
+      name: 'openQuestionLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

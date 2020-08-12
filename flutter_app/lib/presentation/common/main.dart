@@ -30,7 +30,7 @@ import 'main_container/main_container_screen.dart';
 // volto aqui depois
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  //await Hive.initFlutter();
   Hive
     ..init((await getApplicationDocumentsDirectory()).path)
     ..registerAdapter(EventCMAdapter())
@@ -68,38 +68,43 @@ Future<void> main() async {
     )
     ..define(
       '${RouteNameBuilder.emptyIntervention}/:id',
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (_, params) => EmptyInterventionPage.create(
           int.parse(params['id'][0]),
-          int.parse(params['pageNumber'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
         ),
       ),
     )
     ..define(
       '${RouteNameBuilder.questionIntervention}/:id',
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
-        handlerFunc: (context, _) => QuestionInterventionPage(),
+        handlerFunc: (_, params) => QuestionInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
       ),
     )
     ..define(
       '${RouteNameBuilder.mediaIntervention}/:id',
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (context, _) => MediaInterventionPage(),
       ),
     )
     ..define(
       RouteNameBuilder.login,
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (context, _) => LoginPage.create(),
       ),
     )
     ..define(
       RouteNameBuilder.settings,
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (context, _) => SettingsPage(),
       ),

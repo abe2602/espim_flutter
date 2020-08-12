@@ -1,23 +1,13 @@
 import 'package:domain/model/intervention.dart';
+import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 
-abstract class EmptyInterventionResponseState {}
-
-class Success implements EmptyInterventionResponseState {
-  const Success({this.intervention});
-
-  final Intervention intervention;
+class EmptyInterventionSuccess extends Success {
+  EmptyInterventionSuccess({
+    intervention,
+    nextInterventionType,
+    nextPage,
+  }) : super(
+      intervention: intervention,
+      nextInterventionType: nextInterventionType,
+      nextPage: nextPage);
 }
-
-class LogoutSuccess implements EmptyInterventionResponseState{}
-
-class Loading implements EmptyInterventionResponseState {}
-
-class Error implements EmptyInterventionResponseState {}
-
-class NoInternetError implements Error {}
-
-class EmptyListError implements Error {}
-
-class NonBlockingGenericError implements Error{}
-
-class GenericError implements Error {}

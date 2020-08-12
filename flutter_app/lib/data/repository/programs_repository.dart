@@ -48,13 +48,6 @@ class ProgramsRepository implements ProgramDataRepository {
                   );
                 });
 
-                program.eventList.forEach((event) async {
-                  await programsCDS.upsertInterventionList(
-                    event.id,
-                    event.interventionList.toCM(),
-                  );
-                });
-
                 auxEvents?.addAll(
                   program.eventList
                     ..where((event) => event.type == 'active')
@@ -64,14 +57,18 @@ class ProgramsRepository implements ProgramDataRepository {
                 );
               },
             );
-            return auxEvents.toDM();
+            return auxEvents;
           },
-        ),
+        ).then((eventList) {
+          programsCDS.upsertEventsList(eventList.toCM());
+          return eventList.toDM();
+        }),
       );
 
   @override
-  Future<Intervention> getIntervention(int eventId, int pageNumber) =>
-      programsCDS.getIntervention(eventId, pageNumber).then(
+  Future<Intervention> getIntervention(
+          int eventId, int positionOrder) =>
+      programsCDS.getInterventionByPositionOrder(eventId, positionOrder).then(
             (intervention) => intervention.toDM(),
           );
 }

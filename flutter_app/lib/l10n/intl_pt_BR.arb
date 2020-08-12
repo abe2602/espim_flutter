@@ -17,5 +17,9 @@
   "ongoing_events": "{howMany, plural, one{1 evento em andamento} other{{howMany} eventos em andamento}}",
   "no_events_label": "Nenhum evento",
   "no_events_description": "Você ainda não possui eventos",
-  "refresh_label": "Atualizar"
+  "refresh_label": "Atualizar",
+  "question_label": "Pergunta",
+  "emptyFieldError": "Campo Vazio",
+  "invalidFieldError": "Formato Invalido",
+  "next" : "Continuar"
 }

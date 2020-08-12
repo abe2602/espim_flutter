@@ -1,17 +1,21 @@
 import 'package:domain/model/empty_intervention.dart';
+import 'package:domain/model/intervention.dart';
 import 'package:flutter/widgets.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
-import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_models.dart';
+import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'empty_intervention_models.dart';
 
 class EmptyInterventionBloc with SubscriptionBag {
   EmptyInterventionBloc(
       {@required this.eventId,
-      @required this.pageNumber,
+      @required this.orderPosition,
+      @required this.flowSize,
       @required this.getInterventionUC})
       : assert(eventId != null),
-        assert(pageNumber != null),
+        assert(orderPosition != null),
         assert(getInterventionUC != null) {
     MergeStream([
       _getIntervention(),
@@ -19,27 +23,37 @@ class EmptyInterventionBloc with SubscriptionBag {
   }
 
   final int eventId;
-  final int pageNumber;
+  final int orderPosition;
+  final int flowSize;
 
   final GetInterventionUC getInterventionUC;
 
-  final _onNewStateSubject = BehaviorSubject<EmptyInterventionResponseState>();
-  final _onTryAgainSubject = PublishSubject<EmptyInterventionResponseState>();
+  final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
+  final _onTryAgainSubject = PublishSubject<InterventionResponseState>();
 
-  Stream<EmptyInterventionResponseState> get onNewState => _onNewStateSubject;
+  Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
-  Stream<EmptyInterventionResponseState> _getIntervention() async* {
+  Stream<InterventionResponseState> _getIntervention() async* {
     try {
-      final EmptyIntervention emptyIntervention =
+      Intervention nextIntervention;
+      final EmptyIntervention currentIntervention =
           await getInterventionUC.getFuture(
-        params:
-            GetInterventionUCParams(eventId: eventId, pageNumber: pageNumber),
+        params: GetInterventionUCParams(
+            eventId: eventId, positionOrder: orderPosition),
       );
 
-      yield Success(intervention: emptyIntervention);
-    } catch (error) {
-      print('erro no bloc  ' + error.toString());
-    }
+      if (currentIntervention.next != 0) {
+        nextIntervention = await getInterventionUC.getFuture(
+          params: GetInterventionUCParams(
+              eventId: eventId, positionOrder: currentIntervention.next),
+        );
+      }
+
+      yield EmptyInterventionSuccess(
+          nextPage: currentIntervention.next,
+          intervention: currentIntervention,
+          nextInterventionType: nextIntervention?.type ?? '');
+    } catch (error) {}
   }
 
   void dispose() {

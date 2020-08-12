@@ -4,6 +4,9 @@ import 'package:domain/model/program.dart';
 
 abstract class ProgramDataRepository {
   Future<List<Program>> getProgramList();
+
   Future<List<Event>> getActiveEventList();
-  Future<Intervention> getIntervention(int eventId, int pageNumber);
+
+  Future<Intervention> getIntervention(
+      int eventId, int orderPosition);
 }

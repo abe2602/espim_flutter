@@ -24,9 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "begin_label" : MessageLookupByLibrary.simpleMessage("BEGIN"),
+    "emptyFieldError" : MessageLookupByLibrary.simpleMessage("Empty Field"),
     "events_label" : MessageLookupByLibrary.simpleMessage("Events"),
     "google_sign_in" : MessageLookupByLibrary.simpleMessage("Sign in with Google!"),
     "got_it_label" : MessageLookupByLibrary.simpleMessage("GOT IT"),
+    "invalidFieldError" : MessageLookupByLibrary.simpleMessage("Invalid Field"),
+    "next" : MessageLookupByLibrary.simpleMessage("Next"),
     "no_events_description" : MessageLookupByLibrary.simpleMessage("You don\'t have events yet"),
     "no_events_label" : MessageLookupByLibrary.simpleMessage("No events"),
     "non_blocking_generic_error_message" : MessageLookupByLibrary.simpleMessage("Oops! Something went wrong!\n Please try again later!"),
@@ -34,6 +37,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "notifications_description" : MessageLookupByLibrary.simpleMessage("If you have a task  scheduled, you will receive alerts on your device to remember to execute them. To start the tasks, simply click on the notification icon or respond to the sound alert."),
     "notifications_label" : MessageLookupByLibrary.simpleMessage("NOTIFICATIONS"),
     "ongoing_events" : m0,
+    "openQuestionLabel" : MessageLookupByLibrary.simpleMessage("Answer"),
+    "question_label" : MessageLookupByLibrary.simpleMessage("Question"),
     "refresh_label" : MessageLookupByLibrary.simpleMessage("Refresh"),
     "sensem_description" : MessageLookupByLibrary.simpleMessage("SENSEM is an application used to receive and execute tasks. Your doctor, your therapist, your family or even you can schedule these tasks in this website: espim.com.br"),
     "sensem_label" : MessageLookupByLibrary.simpleMessage("SENSEM"),

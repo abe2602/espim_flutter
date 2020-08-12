@@ -219,7 +219,10 @@ class ProgramCard extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(
                 RouteNameBuilder.interventionType(
-                    event.interventionList[0].type, event.id, 0),
+                    event.interventionList[0].type,
+                    event.id,
+                    1,
+                    event.interventionList.length),
               );
             },
             child: Container(

@@ -39,6 +39,7 @@ dependencies:
   firebase_core: 0.2.5+1
   firebase_auth:
   google_fonts: ^1.1.0
+  tuple: ^1.0.3
   domain:
     path: domain
 
@@ -51,7 +52,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^1.7.2
   json_serializable: ^3.2.3
-  hive_generator: ^0.7.0
+  hive_generator: ^0.7.0+2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

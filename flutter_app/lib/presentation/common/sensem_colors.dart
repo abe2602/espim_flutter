@@ -6,5 +6,6 @@ class SenSemColors {
   static Color royalBlue = const Color(0xff1976d5);
   static Color aquaGreen = const Color(0xff03c580);
   static Color mediumGray = const Color(0xff4a4a4a);
+  static Color lightGray = const Color(0xffd8d8d8);
   static Color lightWhite = const Color(0xfff7f7f7);
 }

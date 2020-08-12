@@ -9,19 +9,19 @@ class RouteNameBuilder {
   static const mediaIntervention = 'mediaIntervention';
 
   static String interventionType(
-      String interventionType, int eventId, int pageNumber) {
+      String interventionType, int eventId, int orderPosition, int flowSize) {
     switch (interventionType) {
       case 'task':
-        return '$taskIntervention/$eventId?pageNumber=$pageNumber';
+        return '$taskIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'media':
-        return '$mediaIntervention/$eventId?pageNumber=$pageNumber';
+        return '$mediaIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'question':
-        return '$questionIntervention/$eventId?pageNumber=$pageNumber';
+        return '$questionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       default:
-        return '$emptyIntervention/$eventId?pageNumber=$pageNumber';
+        return '$emptyIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
     }
   }

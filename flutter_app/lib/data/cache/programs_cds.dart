@@ -1,34 +1,32 @@
+import 'package:flutter_app/data/cache/model/event_cm.dart';
 import 'package:flutter_app/data/cache/model/intervention_cm.dart';
 import 'package:hive/hive.dart';
 
 class ProgramsCDS {
-  static const _interventionListBoxKey = 'interventionBoxKey';
-  static const _eventsListBoxKey = 'interventionBoxKey';
-  static const _programListBoxKey = 'programListBoxKey';
+  static const _eventsListBoxKey = 'eventsListBoxKey';
 
-  Future<Box> _openInterventionLisBox() =>
-      Hive.openBox(_interventionListBoxKey);
-
-  Future<Box> _openProgramLisBox() => Hive.openBox(_programListBoxKey);
+  Future<Box> _openInterventionLisBox() => Hive.openBox(_eventsListBoxKey);
 
   /*
-  * Programas -> Eventos -> Intervenções; Aqui eu só devo mostrar OS EVENTOS ATIVOS.
+  * Programas -> Eventos -> Intervenções; Aqui eu só devo
+  * mostrar OS EVENTOS ATIVOS.
   * */
-  Future<void> upsertInterventionList(
-          int eventId, List<InterventionCM> interventionList) =>
-      _openInterventionLisBox().then(
-        (box) => box.put(eventId, interventionList),
-      ).catchError((error){
-        print('erro ao colocar ' + error.toString());
-      });
+  Future<void> upsertEventsList(List<EventCM> eventList) =>
+      _openInterventionLisBox().then((box) => box.add(eventList));
 
-  Future<InterventionCM> getIntervention(int eventId, int pageNumber) =>
+  Future<InterventionCM> getInterventionByPositionOrder(
+          int eventId, int position) =>
       _openInterventionLisBox().then(
         (box) {
-          final List<InterventionCM> interventionList = box.get(eventId);
-          return interventionList[pageNumber];
+
+          final List<EventCM> eventsList = box.get(0);
+          final myEvent =
+              eventsList.where((event) => event.id == eventId).toList()[0];
+
+          return myEvent.interventionList
+              .where(
+                  (intervention) => intervention.orderPosition == position)
+              .toList()[0];
         },
-      ).catchError((error) {
-        print('erro ao tirar ' + error.toString());
-      });
+      );
 }

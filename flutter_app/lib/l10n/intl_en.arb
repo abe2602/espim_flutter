@@ -17,5 +17,10 @@
   "ongoing_events": "{howMany, plural, one{1 ongoing event} other{{howMany} ongoing events}}",
   "no_events_label": "No events",
   "no_events_description": "You don't have events yet",
-  "refresh_label": "Refresh"
+  "refresh_label": "Refresh",
+  "question_label": "Question",
+  "emptyFieldError": "Empty Field",
+  "invalidFieldError": "Invalid Field",
+  "openQuestionLabel": "Answer",
+  "next" : "Next"
 }
