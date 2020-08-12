@@ -40,6 +40,8 @@ dependencies:
   firebase_auth:
   google_fonts: ^1.1.0
   tuple: ^1.0.3
+  chewie:
+  video_player: ^0.10.11+2
   domain:
     path: domain
 

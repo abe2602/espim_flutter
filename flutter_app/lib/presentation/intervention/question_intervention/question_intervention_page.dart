@@ -58,9 +58,7 @@ class QuestionInterventionPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: const EdgeInsets.only(
-              right: 15, left: 15, top: 15
-            ),
+            margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
             child: StreamBuilder(
               stream: bloc.onNewState,
               builder: (context, snapshot) =>
@@ -135,32 +133,37 @@ class ClosedQuestionState extends State<ClosedQuestion> {
     return Column(
       children: [
         Text(questionIntervention.statement),
-        ListView.builder(
-          itemCount: questionIntervention.questionAnswers.length,
-          shrinkWrap: true,
-          itemBuilder: (_, index) => Card(
-            color: SenSemColors.lightGray,
-            margin: const EdgeInsets.only(left: 8, right: 10, bottom: 10),
-            child: Container(
-              height: 60,
-              child: Row(
-                children: [
-                  Radio(
-                    value: index,
-                    groupValue: selectedOption,
-                    activeColor: SenSemColors.royalBlue,
-                    onChanged: (_) {
-                      setState(() {
-                        selectedOption = index;
-                      });
-                    },
+        ...questionIntervention.questionAnswers
+            .asMap()
+            .map(
+              (index, _) => MapEntry(
+                index,
+                Card(
+                  color: SenSemColors.lightGray,
+                  margin: const EdgeInsets.only(left: 8, right: 10, bottom: 10),
+                  child: Container(
+                    height: 60,
+                    child: Row(
+                      children: [
+                        Radio(
+                          value: index,
+                          groupValue: selectedOption,
+                          activeColor: SenSemColors.royalBlue,
+                          onChanged: (_) {
+                            setState(() {
+                              selectedOption = index;
+                            });
+                          },
+                        ),
+                        Text(questionIntervention.questionAnswers[index]),
+                      ],
+                    ),
                   ),
-                  Text(questionIntervention.questionAnswers[index]),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
+            )
+            .values
+            .toList(),
         FlatButton(
           onPressed: () {
             widget.bloc.navigateToNextInterventionSink.add(

@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:domain/exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
+import 'package:video_player/video_player.dart';
 
 class LoadingIndicator extends StatelessWidget {
   @override
@@ -70,6 +72,55 @@ class InternetImage extends StatelessWidget {
     ),
     fit: BoxFit.scaleDown,
   );
+}
+
+class InternetVideoPlayer extends StatefulWidget {
+  const InternetVideoPlayer({
+    @required this.videoUrl,
+    @required this.videoPlayerController,
+  }) : assert(videoUrl != null);
+  final VideoPlayerController videoPlayerController;
+  final String videoUrl;
+
+  @override
+  State<StatefulWidget> createState() =>
+      VideoPlayerState(videoPlayerController: videoPlayerController);
+}
+
+class VideoPlayerState extends State<InternetVideoPlayer> {
+  VideoPlayerState({
+    @required this.videoPlayerController,
+  });
+
+  final VideoPlayerController videoPlayerController;
+  ChewieController _controller;
+  Chewie _videoPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = ChewieController(
+      videoPlayerController: videoPlayerController,
+      aspectRatio: videoPlayerController.value.aspectRatio,
+      autoPlay: true,
+      looping: false,
+    );
+
+    _videoPlayer = Chewie(
+      controller: _controller,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => _videoPlayer;
+
+  @override
+  void dispose() {
+    videoPlayerController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 }
 
 void navigateToNextIntervention(

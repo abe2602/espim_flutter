@@ -1,6 +1,4 @@
-import 'package:domain/model/media_information.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
@@ -10,11 +8,12 @@ import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
+import 'package:video_player/video_player.dart';
 
 import '../intervention_models.dart';
 import 'empty_intervention_models.dart';
 
-class EmptyInterventionPage extends StatelessWidget {
+class EmptyInterventionPage extends StatefulWidget {
   const EmptyInterventionPage({
     @required this.bloc,
     @required this.eventId,
@@ -45,6 +44,14 @@ class EmptyInterventionPage extends StatelessWidget {
       );
 
   @override
+  State<StatefulWidget> createState() => EmptyInterventionPageState();
+}
+
+class EmptyInterventionPageState extends State<EmptyInterventionPage> {
+  InternetVideoPlayer videoPlayer;
+  VideoPlayerController videoPlayerController;
+
+  @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Acompanhamentos'),
@@ -57,7 +64,7 @@ class EmptyInterventionPage extends StatelessWidget {
               left: 15,
             ),
             child: StreamBuilder(
-              stream: bloc.onNewState,
+              stream: widget.bloc.onNewState,
               builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
                   Error, EmptyInterventionSuccess>(
                 snapshot: snapshot,
@@ -79,14 +86,33 @@ class EmptyInterventionPage extends StatelessWidget {
                         top: 20,
                         bottom: 20,
                       ),
-                      child: MediaInformationCard(
-                          mediaInformation:
-                              successState.intervention.mediaInformation),
+                      child: Column(
+                        children: [
+                          ...successState.intervention.mediaInformation.map(
+                            (media) {
+                              if (media.mediaType == 'image') {
+                                return InternetImage(
+                                  url: media.mediaUrl,
+                                );
+                              } else {
+                                videoPlayerController =
+                                    VideoPlayerController.network(
+                                        media.mediaUrl);
+                                return videoPlayer = InternetVideoPlayer(
+                                  videoUrl: media.mediaUrl,
+                                  videoPlayerController: videoPlayerController,
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: FlatButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          await videoPlayerController?.pause();
                           if (successState.intervention.next ==
                                   successState.intervention.orderPosition ||
                               successState.nextPage == 0) {
@@ -95,12 +121,12 @@ class EmptyInterventionPage extends StatelessWidget {
                                 ModalRoute.withName(
                                     RouteNameBuilder.accompaniment));
                           } else {
-                            Navigator.of(context).pushNamed(
+                            await Navigator.of(context).pushNamed(
                               RouteNameBuilder.interventionType(
                                   successState.nextInterventionType,
-                                  eventId,
+                                  widget.eventId,
                                   successState.nextPage,
-                                  flowSize),
+                                  widget.flowSize),
                             );
                           }
                         },
@@ -118,28 +144,5 @@ class EmptyInterventionPage extends StatelessWidget {
             ),
           ),
         ),
-      );
-}
-
-class MediaInformationCard extends StatelessWidget {
-  const MediaInformationCard({@required this.mediaInformation});
-
-  final List<MediaInformation> mediaInformation;
-
-  @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          ...mediaInformation.map(
-            (media) {
-              if (media.mediaType == 'image') {
-                return InternetImage(
-                  url: media.mediaUrl,
-                );
-              } else {
-                return Text('NOT IMAGE');
-              }
-            },
-          ),
-        ],
       );
 }
