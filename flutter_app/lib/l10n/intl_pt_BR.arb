@@ -21,5 +21,8 @@
   "question_label": "Pergunta",
   "emptyFieldError": "Campo Vazio",
   "invalidFieldError": "Formato Invalido",
-  "next" : "Continuar"
+  "next" : "Continuar",
+  "upload_files": "Upload de arquivo",
+  "upload_files_action_label" : "Toque parea fazer o upload do arquivo",
+  "change_file_label": "Substituir arquivo"
 }

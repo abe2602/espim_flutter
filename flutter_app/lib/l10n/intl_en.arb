@@ -22,5 +22,8 @@
   "emptyFieldError": "Empty Field",
   "invalidFieldError": "Invalid Field",
   "openQuestionLabel": "Answer",
-  "next" : "Next"
+  "next" : "Next",
+  "upload_files": "Upload files",
+  "upload_files_action_label" : "Touch to upload files",
+  "change_file_label": "Change file"
 }

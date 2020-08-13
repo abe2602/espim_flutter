@@ -12,20 +12,19 @@ class ProgramsCDS {
   * mostrar OS EVENTOS ATIVOS.
   * */
   Future<void> upsertEventsList(List<EventCM> eventList) =>
-      _openInterventionLisBox().then((box) => box.add(eventList));
+      _openInterventionLisBox()
+          .then((box) => box.clear().then((_) => box.add(eventList)));
 
   Future<InterventionCM> getInterventionByPositionOrder(
           int eventId, int position) =>
       _openInterventionLisBox().then(
         (box) {
-
           final List<EventCM> eventsList = box.get(0);
           final myEvent =
               eventsList.where((event) => event.id == eventId).toList()[0];
 
           return myEvent.interventionList
-              .where(
-                  (intervention) => intervention.orderPosition == position)
+              .where((intervention) => intervention.orderPosition == position)
               .toList()[0];
         },
       );

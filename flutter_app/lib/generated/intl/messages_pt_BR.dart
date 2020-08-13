@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "begin_label" : MessageLookupByLibrary.simpleMessage("COMEÇAR"),
+    "change_file_label" : MessageLookupByLibrary.simpleMessage("Substituir arquivo"),
     "emptyFieldError" : MessageLookupByLibrary.simpleMessage("Campo Vazio"),
     "events_label" : MessageLookupByLibrary.simpleMessage("Eventos"),
     "google_sign_in" : MessageLookupByLibrary.simpleMessage("Entre com o Google!"),
@@ -45,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_out_label" : MessageLookupByLibrary.simpleMessage("Sair"),
     "tasks_description" : MessageLookupByLibrary.simpleMessage("Existe uma variedade de tarefas, como responder perguntas, tirar uma foto, ou gravar um áudio."),
     "tasks_label" : MessageLookupByLibrary.simpleMessage("TAREFAS"),
+    "upload_files" : MessageLookupByLibrary.simpleMessage("Upload de arquivo"),
+    "upload_files_action_label" : MessageLookupByLibrary.simpleMessage("Toque parea fazer o upload do arquivo"),
     "welcome" : MessageLookupByLibrary.simpleMessage("Bem vindo, ")
   };
 }

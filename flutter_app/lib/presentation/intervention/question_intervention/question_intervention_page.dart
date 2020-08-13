@@ -8,12 +8,11 @@ import 'package:flutter_app/presentation/common/form_text_field.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
-import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_models.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
+import 'package:video_player/video_player.dart';
 
 import '../intervention_models.dart';
 
@@ -118,11 +117,13 @@ class ClosedQuestion extends StatefulWidget {
 
 class ClosedQuestionState extends State<ClosedQuestion> {
   int selectedOption;
+  InternetVideoPlayer videoPlayer;
+  VideoPlayerController videoPlayerController;
 
   @override
   void initState() {
     super.initState();
-    selectedOption = 0;
+    selectedOption = -1;
   }
 
   @override
@@ -132,7 +133,40 @@ class ClosedQuestionState extends State<ClosedQuestion> {
 
     return Column(
       children: [
-        Text(questionIntervention.statement),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.only(bottom: 18),
+          child: Text(
+            questionIntervention.statement,
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            ...questionIntervention.mediaInformation.map(
+              (media) {
+                if (media.mediaType == 'image') {
+                  return Container(
+                    padding: const EdgeInsets.all(15),
+                    child: InternetImage(
+                      url: media.mediaUrl,
+                    ),
+                  );
+                } else {
+                  videoPlayerController =
+                      VideoPlayerController.network(media.mediaUrl);
+                  return videoPlayer = InternetVideoPlayer(
+                    videoUrl: media.mediaUrl,
+                    videoPlayerController: videoPlayerController,
+                  );
+                }
+              },
+            ),
+          ],
+        ),
         ...questionIntervention.questionAnswers
             .asMap()
             .map(
@@ -164,16 +198,23 @@ class ClosedQuestionState extends State<ClosedQuestion> {
             )
             .values
             .toList(),
-        FlatButton(
-          onPressed: () {
-            widget.bloc.navigateToNextInterventionSink.add(
-                questionIntervention.questionConditions[
-                    questionIntervention.questionAnswers[selectedOption]]);
-          },
-          color: SenSemColors.aquaGreen,
-          child: Text(
-            S.of(context).next,
-            style: const TextStyle(color: Colors.white),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: FlatButton(
+            onPressed: selectedOption == -1
+                ? null
+                : () {
+                    widget.bloc.navigateToNextInterventionSink.add(
+                        questionIntervention.questionConditions[
+                            questionIntervention
+                                .questionAnswers[selectedOption]]);
+                  },
+            color: SenSemColors.aquaGreen,
+            disabledColor: SenSemColors.disabledLightGray,
+            child: Text(
+              S.of(context).next,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ],
@@ -212,7 +253,13 @@ class OpenQuestionState extends State<OpenQuestion> {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text(widget.successState.intervention.statement),
+          Text(
+            widget.successState.intervention.statement,
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: FormTextField(

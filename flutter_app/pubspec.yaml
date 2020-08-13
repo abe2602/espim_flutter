@@ -42,6 +42,9 @@ dependencies:
   tuple: ^1.0.3
   chewie:
   video_player: ^0.10.11+2
+  image_picker: ^0.6.7+4
+ # camera:
+  path:
   domain:
     path: domain
 

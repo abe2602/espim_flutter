@@ -274,6 +274,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Upload files`
+  String get upload_files {
+    return Intl.message(
+      'Upload files',
+      name: 'upload_files',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Touch to upload files`
+  String get upload_files_action_label {
+    return Intl.message(
+      'Touch to upload files',
+      name: 'upload_files_action_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change file`
+  String get change_file_label {
+    return Intl.message(
+      'Change file',
+      name: 'change_file_label',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -34,7 +34,7 @@ class ProgramsRepository implements ProgramDataRepository {
 
   @override
   Future<List<Event>> getActiveEventList() => userCDS.getEmail().then(
-        (email) => programsRDS.getProgramList(email).then(
+        (email) => programsRDS.getProgramList('kamila.uniara@gmail.com').then(
           (programsList) {
             final auxEvents = <EventRM>[];
 
