@@ -92,7 +92,11 @@ Future<void> main() async {
       '${RouteNameBuilder.mediaIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
-        handlerFunc: (context, _) => MediaInterventionPage(),
+        handlerFunc: (_, params) => MediaInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
       ),
     )
     ..define(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
+import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:video_player/video_player.dart';
 
 class LoadingIndicator extends StatelessWidget {
@@ -56,31 +57,31 @@ class InternetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CachedNetworkImage(
-    imageUrl: url,
-    width: width,
-    height: height,
-    placeholder: (context, url) => const Center(
-      child: CircularProgressIndicator(),
-    ),
-    errorWidget: (context, url, error) => Center(
-      child: Image.asset(
-        'images/no_image.png',
-        fit: BoxFit.cover,
+        imageUrl: url,
         width: width,
         height: height,
-      ),
-    ),
-    fit: BoxFit.scaleDown,
-  );
+        placeholder: (context, url) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        errorWidget: (context, url, error) => Center(
+          child: Image.asset(
+            'images/no_image.png',
+            fit: BoxFit.cover,
+            width: width,
+            height: height,
+          ),
+        ),
+        fit: BoxFit.scaleDown,
+      );
 }
 
 class InternetVideoPlayer extends StatefulWidget {
   const InternetVideoPlayer({
-    @required this.videoUrl,
     @required this.videoPlayerController,
-  }) : assert(videoUrl != null);
+    this.autoPlay = true,
+  }) : assert(videoPlayerController != null);
   final VideoPlayerController videoPlayerController;
-  final String videoUrl;
+  final bool autoPlay;
 
   @override
   State<StatefulWidget> createState() =>
@@ -103,7 +104,7 @@ class VideoPlayerState extends State<InternetVideoPlayer> {
     _controller = ChewieController(
       videoPlayerController: videoPlayerController,
       aspectRatio: videoPlayerController.value.aspectRatio,
-      autoPlay: true,
+      autoPlay: widget.autoPlay,
       looping: false,
     );
 
@@ -130,16 +131,37 @@ void navigateToNextIntervention(
   int eventId,
   String type,
 ) {
-
   if (flowSize == nextPosition || nextPosition == 0) {
     Navigator.popUntil(
-        context,
-        ModalRoute.withName(
-            RouteNameBuilder.accompaniment));
+        context, ModalRoute.withName(RouteNameBuilder.accompaniment));
   } else {
     Navigator.of(context).pushNamed(
-      RouteNameBuilder.interventionType(
-          type, eventId, nextPosition, flowSize),
+      RouteNameBuilder.interventionType(type, eventId, nextPosition, flowSize),
     );
   }
+}
+
+class SensemButton extends StatelessWidget {
+  const SensemButton({
+    @required this.onPressed,
+    @required this.buttonText,
+  });
+
+  final Function onPressed;
+  final String buttonText;
+
+  @override
+  Widget build(BuildContext context) => FlatButton(
+        onPressed: onPressed,
+        color: SenSemColors.aquaGreen,
+        disabledColor: SenSemColors.disabledLightGray,
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          width: MediaQuery.of(context).size.width,
+          child: Text(
+              buttonText,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      );
 }

@@ -99,8 +99,8 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
                                     VideoPlayerController.network(
                                         media.mediaUrl);
                                 return videoPlayer = InternetVideoPlayer(
-                                  videoUrl: media.mediaUrl,
                                   videoPlayerController: videoPlayerController,
+                                  autoPlay: media.shouldAutoPlay,
                                 );
                               }
                             },
@@ -108,34 +108,29 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: FlatButton(
-                        onPressed: () async {
-                          await videoPlayerController?.pause();
-                          if (successState.intervention.next ==
-                                  successState.intervention.orderPosition ||
-                              successState.nextPage == 0) {
-                            Navigator.popUntil(
-                                context,
-                                ModalRoute.withName(
-                                    RouteNameBuilder.accompaniment));
-                          } else {
-                            await Navigator.of(context).pushNamed(
-                              RouteNameBuilder.interventionType(
-                                  successState.nextInterventionType,
-                                  widget.eventId,
-                                  successState.nextPage,
-                                  widget.flowSize),
-                            );
-                          }
-                        },
-                        color: SenSemColors.aquaGreen,
-                        child: Text(
-                          S.of(context).next,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    SensemButton(
+                      onPressed: () async {
+                        await videoPlayerController?.pause();
+                        await videoPlayerController?.dispose();
+
+                        if (successState.intervention.next ==
+                                successState.intervention.orderPosition ||
+                            successState.nextPage == 0) {
+                          Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(
+                                  RouteNameBuilder.accompaniment));
+                        } else {
+                          await Navigator.of(context).pushNamed(
+                            RouteNameBuilder.interventionType(
+                                successState.nextInterventionType,
+                                widget.eventId,
+                                successState.nextPage,
+                                widget.flowSize),
+                          );
+                        }
+                      },
+                      buttonText: S.of(context).next,
                     ),
                   ],
                 ),

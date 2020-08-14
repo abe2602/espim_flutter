@@ -159,7 +159,6 @@ class ClosedQuestionState extends State<ClosedQuestion> {
                   videoPlayerController =
                       VideoPlayerController.network(media.mediaUrl);
                   return videoPlayer = InternetVideoPlayer(
-                    videoUrl: media.mediaUrl,
                     videoPlayerController: videoPlayerController,
                   );
                 }
@@ -189,7 +188,13 @@ class ClosedQuestionState extends State<ClosedQuestion> {
                             });
                           },
                         ),
-                        Text(questionIntervention.questionAnswers[index]),
+                        Expanded(
+                          child: Text(
+                            questionIntervention.questionAnswers[index],
+                            maxLines: 2,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -198,24 +203,16 @@ class ClosedQuestionState extends State<ClosedQuestion> {
             )
             .values
             .toList(),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: FlatButton(
-            onPressed: selectedOption == -1
-                ? null
-                : () {
-                    widget.bloc.navigateToNextInterventionSink.add(
-                        questionIntervention.questionConditions[
-                            questionIntervention
-                                .questionAnswers[selectedOption]]);
-                  },
-            color: SenSemColors.aquaGreen,
-            disabledColor: SenSemColors.disabledLightGray,
-            child: Text(
-              S.of(context).next,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
+        SensemButton(
+          onPressed: selectedOption == -1
+              ? null
+              : () {
+                  widget.bloc.navigateToNextInterventionSink.add(
+                      questionIntervention.questionConditions[
+                          questionIntervention
+                              .questionAnswers[selectedOption]]);
+                },
+          buttonText: S.of(context).next,
         ),
       ],
     );
@@ -274,7 +271,7 @@ class OpenQuestionState extends State<OpenQuestion> {
               },
             ),
           ),
-          FlatButton(
+          SensemButton(
             onPressed: () {
               navigateToNextIntervention(
                 context,
@@ -284,11 +281,7 @@ class OpenQuestionState extends State<OpenQuestion> {
                 widget.successState.nextInterventionType,
               );
             },
-            color: SenSemColors.aquaGreen,
-            child: Text(
-              S.of(context).next,
-              style: const TextStyle(color: Colors.white),
-            ),
+            buttonText: S.of(context).next,
           ),
         ],
       );
