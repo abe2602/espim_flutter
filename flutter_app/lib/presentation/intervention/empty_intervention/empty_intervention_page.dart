@@ -71,6 +71,11 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
                 successWidgetBuilder: (successState) => Column(
                   children: [
                     Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.only(top: 15),
+                      child: Text('Tarefa x de x'),
+                    ),
+                    Container(
                       margin: const EdgeInsets.only(top: 20),
                       alignment: Alignment.center,
                       child: Text(
@@ -111,7 +116,6 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
                     SensemButton(
                       onPressed: () async {
                         await videoPlayerController?.pause();
-                        await videoPlayerController?.dispose();
 
                         if (successState.intervention.next ==
                                 successState.intervention.orderPosition ||

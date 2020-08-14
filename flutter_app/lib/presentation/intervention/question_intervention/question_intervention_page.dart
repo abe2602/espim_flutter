@@ -134,6 +134,11 @@ class ClosedQuestionState extends State<ClosedQuestion> {
     return Column(
       children: [
         Container(
+          alignment: Alignment.topLeft,
+          margin: const EdgeInsets.only(bottom: 10),
+          child: Text('Tarefa x de x'),
+        ),
+        Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(bottom: 18),
           child: Text(
@@ -250,6 +255,11 @@ class OpenQuestionState extends State<OpenQuestion> {
   @override
   Widget build(BuildContext context) => Column(
         children: [
+          Container(
+            alignment: Alignment.topLeft,
+            margin: const EdgeInsets.only(bottom: 10),
+            child: Text('Tarefa x de x'),
+          ),
           Text(
             widget.successState.intervention.statement,
             style: const TextStyle(
