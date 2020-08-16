@@ -12,7 +12,6 @@ import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_models.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
 
 import '../intervention_models.dart';
 
@@ -117,8 +116,6 @@ class ClosedQuestion extends StatefulWidget {
 
 class ClosedQuestionState extends State<ClosedQuestion> {
   int selectedOption;
-  InternetVideoPlayer videoPlayer;
-  VideoPlayerController videoPlayerController;
 
   @override
   void initState() {
@@ -131,95 +128,64 @@ class ClosedQuestionState extends State<ClosedQuestion> {
     final QuestionIntervention questionIntervention =
         widget.successState.intervention;
 
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          margin: const EdgeInsets.only(bottom: 10),
-          child: Text('Tarefa x de x'),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.only(bottom: 18),
-          child: Text(
-            questionIntervention.statement,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        Column(
-          children: [
-            ...questionIntervention.mediaInformation.map(
-              (media) {
-                if (media.mediaType == 'image') {
-                  return Container(
-                    padding: const EdgeInsets.all(15),
-                    child: InternetImage(
-                      url: media.mediaUrl,
-                    ),
-                  );
-                } else {
-                  videoPlayerController =
-                      VideoPlayerController.network(media.mediaUrl);
-                  return videoPlayer = InternetVideoPlayer(
-                    videoPlayerController: videoPlayerController,
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-        ...questionIntervention.questionAnswers
-            .asMap()
-            .map(
-              (index, _) => MapEntry(
-                index,
-                Card(
-                  color: SenSemColors.lightGray,
-                  margin: const EdgeInsets.only(left: 8, right: 10, bottom: 10),
-                  child: Container(
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Radio(
-                          value: index,
-                          groupValue: selectedOption,
-                          activeColor: SenSemColors.royalBlue,
-                          onChanged: (_) {
-                            setState(() {
-                              selectedOption = index;
-                            });
-                          },
-                        ),
-                        Expanded(
-                          child: Text(
-                            questionIntervention.questionAnswers[index],
-                            maxLines: 2,
-                            overflow: TextOverflow.clip,
+    return InterventionBody(
+      statement: widget.successState.intervention.statement,
+      mediaInformation: widget.successState.intervention.mediaInformation,
+      nextPage: widget.successState.nextPage,
+      next: widget.successState.intervention.next,
+      nextInterventionType: widget.successState.nextInterventionType,
+      eventId: widget.eventId,
+      flowSize: widget.flowSize,
+      orderPosition: widget.successState.intervention.orderPosition,
+      onPressed: selectedOption == -1
+          ? null
+          : () {
+              widget.bloc.navigateToNextInterventionSink.add(
+                  questionIntervention.questionConditions[
+                      questionIntervention.questionAnswers[selectedOption]]);
+            },
+      child: Column(
+        children: [
+          ...questionIntervention.questionAnswers
+              .asMap()
+              .map(
+                (index, _) => MapEntry(
+                  index,
+                  Card(
+                    color: SenSemColors.lightGray,
+                    margin:
+                        const EdgeInsets.only(left: 8, right: 10, bottom: 10),
+                    child: Container(
+                      height: 60,
+                      child: Row(
+                        children: [
+                          Radio(
+                            value: index,
+                            groupValue: selectedOption,
+                            activeColor: SenSemColors.royalBlue,
+                            onChanged: (_) {
+                              setState(() {
+                                selectedOption = index;
+                              });
+                            },
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Text(
+                              questionIntervention.questionAnswers[index],
+                              maxLines: 2,
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-            .values
-            .toList(),
-        SensemButton(
-          onPressed: selectedOption == -1
-              ? null
-              : () {
-                  widget.bloc.navigateToNextInterventionSink.add(
-                      questionIntervention.questionConditions[
-                          questionIntervention
-                              .questionAnswers[selectedOption]]);
-                },
-          buttonText: S.of(context).next,
-        ),
-      ],
+              )
+              .values
+              .toList(),
+        ],
+      ),
     );
   }
 }
@@ -253,46 +219,37 @@ class OpenQuestionState extends State<OpenQuestion> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Container(
-            alignment: Alignment.topLeft,
-            margin: const EdgeInsets.only(bottom: 10),
-            child: Text('Tarefa x de x'),
-          ),
-          Text(
-            widget.successState.intervention.statement,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: FormTextField(
-              statusStream: widget.bloc.openQuestionInputStatusStream,
-              focusNode: _openQuestionFocusNode,
-              labelText: S.of(context).openQuestionLabel,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.done,
-              onChanged: widget.bloc.onOpenQuestionValueChangedSink.add,
-              onEditingComplete: () {
-                FocusScope.of(context).unfocus();
-              },
-            ),
-          ),
-          SensemButton(
-            onPressed: () {
-              navigateToNextIntervention(
-                context,
-                widget.successState.nextPage,
-                widget.flowSize,
-                widget.eventId,
-                widget.successState.nextInterventionType,
-              );
+  Widget build(BuildContext context) => InterventionBody(
+        statement: widget.successState.intervention.statement,
+        mediaInformation: widget.successState.intervention.mediaInformation,
+        nextPage: widget.successState.nextPage,
+        next: widget.successState.intervention.next,
+        nextInterventionType: widget.successState.nextInterventionType,
+        eventId: widget.eventId,
+        flowSize: widget.flowSize,
+        orderPosition: widget.successState.intervention.orderPosition,
+        onPressed: () {
+          navigateToNextIntervention(
+            context,
+            widget.successState.nextPage,
+            widget.flowSize,
+            widget.eventId,
+            widget.successState.nextInterventionType,
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
+          child: FormTextField(
+            statusStream: widget.bloc.openQuestionInputStatusStream,
+            focusNode: _openQuestionFocusNode,
+            labelText: S.of(context).openQuestionLabel,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.done,
+            onChanged: widget.bloc.onOpenQuestionValueChangedSink.add,
+            onEditingComplete: () {
+              FocusScope.of(context).unfocus();
             },
-            buttonText: S.of(context).next,
           ),
-        ],
+        ),
       );
 }

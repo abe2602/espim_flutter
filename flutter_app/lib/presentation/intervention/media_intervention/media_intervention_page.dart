@@ -86,111 +86,19 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
               snapshot: snapshot,
               successWidgetBuilder: (successState) => Container(
                 margin: const EdgeInsets.all(15),
-               // height: MediaQuery.of(context).size.height,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      transform: Matrix4.translationValues(0, -10, 0),
-                      child: Text('Tarefa x de x'),
-                    ),
-                    Container(
-                      transform: Matrix4.translationValues(0, 0, 0),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              successState.intervention.statement ??
-                                  S.of(context).upload_files,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              captureMedia(ImageSource.camera, 'video');
-                            },
-                            child: _cameraFile == null
-                                ? Stack(
-                                    alignment: AlignmentDirectional.center,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 18),
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                3,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        color: SenSemColors.lightGray2,
-                                      ),
-                                      Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 15),
-                                            child:
-                                                Image.asset('images/file.png'),
-                                          ),
-                                          Text(
-                                            S
-                                                .of(context)
-                                                .upload_files_action_label,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: SenSemColors.mediumGray,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                : CameraFile(
-                                    cameraFile: _cameraFile,
-                                    changeFileAction: () {
-                                      captureMedia(ImageSource.camera, 'video');
-                                    },
-                                    fileWidget: successState.mediaType !=
-                                            'video'
-                                        ? InternetVideoPlayer(
-                                            videoPlayerController:
-                                                videoPlayerController,
-                                            autoPlay: false,
-                                          )
-                                        : Column(
-                                            children: [
-                                              Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    4,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2,
-                                                child: FittedBox(
-                                                  fit: BoxFit.fill,
-                                                  child:
-                                                      Image.file(_cameraFile),
-                                                ),
-                                              ),
-                                              Text(
-                                                _cameraFile.path
-                                                    .split('/')
-                                                    .last,
-                                                overflow: TextOverflow.fade,
-                                              ),
-                                            ],
-                                          ),
-                                  ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SensemButton(
+                    InterventionBody(
+                      statement: successState.intervention.statement,
+                      mediaInformation:
+                          successState.intervention.mediaInformation,
+                      nextPage: successState.nextPage,
+                      next: successState.intervention.next,
+                      nextInterventionType: successState.nextInterventionType,
+                      eventId: widget.eventId,
+                      flowSize: widget.flowSize,
+                      orderPosition: successState.intervention.orderPosition,
                       onPressed: _cameraFile == null
                           ? null
                           : () async {
@@ -213,7 +121,94 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
                                 );
                               }
                             },
-                      buttonText: S.of(context).next,
+                      child: Container(
+                        transform: Matrix4.translationValues(0, 0, 0),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                captureMedia(
+                                    ImageSource.camera, successState.mediaType);
+                              },
+                              child: _cameraFile == null
+                                  ? Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      children: [
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(top: 18),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          color: SenSemColors.lightGray2,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 15),
+                                              child: Image.asset(
+                                                  'images/file.png'),
+                                            ),
+                                            Text(
+                                              S
+                                                  .of(context)
+                                                  .upload_files_action_label,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: SenSemColors.mediumGray,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  : CameraFile(
+                                      cameraFile: _cameraFile,
+                                      changeFileAction: () {
+                                        captureMedia(ImageSource.camera,
+                                            successState.mediaType);
+                                      },
+                                      fileWidget: successState.mediaType ==
+                                              'video'
+                                          ? InternetVideoPlayer(
+                                              videoPlayerController:
+                                                  videoPlayerController,
+                                              autoPlay: false,
+                                            )
+                                          : Column(
+                                              children: [
+                                                Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      4,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2,
+                                                  child: FittedBox(
+                                                    fit: BoxFit.fill,
+                                                    child:
+                                                        Image.file(_cameraFile),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  _cameraFile.path
+                                                      .split('/')
+                                                      .last,
+                                                  overflow: TextOverflow.fade,
+                                                ),
+                                              ],
+                                            ),
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

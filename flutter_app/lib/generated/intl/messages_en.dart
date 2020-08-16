@@ -21,12 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(howMany) => "${Intl.plural(howMany, one: '1 ongoing event', other: '${howMany} ongoing events')}";
 
+  static m1(currentPage, flowSize) => "Task ${currentPage} of ${flowSize}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "begin_label" : MessageLookupByLibrary.simpleMessage("BEGIN"),
     "change_file_label" : MessageLookupByLibrary.simpleMessage("Change file"),
     "emptyFieldError" : MessageLookupByLibrary.simpleMessage("Empty Field"),
     "events_label" : MessageLookupByLibrary.simpleMessage("Events"),
+    "finish" : MessageLookupByLibrary.simpleMessage("Finish"),
     "google_sign_in" : MessageLookupByLibrary.simpleMessage("Sign in with Google!"),
     "got_it_label" : MessageLookupByLibrary.simpleMessage("GOT IT"),
     "invalidFieldError" : MessageLookupByLibrary.simpleMessage("Invalid Field"),
@@ -45,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sensem_label" : MessageLookupByLibrary.simpleMessage("SENSEM"),
     "settings_label" : MessageLookupByLibrary.simpleMessage("Settings"),
     "sign_out_label" : MessageLookupByLibrary.simpleMessage("Sign out"),
+    "task_flow_pages" : m1,
     "tasks_description" : MessageLookupByLibrary.simpleMessage("The tasks can be varied, such as answering questions, taking a picture, or recording an audio."),
     "tasks_label" : MessageLookupByLibrary.simpleMessage("TASKS"),
     "upload_files" : MessageLookupByLibrary.simpleMessage("Upload files"),

@@ -48,8 +48,6 @@ class EmptyInterventionPage extends StatefulWidget {
 }
 
 class EmptyInterventionPageState extends State<EmptyInterventionPage> {
-  InternetVideoPlayer videoPlayer;
-  VideoPlayerController videoPlayerController;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -68,75 +66,24 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
               builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
                   Error, EmptyInterventionSuccess>(
                 snapshot: snapshot,
-                successWidgetBuilder: (successState) => Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      margin: const EdgeInsets.only(top: 15),
-                      child: Text('Tarefa x de x'),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      alignment: Alignment.center,
-                      child: Text(
-                        successState.intervention.statement,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 20,
-                        bottom: 20,
-                      ),
-                      child: Column(
-                        children: [
-                          ...successState.intervention.mediaInformation.map(
-                            (media) {
-                              if (media.mediaType == 'image') {
-                                return InternetImage(
-                                  url: media.mediaUrl,
-                                );
-                              } else {
-                                videoPlayerController =
-                                    VideoPlayerController.network(
-                                        media.mediaUrl);
-                                return videoPlayer = InternetVideoPlayer(
-                                  videoPlayerController: videoPlayerController,
-                                  autoPlay: media.shouldAutoPlay,
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    SensemButton(
-                      onPressed: () async {
-                        await videoPlayerController?.pause();
-
-                        if (successState.intervention.next ==
-                                successState.intervention.orderPosition ||
-                            successState.nextPage == 0) {
-                          Navigator.popUntil(
-                              context,
-                              ModalRoute.withName(
-                                  RouteNameBuilder.accompaniment));
-                        } else {
-                          await Navigator.of(context).pushNamed(
-                            RouteNameBuilder.interventionType(
-                                successState.nextInterventionType,
-                                widget.eventId,
-                                successState.nextPage,
-                                widget.flowSize),
-                          );
-                        }
-                      },
-                      buttonText: S.of(context).next,
-                    ),
-                  ],
+                successWidgetBuilder: (successState) => InterventionBody(
+                  statement: successState.intervention.statement,
+                  mediaInformation: successState.intervention.mediaInformation,
+                  nextPage: successState.nextPage,
+                  next: successState.intervention.next,
+                  nextInterventionType: successState.nextInterventionType,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
+                  orderPosition: successState.intervention.orderPosition,
+                  onPressed: () {
+                    navigateToNextIntervention(
+                      context,
+                      successState.nextPage,
+                      widget.flowSize,
+                      widget.eventId,
+                      successState.nextInterventionType,
+                    );
+                  },
                 ),
                 errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
               ),

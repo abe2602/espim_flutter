@@ -275,6 +275,16 @@ class S {
     );
   }
 
+  /// `Finish`
+  String get finish {
+    return Intl.message(
+      'Finish',
+      name: 'finish',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Upload files`
   String get upload_files {
     return Intl.message(
@@ -302,6 +312,16 @@ class S {
       name: 'change_file_label',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Task {currentPage} of {flowSize}`
+  String task_flow_pages(Object currentPage, Object flowSize) {
+    return Intl.message(
+      'Task $currentPage of $flowSize',
+      name: 'task_flow_pages',
+      desc: '',
+      args: [currentPage, flowSize],
     );
   }
 }
