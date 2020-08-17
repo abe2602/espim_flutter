@@ -90,6 +90,8 @@ class QuestionInterventionBloc with SubscriptionBag {
   }
 
   Stream<InterventionResponseState> _getIntervention() async* {
+    yield Loading();
+
     try {
       final currentIntervention = await getInterventionUC.getFuture(
         params: GetInterventionUCParams(

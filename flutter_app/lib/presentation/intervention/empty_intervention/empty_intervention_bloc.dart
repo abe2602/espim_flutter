@@ -34,6 +34,8 @@ class EmptyInterventionBloc with SubscriptionBag {
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
   Stream<InterventionResponseState> _getIntervention() async* {
+    yield Loading();
+
     try {
       Intervention nextIntervention;
       final EmptyIntervention currentIntervention =
@@ -53,7 +55,9 @@ class EmptyInterventionBloc with SubscriptionBag {
           nextPage: currentIntervention.next,
           intervention: currentIntervention,
           nextInterventionType: nextIntervention?.type ?? '');
-    } catch (error) {}
+    } catch (error) {
+      yield Error();
+    }
   }
 
   void dispose() {

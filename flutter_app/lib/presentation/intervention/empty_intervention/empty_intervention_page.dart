@@ -13,7 +13,7 @@ import 'package:video_player/video_player.dart';
 import '../intervention_models.dart';
 import 'empty_intervention_models.dart';
 
-class EmptyInterventionPage extends StatefulWidget {
+class EmptyInterventionPage extends StatelessWidget {
   const EmptyInterventionPage({
     @required this.bloc,
     @required this.eventId,
@@ -44,12 +44,6 @@ class EmptyInterventionPage extends StatefulWidget {
       );
 
   @override
-  State<StatefulWidget> createState() => EmptyInterventionPageState();
-}
-
-class EmptyInterventionPageState extends State<EmptyInterventionPage> {
-
-  @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Acompanhamentos'),
@@ -62,7 +56,7 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
               left: 15,
             ),
             child: StreamBuilder(
-              stream: widget.bloc.onNewState,
+              stream: bloc.onNewState,
               builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
                   Error, EmptyInterventionSuccess>(
                 snapshot: snapshot,
@@ -72,15 +66,15 @@ class EmptyInterventionPageState extends State<EmptyInterventionPage> {
                   nextPage: successState.nextPage,
                   next: successState.intervention.next,
                   nextInterventionType: successState.nextInterventionType,
-                  eventId: widget.eventId,
-                  flowSize: widget.flowSize,
+                  eventId: eventId,
+                  flowSize: flowSize,
                   orderPosition: successState.intervention.orderPosition,
                   onPressed: () {
                     navigateToNextIntervention(
                       context,
                       successState.nextPage,
-                      widget.flowSize,
-                      widget.eventId,
+                      flowSize,
+                      eventId,
                       successState.nextInterventionType,
                     );
                   },

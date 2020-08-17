@@ -63,7 +63,11 @@ Future<void> main() async {
       '${RouteNameBuilder.taskIntervention}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (context, _) => TaskInterventionPage(),
+        handlerFunc: (_, params) => TaskInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
       ),
     )
     ..define(

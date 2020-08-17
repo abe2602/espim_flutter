@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notifications_label" : MessageLookupByLibrary.simpleMessage("NOTIFICATIONS"),
     "ongoing_events" : m0,
     "openQuestionLabel" : MessageLookupByLibrary.simpleMessage("Answer"),
+    "open_outside_link" : MessageLookupByLibrary.simpleMessage("Start"),
     "question_label" : MessageLookupByLibrary.simpleMessage("Question"),
     "refresh_label" : MessageLookupByLibrary.simpleMessage("Refresh"),
     "sensem_description" : MessageLookupByLibrary.simpleMessage("SENSEM is an application used to receive and execute tasks. Your doctor, your therapist, your family or even you can schedule these tasks in this website: espim.com.br"),

@@ -27,5 +27,6 @@
   "upload_files": "Upload files",
   "upload_files_action_label" : "Touch to upload files",
   "change_file_label": "Change file",
-  "task_flow_pages": "Task {currentPage} of {flowSize}"
+  "task_flow_pages": "Task {currentPage} of {flowSize}",
+  "open_outside_link": "Start"
 }

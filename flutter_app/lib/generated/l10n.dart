@@ -324,6 +324,16 @@ class S {
       args: [currentPage, flowSize],
     );
   }
+
+  /// `Start`
+  String get open_outside_link {
+    return Intl.message(
+      'Start',
+      name: 'open_outside_link',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

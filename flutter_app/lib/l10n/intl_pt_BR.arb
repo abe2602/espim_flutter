@@ -26,5 +26,6 @@
   "upload_files": "Upload de arquivo",
   "upload_files_action_label" : "Toque parea fazer o upload do arquivo",
   "change_file_label": "Substituir arquivo",
-  "task_flow_pages": "Task {currentPage} of {flowSize}"
+  "task_flow_pages": "Tarefa {currentPage} de {flowSize}",
+  "open_outside_link": "Iniciar"
 }

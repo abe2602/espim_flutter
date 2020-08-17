@@ -29,6 +29,8 @@ class MediaInterventionBloc with SubscriptionBag {
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
   Stream<InterventionResponseState> _getIntervention() async* {
+    yield Loading();
+
     try {
       final MediaIntervention currentIntervention =
           await getInterventionUC.getFuture(

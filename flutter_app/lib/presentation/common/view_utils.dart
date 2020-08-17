@@ -211,14 +211,14 @@ class InterventionBodyState extends State<InterventionBody> {
         },
         child: Column(
           children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                S
-                    .of(context)
-                    .task_flow_pages(widget.orderPosition, widget.flowSize),
-              ),
-            ),
+//            Container(
+//              alignment: Alignment.topLeft,
+//              child: Text(
+//                S
+//                    .of(context)
+//                    .task_flow_pages(widget.orderPosition, widget.flowSize),
+//              ),
+//            ),
             Container(
               margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.centerLeft,
@@ -265,7 +265,7 @@ class InterventionBodyState extends State<InterventionBody> {
             ),
             SensemButton(
               onPressed: widget.onPressed,
-              buttonText: widget.orderPosition == widget.flowSize
+              buttonText: widget.next == widget.flowSize || widget.next == 0
                   ? S.of(context).finish
                   : S.of(context).next,
             ),
