@@ -8,13 +8,13 @@ part of 'observer_cm.dart';
 
 class ObserverCMAdapter extends TypeAdapter<ObserverCM> {
   @override
-  final typeId = 5;
+  final int typeId = 5;
 
   @override
   ObserverCM read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ObserverCM(
       id: fields[0] as int,
@@ -46,4 +46,14 @@ class ObserverCMAdapter extends TypeAdapter<ObserverCM> {
       ..writeByte(6)
       ..write(obj.observerContacts);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ObserverCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

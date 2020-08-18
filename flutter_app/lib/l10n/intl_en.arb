@@ -28,5 +28,15 @@
   "upload_files_action_label" : "Touch to upload files",
   "change_file_label": "Change file",
   "task_flow_pages": "Task {currentPage} of {flowSize}",
-  "open_outside_link": "Start"
+  "open_outside_link": "Start",
+  "home_address_title_label": "Set home address",
+  "home_address_subtitle_label": "Current address: {address}",
+  "delete_medias_title_label": "Delete medias to free up space",
+  "delete_medias_subtitle_label": "Delete medias that were downloaded nd captured using the SENSEM",
+  "enable_notifications_title_label": "Enable notification on doze media",
+  "enable_notifications_subtitle_label": "Enable accurate notifications",
+  "enable_mobile_network_title_label": "Enable mobile network usage",
+  "enable_mobile_network_subtitle_label": "Enable or disable 3G/4G utilization",
+  "landscape_layout_mode_title_label": "Landscape layout",
+  "landscape_layout_mode_subtitle_label": "Changes layout orientation"
 }

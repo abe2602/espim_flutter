@@ -8,13 +8,13 @@ part of 'event_trigger_cm.dart';
 
 class EventTriggerCMAdapter extends TypeAdapter<EventTriggerCM> {
   @override
-  final typeId = 2;
+  final int typeId = 2;
 
   @override
   EventTriggerCM read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EventTriggerCM(
       id: fields[0] as int,
@@ -40,4 +40,14 @@ class EventTriggerCMAdapter extends TypeAdapter<EventTriggerCM> {
       ..writeByte(4)
       ..write(obj.timeOut);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EventTriggerCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

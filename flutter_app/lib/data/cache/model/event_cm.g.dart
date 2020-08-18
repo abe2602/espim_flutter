@@ -8,13 +8,13 @@ part of 'event_cm.dart';
 
 class EventCMAdapter extends TypeAdapter<EventCM> {
   @override
-  final typeId = 1;
+  final int typeId = 1;
 
   @override
   EventCM read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EventCM(
       id: fields[0] as int,
@@ -43,4 +43,14 @@ class EventCMAdapter extends TypeAdapter<EventCM> {
       ..writeByte(5)
       ..write(obj.interventionList);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EventCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

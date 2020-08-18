@@ -27,5 +27,15 @@
   "upload_files_action_label" : "Toque parea fazer o upload do arquivo",
   "change_file_label": "Substituir arquivo",
   "task_flow_pages": "Tarefa {currentPage} de {flowSize}",
-  "open_outside_link": "Iniciar"
+  "open_outside_link": "Iniciar",
+  "home_address_title_label": "Defina seu endereço",
+  "home_address_subtitle_label": "Endereço atual: {address}",
+  "delete_medias_title_label": "Apagar mídias para liberar espaço",
+  "delete_medias_subtitle_label": "Apague as mídias baixadas e capturadas pelo SENSEM",
+  "enable_notifications_title_label": "Habilitar notificações de mídias agendadas",
+  "enable_notifications_subtitle_label": "Habilitar notificações",
+  "enable_mobile_network_title_label": "Habilitar uso de rede movel",
+  "enable_mobile_network_subtitle_label": "Habilitar ou desbilitar uso de 3G/4G",
+  "landscape_layout_mode_title_label": "Tela na horizontal",
+  "landscape_layout_mode_subtitle_label": "Mudar a orientação da tela"
 }

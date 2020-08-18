@@ -334,6 +334,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Set home address`
+  String get home_address_title_label {
+    return Intl.message(
+      'Set home address',
+      name: 'home_address_title_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current address: {address}`
+  String home_address_subtitle_label(Object address) {
+    return Intl.message(
+      'Current address: $address',
+      name: 'home_address_subtitle_label',
+      desc: '',
+      args: [address],
+    );
+  }
+
+  /// `Delete medias to free up space`
+  String get delete_medias_title_label {
+    return Intl.message(
+      'Delete medias to free up space',
+      name: 'delete_medias_title_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete medias that were downloaded nd captured using the SENSEM`
+  String get delete_medias_subtitle_label {
+    return Intl.message(
+      'Delete medias that were downloaded nd captured using the SENSEM',
+      name: 'delete_medias_subtitle_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable notification on doze media`
+  String get enable_notifications_title_label {
+    return Intl.message(
+      'Enable notification on doze media',
+      name: 'enable_notifications_title_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable accurate notifications`
+  String get enable_notifications_subtitle_label {
+    return Intl.message(
+      'Enable accurate notifications',
+      name: 'enable_notifications_subtitle_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable mobile network usage`
+  String get enable_mobile_network_title_label {
+    return Intl.message(
+      'Enable mobile network usage',
+      name: 'enable_mobile_network_title_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable or disable 3G/4G utilization`
+  String get enable_mobile_network_subtitle_label {
+    return Intl.message(
+      'Enable or disable 3G/4G utilization',
+      name: 'enable_mobile_network_subtitle_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Landscape layout`
+  String get landscape_layout_mode_title_label {
+    return Intl.message(
+      'Landscape layout',
+      name: 'landscape_layout_mode_title_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes layout orientation`
+  String get landscape_layout_mode_subtitle_label {
+    return Intl.message(
+      'Changes layout orientation',
+      name: 'landscape_layout_mode_subtitle_label',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
