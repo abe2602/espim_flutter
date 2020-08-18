@@ -50,18 +50,23 @@ class EventsListPage extends StatelessWidget {
         title: Text(S.of(context).events_label),
         actions: <Widget>[
           PopupMenuButton<String>(
-            onSelected: (context) {},
+            onSelected: (_) {
+              //Navigator.pop(context);
+            },
             itemBuilder: (context) => _appBarOptions
                 .map(
                   (choice) => PopupMenuItem<String>(
                     value: choice,
                     child: GestureDetector(
                       onTap: () {
+                        Navigator.pop(context);
                         if (choice == S.of(context).settings_label) {
                           Navigator.of(context, rootNavigator: true)
                               .pushNamed(RouteNameBuilder.settingsPage());
                         } else if (choice == S.of(context).sign_out_label) {
                           bloc.onLogout.add(null);
+                        } else {
+                          bloc.onTryAgain.add(null);
                         }
                       },
                       child: Text(choice),

@@ -19,20 +19,32 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_BR';
 
-  static m0(howMany) => "${Intl.plural(howMany, one: '1 evento em andamento', other: '${howMany} eventos em andamento')}";
+  static m0(address) => "Endereço atual: ${address}";
 
-  static m1(currentPage, flowSize) => "Tarefa ${currentPage} de ${flowSize}";
+  static m1(howMany) => "${Intl.plural(howMany, one: '1 evento em andamento', other: '${howMany} eventos em andamento')}";
+
+  static m2(currentPage, flowSize) => "Tarefa ${currentPage} de ${flowSize}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "begin_label" : MessageLookupByLibrary.simpleMessage("COMEÇAR"),
     "change_file_label" : MessageLookupByLibrary.simpleMessage("Substituir arquivo"),
+    "delete_medias_subtitle_label" : MessageLookupByLibrary.simpleMessage("Apague as mídias baixadas e capturadas pelo SENSEM"),
+    "delete_medias_title_label" : MessageLookupByLibrary.simpleMessage("Apagar mídias para liberar espaço"),
     "emptyFieldError" : MessageLookupByLibrary.simpleMessage("Campo Vazio"),
+    "enable_mobile_network_subtitle_label" : MessageLookupByLibrary.simpleMessage("Habilitar ou desbilitar uso de 3G/4G"),
+    "enable_mobile_network_title_label" : MessageLookupByLibrary.simpleMessage("Habilitar uso de rede movel"),
+    "enable_notifications_subtitle_label" : MessageLookupByLibrary.simpleMessage("Habilitar notificações"),
+    "enable_notifications_title_label" : MessageLookupByLibrary.simpleMessage("Habilitar notificações de mídias agendadas"),
     "events_label" : MessageLookupByLibrary.simpleMessage("Eventos"),
     "finish" : MessageLookupByLibrary.simpleMessage("Finalizar"),
     "google_sign_in" : MessageLookupByLibrary.simpleMessage("Entre com o Google!"),
     "got_it_label" : MessageLookupByLibrary.simpleMessage("ENTENDI"),
+    "home_address_subtitle_label" : m0,
+    "home_address_title_label" : MessageLookupByLibrary.simpleMessage("Defina seu endereço"),
     "invalidFieldError" : MessageLookupByLibrary.simpleMessage("Formato Invalido"),
+    "landscape_layout_mode_subtitle_label" : MessageLookupByLibrary.simpleMessage("Mudar a orientação da tela"),
+    "landscape_layout_mode_title_label" : MessageLookupByLibrary.simpleMessage("Tela na horizontal"),
     "next" : MessageLookupByLibrary.simpleMessage("Continuar"),
     "no_events_description" : MessageLookupByLibrary.simpleMessage("Você ainda não possui eventos"),
     "no_events_label" : MessageLookupByLibrary.simpleMessage("Nenhum evento"),
@@ -40,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "non_blocking_no_internet_error_message" : MessageLookupByLibrary.simpleMessage("Parece que você está offline \n Tente se conectar à uma rede Wifi!"),
     "notifications_description" : MessageLookupByLibrary.simpleMessage("Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme."),
     "notifications_label" : MessageLookupByLibrary.simpleMessage("NOTIFICAÇÃO"),
-    "ongoing_events" : m0,
+    "ongoing_events" : m1,
     "open_outside_link" : MessageLookupByLibrary.simpleMessage("Iniciar"),
     "question_label" : MessageLookupByLibrary.simpleMessage("Pergunta"),
     "refresh_label" : MessageLookupByLibrary.simpleMessage("Atualizar"),
@@ -48,7 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sensem_label" : MessageLookupByLibrary.simpleMessage("SENSEM"),
     "settings_label" : MessageLookupByLibrary.simpleMessage("Configurações"),
     "sign_out_label" : MessageLookupByLibrary.simpleMessage("Sair"),
-    "task_flow_pages" : m1,
+    "task_flow_pages" : m2,
     "tasks_description" : MessageLookupByLibrary.simpleMessage("Existe uma variedade de tarefas, como responder perguntas, tirar uma foto, ou gravar um áudio."),
     "tasks_label" : MessageLookupByLibrary.simpleMessage("TAREFAS"),
     "upload_files" : MessageLookupByLibrary.simpleMessage("Upload de arquivo"),

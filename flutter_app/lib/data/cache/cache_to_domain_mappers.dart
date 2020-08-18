@@ -4,13 +4,23 @@ import 'package:domain/model/intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/question_intervention.dart';
+import 'package:domain/model/settings.dart';
 import 'package:domain/model/task_intervention.dart';
 import 'package:domain/model/task_parameter.dart';
+import 'package:flutter_app/data/cache/model/settings_cm.dart';
 
 import 'model/complex_condition_cm.dart';
 import 'model/intervention_cm.dart';
 import 'model/media_information_cm.dart';
 import 'model/task_parameter_cm.dart';
+
+extension SettingsCMtoDM on SettingsCM {
+  Settings toDM() => Settings(
+        isLandscape: isLandscape,
+        isMobileNetworkEnabled: isMobileNetworkEnabled,
+        isNotificationOnMediaEnabled: isMobileNetworkEnabled,
+      );
+}
 
 extension InterventionCMToDM on InterventionCM {
   Intervention toDM() {
@@ -85,33 +95,33 @@ extension InterventionCMToDM on InterventionCM {
 extension MediaInformationListCMtoDM on List<MediaInformationCM> {
   List<MediaInformation> toDM() => map(
         (mediaInformation) => mediaInformation.toDM(),
-  ).toList();
+      ).toList();
 }
 
 extension ComplexConditionListCMtoDM on List<ComplexConditionCM> {
   List<ComplexCondition> toDM() => map(
         (complexCondition) => complexCondition.toDM(),
-  ).toList();
+      ).toList();
 }
 
 extension ComplexConditionCMtoDM on ComplexConditionCM {
   ComplexCondition toDM() => ComplexCondition(
-    dependencyCondition: dependencyCondition,
-    complexAction: complexAction,
-  );
+        dependencyCondition: dependencyCondition,
+        complexAction: complexAction,
+      );
 }
 
 extension TaskParameterCMtoDM on TaskParameterCM {
   TaskParameter toDM() => TaskParameter(
-    videoUrl: videoUrl,
-  );
+        videoUrl: videoUrl,
+      );
 }
 
 extension MediaInformationCMtoDM on MediaInformationCM {
   MediaInformation toDM() => MediaInformation(
-    id: id,
-    mediaType: mediaType,
-    mediaUrl: mediaUrl,
-    shouldAutoPlay: shouldAutoPlay,
-  );
+        id: id,
+        mediaType: mediaType,
+        mediaUrl: mediaUrl,
+        shouldAutoPlay: shouldAutoPlay,
+      );
 }

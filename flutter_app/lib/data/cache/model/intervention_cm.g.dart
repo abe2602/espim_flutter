@@ -8,13 +8,13 @@ part of 'intervention_cm.dart';
 
 class InterventionCMAdapter extends TypeAdapter<InterventionCM> {
   @override
-  final typeId = 3;
+  final int typeId = 3;
 
   @override
   InterventionCM read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return InterventionCM(
       type: fields[0] as String,
@@ -73,4 +73,14 @@ class InterventionCMAdapter extends TypeAdapter<InterventionCM> {
       ..writeByte(15)
       ..write(obj.mediaType);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is InterventionCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

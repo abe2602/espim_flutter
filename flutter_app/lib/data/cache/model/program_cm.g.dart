@@ -8,13 +8,13 @@ part of 'program_cm.dart';
 
 class ProgramCMAdapter extends TypeAdapter<ProgramCM> {
   @override
-  final typeId = 7;
+  final int typeId = 7;
 
   @override
   ProgramCM read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProgramCM(
       title: fields[0] as String,
@@ -55,4 +55,14 @@ class ProgramCMAdapter extends TypeAdapter<ProgramCM> {
       ..writeByte(9)
       ..write(obj.eventList);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProgramCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

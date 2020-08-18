@@ -8,13 +8,13 @@ part of 'participant_cm.dart';
 
 class ParticipantCMAdapter extends TypeAdapter<ParticipantCM> {
   @override
-  final typeId = 6;
+  final int typeId = 6;
 
   @override
   ParticipantCM read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ParticipantCM(
       id: fields[0] as int,
@@ -43,4 +43,14 @@ class ParticipantCMAdapter extends TypeAdapter<ParticipantCM> {
       ..writeByte(5)
       ..write(obj.nickName);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ParticipantCMAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

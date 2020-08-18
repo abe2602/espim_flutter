@@ -1,35 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'complex_condition_cm.dart';
+part of 'settings_cm.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ComplexConditionCMAdapter extends TypeAdapter<ComplexConditionCM> {
+class SettingsCMAdapter extends TypeAdapter<SettingsCM> {
   @override
-  final int typeId = 0;
+  final int typeId = 10;
 
   @override
-  ComplexConditionCM read(BinaryReader reader) {
+  SettingsCM read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ComplexConditionCM(
-      dependencyCondition: fields[0] as int,
-      complexAction: fields[1] as String,
+    return SettingsCM(
+      isLandscape: fields[0] as bool,
+      isMobileNetworkEnabled: fields[1] as bool,
+      isNotificationOnMediaEnabled: fields[2] as bool,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ComplexConditionCM obj) {
+  void write(BinaryWriter writer, SettingsCM obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.dependencyCondition)
+      ..write(obj.isLandscape)
       ..writeByte(1)
-      ..write(obj.complexAction);
+      ..write(obj.isMobileNetworkEnabled)
+      ..writeByte(2)
+      ..write(obj.isNotificationOnMediaEnabled);
   }
 
   @override
@@ -38,7 +41,7 @@ class ComplexConditionCMAdapter extends TypeAdapter<ComplexConditionCM> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ComplexConditionCMAdapter &&
+      other is SettingsCMAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -5,7 +5,9 @@ import 'package:domain/use_case/get_programs_list_uc.dart';
 import 'package:domain/use_case/get_actives_events_list_uc.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
+import 'package:domain/use_case/change_settings_uc.dart';
 import 'package:domain/use_case/login_uc.dart';
+import 'package:domain/use_case/get_settings_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
 import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
@@ -101,6 +103,16 @@ class GeneralProvider extends StatelessWidget {
   List<SingleChildWidget> _buildUseCaseProviders() => [
         Provider<ValidateOpenQuestionTextUC>(
           create: (context) => ValidateOpenQuestionTextUC(),
+        ),
+        ProxyProvider<UserDataRepository, GetSettingsUC>(
+          update: (context, userRepository, _) => GetSettingsUC(
+            userRepository: userRepository,
+          ),
+        ),
+        ProxyProvider<UserDataRepository, ChangeSettingsUC>(
+          update: (context, userRepository, _) => ChangeSettingsUC(
+            userRepository: userRepository,
+          ),
         ),
         ProxyProvider<ProgramDataRepository, GetProgramsListUC>(
           update: (context, programsRepository, _) => GetProgramsListUC(
