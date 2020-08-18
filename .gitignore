@@ -22,6 +22,9 @@
 
 # Flutter/Dart/Pub related
 **/doc/api/
+**/ios/Flutter/.last_build_id
+**/android/google-services.json
+**/android/app/google-services.json
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -29,7 +32,6 @@
 .pub-cache/
 .pub/
 /build/
-/lib/generated
 
 # Web related
 lib/generated_plugin_registrant.dart
