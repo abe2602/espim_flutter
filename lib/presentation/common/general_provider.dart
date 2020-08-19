@@ -77,13 +77,14 @@ class GeneralProvider extends StatelessWidget {
       ];
 
   List<SingleChildWidget> _buildRepositoryProviders() => [
-        ProxyProvider3<ProgramsRDS, UserCDS, ProgramsCDS,
+        ProxyProvider4<ProgramsRDS, UserCDS, ProgramsCDS, AuthRDS,
             ProgramDataRepository>(
-          update: (context, eventsRDS, userCDS, programsCDS, _) =>
+          update: (context, eventsRDS, userCDS, programsCDS, authRDS, _) =>
               ProgramsRepository(
             programsRDS: eventsRDS,
             userCDS: userCDS,
             programsCDS: programsCDS,
+            authRDS: authRDS,
           ),
         ),
         ProxyProvider2<AuthRDS, UserCDS, AuthDataRepository>(

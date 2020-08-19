@@ -9,8 +9,9 @@ class ProgramsRDS {
 
   final Dio dio;
 
-  Future<List<ProgramRM>> getProgramList(String email) =>
-      dio.get('programs/search/findByParticipantsEmail/?email=$email').then(
+  Future<List<ProgramRM>> getProgramList(String email) => dio
+          .get('programs/search/findByParticipantsEmail/?email=$email')
+          .then(
             (programs) => List<ProgramRM>.from(
               programs.data.map(
                 (program) => ProgramRM.fromJson(program),
