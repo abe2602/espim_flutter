@@ -1,8 +1,5 @@
 import 'package:domain/model/event.dart';
-import 'package:domain/model/intervention.dart';
-import 'package:domain/model/program.dart';
 import 'package:domain/use_case/get_actives_events_list_uc.dart';
-import 'package:domain/use_case/get_programs_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
 import 'package:flutter/cupertino.dart';

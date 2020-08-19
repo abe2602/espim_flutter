@@ -1,7 +1,7 @@
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/intervention.dart';
-import 'package:flutter/widgets.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:rxdart/rxdart.dart';

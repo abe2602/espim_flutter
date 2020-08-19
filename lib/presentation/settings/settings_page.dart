@@ -1,10 +1,10 @@
-import 'package:domain/use_case/get_settings_uc.dart';
 import 'package:domain/use_case/change_settings_uc.dart';
+import 'package:domain/use_case/get_settings_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
-import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/settings/settings_bloc.dart';
 import 'package:flutter_app/presentation/settings/settings_models.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,6 @@
 import 'package:domain/model/question_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
+import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_app/presentation/common/form_text_field.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
-import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_models.dart';
 import 'package:provider/provider.dart';

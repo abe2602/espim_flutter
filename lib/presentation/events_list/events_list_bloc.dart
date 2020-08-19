@@ -1,5 +1,6 @@
 import 'package:domain/exceptions.dart';
 import 'package:domain/model/event.dart';
+import 'package:domain/model/user.dart';
 import 'package:domain/use_case/get_actives_events_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/events_list/events_list_models.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:domain/model/user.dart';
 
 class EventsListBloc with SubscriptionBag {
   EventsListBloc({

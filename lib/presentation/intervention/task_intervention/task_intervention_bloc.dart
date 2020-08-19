@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'task_intervention_models.dart';
 

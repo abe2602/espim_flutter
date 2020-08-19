@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
+
 import 'landing_bloc.dart';
 
 class LandingPage extends StatefulWidget {

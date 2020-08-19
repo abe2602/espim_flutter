@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
