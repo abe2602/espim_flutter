@@ -1,10 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:domain/exceptions.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/data/remote/model/login_rm.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 //todo: Integrar com o server do Intermedia

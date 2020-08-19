@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:rxdart/rxdart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LandingBloc with SubscriptionBag {
   LandingBloc({@required this.markLandingPageAsSeenUC})

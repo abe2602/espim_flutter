@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../exceptions.dart';
 import 'use_case.dart';
 

@@ -1,5 +1,3 @@
-import 'package:domain/model/settings.dart';
-import 'package:flutter_app/data/cache/model/intervention_cm.dart';
 import 'package:flutter_app/data/cache/model/settings_cm.dart';
 import 'package:hive/hive.dart';
 

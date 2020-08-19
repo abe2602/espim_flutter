@@ -5,7 +5,6 @@ import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_models.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'login_bloc.dart';

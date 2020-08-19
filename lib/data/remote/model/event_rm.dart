@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
 import 'package:flutter_app/data/remote/model/event_trigger_rm.dart';
 import 'package:flutter_app/data/remote/model/intervention_rm.dart';
-import 'package:flutter_app/data/remote/model/sensor_rm.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event_rm.g.dart';

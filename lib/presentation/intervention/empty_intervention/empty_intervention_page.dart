@@ -1,14 +1,10 @@
+import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
-import 'package:flutter_app/presentation/common/route_name_builder.dart';
-import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:domain/use_case/get_intervention_uc.dart';
-import 'package:video_player/video_player.dart';
 
 import '../intervention_models.dart';
 import 'empty_intervention_models.dart';

@@ -24,6 +24,7 @@ import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+
 import 'main_container/main_container_screen.dart';
 
 //todo: Estou tendo problemas para injetar o Fluro

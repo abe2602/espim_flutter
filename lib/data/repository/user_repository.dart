@@ -2,9 +2,9 @@ import 'package:domain/data_repository/user_data_repository.dart';
 import 'package:domain/model/settings.dart';
 import 'package:domain/model/user.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_app/data/cache/user_cds.dart';
-import 'package:flutter_app/data/cache/domain_to_cache_mappers.dart';
 import 'package:flutter_app/data/cache/cache_to_domain_mappers.dart';
+import 'package:flutter_app/data/cache/domain_to_cache_mappers.dart';
+import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/user_rds.dart';
 import 'package:flutter_app/data/remote/remote_to_domain_mappers.dart';
 

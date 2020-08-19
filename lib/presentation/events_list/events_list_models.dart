@@ -1,5 +1,4 @@
 import 'package:domain/model/event.dart';
-import 'package:domain/model/program.dart';
 import 'package:domain/model/user.dart';
 
 abstract class EventsListResponseState {}

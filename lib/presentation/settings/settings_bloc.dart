@@ -1,9 +1,9 @@
 import 'package:domain/model/settings.dart';
 import 'package:domain/use_case/change_settings_uc.dart';
+import 'package:domain/use_case/get_settings_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
-import 'package:domain/use_case/get_settings_uc.dart';
 import 'package:flutter_app/presentation/settings/settings_models.dart';
 import 'package:rxdart/rxdart.dart';
 
