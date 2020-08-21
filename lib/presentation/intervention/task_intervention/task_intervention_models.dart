@@ -18,7 +18,7 @@ class TaskInterventionSuccess extends Success {
 
   final String appPackage;
 
-  final TaskParameter taskParameters;
+  final Map<String, String> taskParameters;
 
   final bool startFromNotification;
 }

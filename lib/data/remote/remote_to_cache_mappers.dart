@@ -6,14 +6,12 @@ import 'package:flutter_app/data/cache/model/media_information_cm.dart';
 import 'package:flutter_app/data/cache/model/observer_cm.dart';
 import 'package:flutter_app/data/cache/model/participant_cm.dart';
 import 'package:flutter_app/data/cache/model/program_cm.dart';
-import 'package:flutter_app/data/cache/model/task_parameter_cm.dart';
 import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
 import 'package:flutter_app/data/remote/model/event_rm.dart';
 import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/observer_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
-import 'package:flutter_app/data/remote/model/task_parameter_rm.dart';
 
 import 'model/event_trigger_rm.dart';
 import 'model/program_rm.dart';
@@ -30,7 +28,7 @@ extension InterventionRMToCM on InterventionRM {
       questionAnswers: questionAnswers,
       questionConditions: questionConditions,
       mediaType: mediaType,
-      taskParameters: taskParameters?.toCM(),
+      taskParameters: taskParameters,
       complexConditions: complexConditions?.toCM(),
       mediaInformation: mediaInformation?.toCM(),
       scales: scales,
@@ -55,12 +53,6 @@ extension ComplexConditionRMtoCM on ComplexConditionRM {
   ComplexConditionCM toCM() => ComplexConditionCM(
     dependencyCondition: dependencyCondition,
     complexAction: complexAction,
-  );
-}
-
-extension TaskParameterRMtoCM on TaskParameterRM {
-  TaskParameterCM toCM() => TaskParameterCM(
-    videoUrl: videoUrl,
   );
 }
 

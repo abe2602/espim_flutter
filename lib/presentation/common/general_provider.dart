@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:domain/data_repository/auth_data_repository.dart';
 import 'package:domain/data_repository/programs_data_repository.dart';
 import 'package:domain/data_repository/user_data_repository.dart';
+import 'package:domain/data_repository/files_data_repository.dart';
+import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:domain/use_case/change_settings_uc.dart';
 import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
@@ -18,10 +20,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/data/cache/programs_cds.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/auh_rds.dart';
+import 'package:flutter_app/data/remote/data_source/files_rds.dart';
 import 'package:flutter_app/data/remote/data_source/programs_rds.dart';
 import 'package:flutter_app/data/remote/data_source/user_rds.dart';
 import 'package:flutter_app/data/remote/infrastructure/espim_dio.dart';
 import 'package:flutter_app/data/repository/auth_repository.dart';
+import 'package:flutter_app/data/repository/files_repository.dart';
 import 'package:flutter_app/data/repository/programs_repository.dart';
 import 'package:flutter_app/data/repository/user_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -54,6 +58,9 @@ class GeneralProvider extends StatelessWidget {
 
             return EspimDio(options);
           },
+        ),
+        ProxyProvider<Dio, FilesRDS>(
+          update: (context, dio, _) => FilesRDS(dio: dio),
         ),
         ProxyProvider<Dio, ProgramsRDS>(
           update: (context, dio, _) => ProgramsRDS(dio: dio),
@@ -97,6 +104,11 @@ class GeneralProvider extends StatelessWidget {
           update: (context, userCDS, userRDS, _) => UserRepository(
             userCDS: userCDS,
             userRDS: userRDS,
+          ),
+        ),
+        ProxyProvider<FilesRDS, FilesDataRepository>(
+          update: (context, filesRDS, _) => FilesRepository(
+            filesRDS: filesRDS,
           ),
         ),
       ];
@@ -158,6 +170,11 @@ class GeneralProvider extends StatelessWidget {
         ProxyProvider<AuthDataRepository, LogoutUC>(
           update: (context, authRepository, _) => LogoutUC(
             authRepository: authRepository,
+          ),
+        ),
+        ProxyProvider<FilesDataRepository, UploadFileUC>(
+          update: (context, filesRepository, _) => UploadFileUC(
+            filesRepository: filesRepository,
           ),
         ),
       ];

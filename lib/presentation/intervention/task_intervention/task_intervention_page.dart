@@ -86,7 +86,10 @@ class TaskInterventionPage extends StatelessWidget {
                   },
                   child: FlatButton(
                     onPressed: () {
-                      _launchURL(successState.taskParameters.videoUrl);
+                      _launchURL(
+                        successState.taskParameters[
+                            successState.taskParameters.keys.toList()[0]],
+                      );
                     },
                     color: SenSemColors.lightRoyalBlue,
                     child: Container(

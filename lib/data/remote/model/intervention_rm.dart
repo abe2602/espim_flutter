@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
-import 'package:flutter_app/data/remote/model/task_parameter_rm.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'intervention_rm.g.dart';
@@ -75,7 +74,8 @@ class InterventionRM {
   @JsonKey(name: 'appPackage')
   final String appPackage;
   @JsonKey(name: 'parameters')
-  final TaskParameterRM taskParameters;
+  final Map<String, String> taskParameters;
+
   @JsonKey(name: 'startFromNotification')
   final bool startFromNotification;
 

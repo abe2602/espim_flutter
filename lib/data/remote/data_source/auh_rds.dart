@@ -34,7 +34,10 @@ class AuthRDS {
 
               return 'abe2602@gmail.com';
             }),
-          );
+          ).catchError((error) {
+            print(error);
+            throw error;
+  });
 
   Future<void> login(String email) => dio
           .get('participants/search/findByEmail?email=$email');

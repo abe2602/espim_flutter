@@ -29,7 +29,7 @@ class InterventionCMAdapter extends TypeAdapter<InterventionCM> {
       questionConditions: (fields[10] as Map)?.cast<String, int>(),
       scales: (fields[11] as List)?.cast<String>(),
       appPackage: fields[12] as String,
-      taskParameters: fields[13] as TaskParameterCM,
+      taskParameters: (fields[13] as Map)?.cast<String, String>(),
       startFromNotification: fields[14] as bool,
       mediaType: fields[15] as String,
       mediaInformation: (fields[6] as List)?.cast<MediaInformationCM>(),

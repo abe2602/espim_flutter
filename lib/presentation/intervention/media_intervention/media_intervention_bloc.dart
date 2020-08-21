@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:domain/model/media_intervention.dart';
+import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
@@ -12,21 +15,37 @@ class MediaInterventionBloc with SubscriptionBag {
     @required this.eventId,
     @required this.orderPosition,
     @required this.getInterventionUC,
+    @required this.uploadFileUC,
   })  : assert(eventId != null),
         assert(orderPosition != null),
+        assert(uploadFileUC != null),
         assert(getInterventionUC != null) {
     MergeStream([
       _getIntervention(),
     ]).listen(_onNewStateSubject.add).addTo(subscriptionsBag);
+
+    _onActionEventSubject
+        .flatMap(_uploadFile)
+        .listen(_onActionEventResultSubject.add)
+        .addTo(subscriptionsBag);
   }
 
   final int eventId;
   final int orderPosition;
   final GetInterventionUC getInterventionUC;
+  final UploadFileUC uploadFileUC;
 
   final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
+  final _onActionEventSubject = PublishSubject<File>();
+  final _onActionEventResultSubject =
+      PublishSubject<InterventionResponseState>();
 
-  Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
+  Sink<File> get onActionEventSink => _onActionEventSubject.sink;
+
+  Stream<InterventionResponseState> get onActionEventStream =>
+      _onActionEventResultSubject.stream;
+
+  Stream<InterventionResponseState> get onNewState => _onNewStateSubject.stream;
 
   Stream<InterventionResponseState> _getIntervention() async* {
     yield Loading();
@@ -53,7 +72,18 @@ class MediaInterventionBloc with SubscriptionBag {
     }
   }
 
+  Stream<InterventionResponseState> _uploadFile(File file) async* {
+    try {
+      await uploadFileUC.getFuture(params: UploadFileUCParams(file: file));
+      yield _onNewStateSubject.value;
+    } catch (error) {
+      print('erro no bloc  ' + error.toString());
+    }
+  }
+
   void dispose() {
+    _onActionEventResultSubject.close();
+    _onActionEventSubject.close();
     _onNewStateSubject.close();
   }
 }
