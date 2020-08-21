@@ -10,7 +10,6 @@ import 'package:flutter_app/data/cache/model/participant_cm.dart';
 import 'package:flutter_app/data/cache/model/program_cm.dart';
 import 'package:flutter_app/data/cache/model/sensor_cm.dart';
 import 'package:flutter_app/data/cache/model/settings_cm.dart';
-import 'package:flutter_app/data/cache/model/task_parameter_cm.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/auth/login/login_page.dart';
 import 'package:flutter_app/presentation/common/general_provider.dart';
@@ -44,7 +43,6 @@ Future<void> main() async {
     ..registerAdapter(ParticipantCMAdapter())
     ..registerAdapter(ProgramCMAdapter())
     ..registerAdapter(SensorCMAdapter())
-    ..registerAdapter(TaskParameterCMAdapter())
     ..registerAdapter(SettingsCMAdapter());
 
   Router.appRouter
@@ -64,7 +62,7 @@ Future<void> main() async {
     )
     ..define(
       '${RouteNameBuilder.taskIntervention}/:id',
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (_, params) => TaskInterventionPage.create(
           int.parse(params['id'][0]),

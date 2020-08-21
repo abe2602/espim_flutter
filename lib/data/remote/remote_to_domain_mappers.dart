@@ -19,7 +19,6 @@ import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
 import 'package:flutter_app/data/remote/model/program_rm.dart';
-import 'package:flutter_app/data/remote/model/task_parameter_rm.dart';
 
 import 'model/observer_rm.dart';
 import 'model/user_rm.dart';
@@ -85,7 +84,7 @@ extension InterventionRMToDM on InterventionRM {
           return TaskIntervention(
             appPackage: appPackage,
             startFromNotification: startFromNotification,
-            taskParameters: taskParameters.toDM(),
+            taskParameters: taskParameters,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -120,12 +119,6 @@ extension ComplexConditionRMtoDM on ComplexConditionRM {
   ComplexCondition toDM() => ComplexCondition(
         dependencyCondition: dependencyCondition,
         complexAction: complexAction,
-      );
-}
-
-extension TaskParameterRMtoDM on TaskParameterRM {
-  TaskParameter toDM() => TaskParameter(
-        videoUrl: videoUrl,
       );
 }
 

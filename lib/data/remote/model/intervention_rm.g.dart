@@ -27,9 +27,9 @@ InterventionRM _$InterventionRMFromJson(Map<String, dynamic> json) {
     ),
     scales: (json['scales'] as List)?.map((e) => e as String)?.toList(),
     appPackage: json['appPackage'] as String,
-    taskParameters: json['parameters'] == null
-        ? null
-        : TaskParameterRM.fromJson(json['parameters'] as Map<String, dynamic>),
+    taskParameters: (json['parameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     startFromNotification: json['startFromNotification'] as bool,
     mediaType: json['mediaType'] as String,
     mediaInformation: (json['medias'] as List)

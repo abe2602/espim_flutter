@@ -6,13 +6,12 @@ import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/question_intervention.dart';
 import 'package:domain/model/settings.dart';
 import 'package:domain/model/task_intervention.dart';
-import 'package:domain/model/task_parameter.dart';
 import 'package:flutter_app/data/cache/model/settings_cm.dart';
 
 import 'model/complex_condition_cm.dart';
 import 'model/intervention_cm.dart';
 import 'model/media_information_cm.dart';
-import 'model/task_parameter_cm.dart';
+
 
 extension SettingsCMtoDM on SettingsCM {
   Settings toDM() => Settings(
@@ -62,7 +61,7 @@ extension InterventionCMToDM on InterventionCM {
           return TaskIntervention(
             appPackage: appPackage,
             startFromNotification: startFromNotification,
-            taskParameters: taskParameters.toDM(),
+            taskParameters: taskParameters,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -108,12 +107,6 @@ extension ComplexConditionCMtoDM on ComplexConditionCM {
   ComplexCondition toDM() => ComplexCondition(
         dependencyCondition: dependencyCondition,
         complexAction: complexAction,
-      );
-}
-
-extension TaskParameterCMtoDM on TaskParameterCM {
-  TaskParameter toDM() => TaskParameter(
-        videoUrl: videoUrl,
       );
 }
 

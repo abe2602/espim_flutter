@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app/data/cache/model/complex_condition_cm.dart';
 import 'package:flutter_app/data/cache/model/media_information_cm.dart';
-import 'package:flutter_app/data/cache/model/task_parameter_cm.dart';
 import 'package:hive/hive.dart';
 
 part 'intervention_cm.g.dart';
@@ -72,7 +71,7 @@ class InterventionCM {
   final String appPackage;
 
   @HiveField(13)
-  final TaskParameterCM taskParameters;
+  final Map<String, String> taskParameters;
 
   @HiveField(14)
   final bool startFromNotification;
