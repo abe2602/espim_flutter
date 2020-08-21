@@ -7,6 +7,10 @@ class RouteNameBuilder {
   static const emptyIntervention = 'emptyIntervention';
   static const questionIntervention = 'questionIntervention';
   static const mediaIntervention = 'mediaIntervention';
+  static const taskInterventionModal = 'taskInterventionModal';
+  static const emptyInterventionModal = 'emptyInterventionModal';
+  static const questionInterventionModal = 'questionInterventionModal';
+  static const mediaInterventionModal = 'mediaInterventionModal';
 
   static String interventionType(
       String interventionType, int eventId, int orderPosition, int flowSize) {
@@ -22,6 +26,24 @@ class RouteNameBuilder {
         break;
       default:
         return '$emptyIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+    }
+  }
+
+  static String modalInterventionType(
+      String interventionType, int eventId, int orderPosition, int flowSize) {
+    switch (interventionType) {
+      case 'task':
+        return '$taskInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'media':
+        return '$mediaInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'question':
+        return '$questionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      default:
+        return '$emptyInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
     }
   }

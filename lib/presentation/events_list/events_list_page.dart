@@ -219,8 +219,8 @@ class ProgramCard extends StatelessWidget {
           elevation: 2,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                RouteNameBuilder.interventionType(
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                RouteNameBuilder.modalInterventionType(
                     event.interventionList[0].type,
                     event.id,
                     1,
