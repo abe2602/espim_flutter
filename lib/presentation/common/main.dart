@@ -104,6 +104,52 @@ Future<void> main() async {
         ),
       ),
     )
+
+    ..define(
+      '${RouteNameBuilder.taskInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (_, params) => TaskInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.emptyInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (_, params) => EmptyInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.questionInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (_, params) => QuestionInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.mediaInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+        handlerFunc: (_, params) => MediaInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+        ),
+      ),
+    )
+
     ..define(
       RouteNameBuilder.login,
       transitionType: TransitionType.native,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/form_text_field.dart';
+import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
@@ -140,9 +141,14 @@ class ClosedQuestionState extends State<ClosedQuestion> {
       onPressed: selectedOption == -1
           ? null
           : () {
-              widget.bloc.navigateToNextInterventionSink.add(
-                  questionIntervention.questionConditions[
-                      questionIntervention.questionAnswers[selectedOption]]);
+              if (widget.flowSize == widget.successState.nextPage) {
+                Navigator.popUntil(context,
+                    ModalRoute.withName(RouteNameBuilder.accompaniment));
+              } else {
+                widget.bloc.navigateToNextInterventionSink.add(
+                    questionIntervention.questionConditions[
+                        questionIntervention.questionAnswers[selectedOption]]);
+              }
             },
       child: Column(
         children: [
