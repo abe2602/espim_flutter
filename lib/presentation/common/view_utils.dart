@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:domain/exceptions.dart';
@@ -199,26 +202,30 @@ class InterventionBody extends StatefulWidget {
 }
 
 class InterventionBodyState extends State<InterventionBody> {
-  VideoPlayerController videoPlayerController;
+  VideoPlayerController _videoPlayerController;
+
+  AssetsAudioPlayer get _assetsAudioPlayer => AssetsAudioPlayer.withId('audio');
+  bool _isAudioPlaying;
+  IconData _buttonIcon;
+
+  @override
+  void initState() {
+    _isAudioPlaying = true;
+    _buttonIcon = Icons.pause_circle_filled;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => VisibilityDetector(
         key: UniqueKey(),
         onVisibilityChanged: (visibilityInfo) async {
           if (visibilityInfo.visibleFraction == 0.0) {
-            await videoPlayerController?.pause();
+            await _videoPlayerController?.pause();
+            await _assetsAudioPlayer.pause();
           }
         },
         child: Column(
           children: [
-//            Container(
-//              alignment: Alignment.topLeft,
-//              child: Text(
-//                S
-//                    .of(context)
-//                    .task_flow_pages(widget.orderPosition, widget.flowSize),
-//              ),
-//            ),
             Container(
               margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.centerLeft,
@@ -243,12 +250,52 @@ class InterventionBodyState extends State<InterventionBody> {
                         return InternetImage(
                           url: media.mediaUrl,
                         );
-                      } else {
-                        videoPlayerController =
+                      } else if (media.mediaType == 'video') {
+                        _videoPlayerController =
                             VideoPlayerController.network(media.mediaUrl);
                         return InternetVideoPlayer(
-                          videoPlayerController: videoPlayerController,
+                          videoPlayerController: _videoPlayerController,
                           autoPlay: media.shouldAutoPlay,
+                        );
+                      } else {
+                        final myAudio = Audio.network(
+                          media.mediaUrl,
+                        );
+                        _assetsAudioPlayer.open(
+                          myAudio,
+                          autoStart: media.shouldAutoPlay,
+                          showNotification: false,
+                          playInBackground: PlayInBackground.enabled,
+                          audioFocusStrategy: const AudioFocusStrategy.request(
+                              resumeAfterInterruption: true,
+                              resumeOthersPlayersAfterDone: true),
+                        );
+
+                        return InkWell(
+                          onTap: () async {
+                            if (_isAudioPlaying) {
+                              await _assetsAudioPlayer.pause();
+
+                              setState(() {
+                                _buttonIcon = Icons.pause_circle_filled;
+                              });
+
+                              _isAudioPlaying = !_isAudioPlaying;
+                            } else {
+                              await _assetsAudioPlayer.play();
+
+                              setState(() {
+                                _buttonIcon = Icons.play_circle_filled;
+                              });
+
+                              _isAudioPlaying = !_isAudioPlaying;
+                            }
+                          },
+                          child: Icon(
+                            _buttonIcon,
+                            color: SenSemColors.primaryColor,
+                            size: 40.0,
+                          ),
                         );
                       }
                     },
