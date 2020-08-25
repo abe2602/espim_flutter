@@ -73,6 +73,8 @@ class MediaInterventionBloc with SubscriptionBag {
   }
 
   Stream<InterventionResponseState> _uploadFile(File file) async* {
+    yield UploadLoading();
+
     try {
       await uploadFileUC.getFuture(params: UploadFileUCParams(file: file));
       yield _onNewStateSubject.value;

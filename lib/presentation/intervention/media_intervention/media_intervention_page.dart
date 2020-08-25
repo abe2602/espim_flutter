@@ -84,22 +84,40 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
         ),
         body: SensemActionListener<InterventionResponseState>(
           onReceived: (receivedEvent) async {
-            final Success successState =  receivedEvent;
             await videoPlayerController?.pause();
-
-            if (successState.intervention.next ==
-                    successState.intervention.orderPosition ||
-                successState.nextPage == 0) {
-              Navigator.popUntil(
-                  context, ModalRoute.withName(RouteNameBuilder.accompaniment));
-            } else {
-              await Navigator.of(context).pushNamed(
-                RouteNameBuilder.interventionType(
-                    successState.nextInterventionType,
-                    widget.eventId,
-                    successState.nextPage,
-                    widget.flowSize),
+            if (receivedEvent is UploadLoading) {
+              await showDialog(
+                context: context,
+                child: AlertDialog(
+                  title: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Text(
+                          S.of(context).wait_please_label,
+                        ),
+                      ),
+                      LoadingIndicator(),
+                    ],
+                  ),
+                ),
               );
+            } else if (receivedEvent is Success) {
+              Navigator.pop(context);
+              if (receivedEvent.intervention.next ==
+                      receivedEvent.intervention.orderPosition ||
+                  receivedEvent.nextPage == 0) {
+                Navigator.popUntil(context,
+                    ModalRoute.withName(RouteNameBuilder.accompaniment));
+              } else {
+                await Navigator.of(context).pushNamed(
+                  RouteNameBuilder.interventionType(
+                      receivedEvent.nextInterventionType,
+                      widget.eventId,
+                      receivedEvent.nextPage,
+                      widget.flowSize),
+                );
+              }
             }
           },
           actionStream: widget.bloc.onActionEventStream,
@@ -124,9 +142,11 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
                         eventId: widget.eventId,
                         flowSize: widget.flowSize,
                         orderPosition: successState.intervention.orderPosition,
-                        onPressed: _cameraFile == null ? null : () async {
-                          widget.bloc.onActionEventSink.add(_cameraFile);
-                        },
+                        onPressed: _cameraFile == null
+                            ? null
+                            : () async {
+                                widget.bloc.onActionEventSink.add(_cameraFile);
+                              },
                         child: Container(
                           transform: Matrix4.translationValues(0, 0, 0),
                           child: Column(
