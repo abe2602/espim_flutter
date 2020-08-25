@@ -4,6 +4,8 @@ abstract class InterventionResponseState {}
 
 class Loading implements InterventionResponseState {}
 
+class UploadLoading implements Loading {}
+
 class Error implements InterventionResponseState {}
 
 class Success implements InterventionResponseState {

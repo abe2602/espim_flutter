@@ -38,5 +38,6 @@
   "enable_mobile_network_title_label": "Enable mobile network usage",
   "enable_mobile_network_subtitle_label": "Enable or disable 3G/4G utilization",
   "landscape_layout_mode_title_label": "Landscape layout",
-  "landscape_layout_mode_subtitle_label": "Changes layout orientation"
+  "landscape_layout_mode_subtitle_label": "Changes layout orientation",
+  "wait_please_label": "Wait, please!"
 }

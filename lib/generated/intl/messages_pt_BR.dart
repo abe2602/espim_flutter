@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tasks_label" : MessageLookupByLibrary.simpleMessage("TAREFAS"),
     "upload_files" : MessageLookupByLibrary.simpleMessage("Upload de arquivo"),
     "upload_files_action_label" : MessageLookupByLibrary.simpleMessage("Toque parea fazer o upload do arquivo"),
+    "wait_please_label" : MessageLookupByLibrary.simpleMessage("Aguarde, por favor!"),
     "welcome" : MessageLookupByLibrary.simpleMessage("Bem vindo, ")
   };
 }

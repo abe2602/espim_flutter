@@ -434,6 +434,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Wait, please!`
+  String get wait_please_label {
+    return Intl.message(
+      'Wait, please!',
+      name: 'wait_please_label',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
