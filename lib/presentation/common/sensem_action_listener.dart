@@ -29,7 +29,7 @@ class _SensemActionListenerState<T> extends State<SensemActionListener<T>>
         .listen(
           widget.onReceived,
         )
-        .addTo(subscriptionsBag);
+        .senSemAddTo(subscriptionsBag);
 
     super.initState();
   }

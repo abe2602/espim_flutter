@@ -11,6 +11,6 @@ mixin SubscriptionBag {
 }
 
 extension AddToStreamSubscription<T> on StreamSubscription<T> {
-  void addTo(CompositeSubscription compositeSubscription) =>
+  void senSemAddTo(CompositeSubscription compositeSubscription) =>
       compositeSubscription.add(this);
 }
