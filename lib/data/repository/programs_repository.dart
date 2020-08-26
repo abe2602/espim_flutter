@@ -32,55 +32,61 @@ class ProgramsRepository implements ProgramDataRepository {
   @override
   Future<List<Program>> getProgramList() => userCDS.getEmail().then(
         (email) => programsRDS.getProgramList(email).then(
-              (eventsList) => eventsList.toDM(),
+              (eventsList) => eventsList
+                  .where((program) => DateTime.now().millisecondsSinceEpoch >=
+                            int.parse(program.startTime) &&
+                        DateTime.now().millisecondsSinceEpoch <=
+                            int.parse(program.endTime))
+                  .toList()
+                  .toDM(),
             ),
       );
 
   @override
   Future<List<Event>> getActiveEventList() => userCDS
-      .getEmail()
-      .then(
-        (email) => programsRDS.getProgramList('kamila.uniara@gmail.com').then(
-          (programsList) {
-            final auxEvents = <EventRM>[];
+          .getEmail()
+          .then(
+            (email) =>
+                programsRDS.getProgramList('kamila.uniara@gmail.com').then(
+              (programsList) {
+                final auxEvents = <EventRM>[];
 
-            programsList.forEach(
-              (program) {
-                program.eventList.forEach((event) {
-                  event.interventionList.sort(
-                    (interventionA, interventionB) => interventionA
-                        .orderPosition
-                        .compareTo(interventionB.orderPosition),
-                  );
-                });
+                programsList.forEach(
+                  (program) {
+                    program.eventList.forEach((event) {
+                      event.interventionList.sort(
+                        (interventionA, interventionB) => interventionA
+                            .orderPosition
+                            .compareTo(interventionB.orderPosition),
+                      );
+                    });
 
-                auxEvents?.addAll(
-                  program.eventList
-                    ..where((event) => event.type == 'active')
-                    ..sort(
-                      (eventA, eventB) => eventA.title.compareTo(eventB.title),
-                    ),
+                    auxEvents?.addAll(
+                      program.eventList
+                        ..where((event) => event.type == 'active')
+                        ..sort(
+                          (eventA, eventB) =>
+                              eventA.title.compareTo(eventB.title),
+                        ),
+                    );
+                  },
                 );
+                return auxEvents;
               },
-            );
-            return auxEvents;
-          },
-        ).then((eventList) {
-          programsCDS.upsertEventsList(eventList.toCM());
-          return eventList.toDM();
-        }),
-      )
-      .catchError(
-        (error) {
-          if(error is DioError && error.response.statusCode == 401) {
-            return authRDS.signInWithGoogle().then(
-                  (_) => getActiveEventList(),
-            );
-          } else {
-            throw error;
-          }
+            ).then((eventList) {
+              programsCDS.upsertEventsList(eventList.toCM());
+              return eventList.toDM();
+            }),
+          )
+          .catchError((error) {
+        if (error is DioError && error.response.statusCode == 401) {
+          return authRDS.signInWithGoogle().then(
+                (_) => getActiveEventList(),
+              );
+        } else {
+          throw error;
         }
-      );
+      });
 
   @override
   Future<Intervention> getIntervention(int eventId, int positionOrder) =>
