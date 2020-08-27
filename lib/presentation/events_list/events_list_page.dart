@@ -242,7 +242,7 @@ class ProgramCard extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    height: 75,
+                    height: MediaQuery.of(context).size.height/7,
                     decoration: BoxDecoration(
                       color: SenSemColors.royalBlue,
                       shape: BoxShape.rectangle,
@@ -263,9 +263,10 @@ class ProgramCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
+                  Expanded(
                     child: Container(
                       alignment: Alignment.topLeft,
+                      height: MediaQuery.of(context).size.height/7,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Column(
@@ -283,6 +284,8 @@ class ProgramCard extends StatelessWidget {
                             ),
                             Text(
                               event.description,
+                              maxLines: 4,
+                              overflow: TextOverflow.fade,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
