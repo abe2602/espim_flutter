@@ -55,7 +55,7 @@ Future<void> main() async {
     )
     ..define(
       RouteNameBuilder.accompaniment,
-      transitionType: TransitionType.nativeModal,
+      transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (context, _) => EventsListPage.create(),
       ),
