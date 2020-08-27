@@ -138,8 +138,7 @@ void navigateToNextIntervention(
   String type,
 ) {
   if (flowSize == nextPosition || nextPosition == 0) {
-    Navigator.popUntil(
-        context, ModalRoute.withName(RouteNameBuilder.accompaniment));
+    Navigator.of(context).popUntil((route) => route.isFirst);
   } else {
     Navigator.of(context).pushNamed(
       RouteNameBuilder.interventionType(type, eventId, nextPosition, flowSize),
