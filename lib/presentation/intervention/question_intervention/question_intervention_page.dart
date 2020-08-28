@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/form_text_field.dart';
+import 'package:flutter_app/presentation/common/input_status_vm.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
@@ -216,6 +217,7 @@ class OpenQuestion extends StatefulWidget {
 
 class OpenQuestionState extends State<OpenQuestion> {
   final _openQuestionFocusNode = FocusNode();
+  Color boxColor = SenSemColors.primaryColor;
 
   @override
   void didChangeDependencies() {
@@ -225,16 +227,8 @@ class OpenQuestionState extends State<OpenQuestion> {
   }
 
   @override
-  Widget build(BuildContext context) => InterventionBody(
-        statement: widget.successState.intervention.statement,
-        mediaInformation: widget.successState.intervention.mediaInformation,
-        nextPage: widget.successState.nextPage,
-        next: widget.successState.intervention.next,
-        nextInterventionType: widget.successState.nextInterventionType,
-        eventId: widget.eventId,
-        flowSize: widget.flowSize,
-        orderPosition: widget.successState.intervention.orderPosition,
-        onPressed: () {
+  Widget build(BuildContext context) => SensemActionListener(
+        onReceived: (event) {
           navigateToNextIntervention(
             context,
             widget.successState.nextPage,
@@ -243,19 +237,59 @@ class OpenQuestionState extends State<OpenQuestion> {
             widget.successState.nextInterventionType,
           );
         },
-        child: Container(
-          margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
-          child: FormTextField(
-            statusStream: widget.bloc.openQuestionInputStatusStream,
-            focusNode: _openQuestionFocusNode,
-            labelText: S.of(context).openQuestionLabel,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            onChanged: widget.bloc.onOpenQuestionValueChangedSink.add,
-            onEditingComplete: () {
-              FocusScope.of(context).unfocus();
-            },
-          ),
+        actionStream: widget.bloc.aux,
+        child: InterventionBody(
+          statement: widget.successState.intervention.statement,
+          mediaInformation: widget.successState.intervention.mediaInformation,
+          nextPage: widget.successState.nextPage,
+          next: widget.successState.intervention.next,
+          nextInterventionType: widget.successState.nextInterventionType,
+          eventId: widget.eventId,
+          flowSize: widget.flowSize,
+          orderPosition: widget.successState.intervention.orderPosition,
+          onPressed: () {
+            widget.bloc.onNavigateNewActionSink.add(null);
+          },
+          child: StreamBuilder<InputStatusVM>(
+              stream: widget.bloc.openQuestionInputStatusStream,
+              initialData: InputStatusVM.undefined,
+              builder: (context, snapshot) => Column(
+                    children: [
+                      Container(
+                        margin:
+                            const EdgeInsets.only(left: 8, right: 8, top: 10),
+
+                        /// The correct way to do this is: bring all code from
+                        /// formtextfield to this Widget, but I want to have an example
+                        /// from this widget usage.
+                        child: FormTextField(
+                          statusStream:
+                              widget.bloc.openQuestionInputStatusStream,
+                          focusNode: _openQuestionFocusNode,
+                          labelText: S.of(context).openQuestionLabel,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          boxColor: boxColor,
+                          onChanged:
+                              widget.bloc.onOpenQuestionValueChangedSink.add,
+                        ),
+                      ),
+                      if (snapshot.data == InputStatusVM.empty)
+                        Container(
+                          margin:
+                              const EdgeInsets.only(left: 8, right: 8, top: 5),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            S.of(context).emptyFieldError,
+                            style: const TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(),
+                    ],
+                  )),
         ),
       );
 }

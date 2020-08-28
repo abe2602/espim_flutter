@@ -6,6 +6,7 @@ import 'package:chewie/chewie.dart';
 import 'package:domain/exceptions.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
@@ -120,7 +121,21 @@ class VideoPlayerState extends State<InternetVideoPlayer> {
   }
 
   @override
-  Widget build(BuildContext context) => _videoPlayer;
+  Widget build(BuildContext context) => Container(
+        height: MediaQuery.of(context).size.height / 1.5,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: SenSemColors.primaryColor,
+            width: 2,
+          ),
+        ),
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: Flexible(
+            child: _videoPlayer,
+          ),
+        ),
+      );
 
   @override
   void dispose() {
@@ -242,6 +257,7 @@ class InterventionBodyState extends State<InterventionBody> {
                 bottom: 20,
               ),
               child: Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ...widget.mediaInformation?.map(
                     (media) {
@@ -293,7 +309,7 @@ class InterventionBodyState extends State<InterventionBody> {
                           child: Icon(
                             _buttonIcon,
                             color: SenSemColors.primaryColor,
-                            size: 40.0,
+                            size: 40,
                           ),
                         );
                       }

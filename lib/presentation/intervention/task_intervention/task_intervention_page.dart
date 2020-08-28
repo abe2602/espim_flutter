@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../intervention_models.dart';
 
-class TaskInterventionPage extends StatelessWidget {
+class TaskInterventionPage extends StatefulWidget {
   const TaskInterventionPage({
     @required this.bloc,
     @required this.eventId,
@@ -41,6 +41,13 @@ class TaskInterventionPage extends StatelessWidget {
         ),
       );
 
+  @override
+  State<StatefulWidget> createState() => TaskInterventionPageState();
+}
+
+class TaskInterventionPageState extends State<TaskInterventionPage> {
+  bool _isTaskDone = false;
+
   Future<void> _launchURL(String siteUrl) async {
     if (await canLaunch(siteUrl)) {
       await launch(siteUrl);
@@ -62,7 +69,7 @@ class TaskInterventionPage extends StatelessWidget {
               left: 15,
             ),
             child: StreamBuilder(
-              stream: bloc.onNewState,
+              stream: widget.bloc.onNewState,
               builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
                   Error, TaskInterventionSuccess>(
                 snapshot: snapshot,
@@ -72,20 +79,26 @@ class TaskInterventionPage extends StatelessWidget {
                   nextPage: successState.nextPage,
                   next: successState.intervention.next,
                   nextInterventionType: successState.nextInterventionType,
-                  eventId: eventId,
-                  flowSize: flowSize,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
                   orderPosition: successState.intervention.orderPosition,
-                  onPressed: () {
-                    navigateToNextIntervention(
-                      context,
-                      successState.nextPage,
-                      flowSize,
-                      eventId,
-                      successState.nextInterventionType,
-                    );
-                  },
+                  onPressed: !_isTaskDone
+                      ? null
+                      : () {
+                          navigateToNextIntervention(
+                            context,
+                            successState.nextPage,
+                            widget.flowSize,
+                            widget.eventId,
+                            successState.nextInterventionType,
+                          );
+                        },
                   child: FlatButton(
                     onPressed: () {
+                      setState(() {
+                        _isTaskDone = true;
+                      });
+
                       _launchURL(
                         successState.taskParameters[
                             successState.taskParameters.keys.toList()[0]],
