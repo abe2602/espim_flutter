@@ -3,13 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
-
+import 'package:flutter_app/presentation/common/sensem_colors.dart';
 
 class FormTextField extends StatelessWidget {
   const FormTextField(
       {@required this.statusStream,
       @required this.labelText,
       Key key,
+      this.boxColor,
       this.textEditingController,
       this.focusNode,
       this.emptyErrorMessage,
@@ -41,6 +42,7 @@ class FormTextField extends StatelessWidget {
   final ValueChanged<String> onChanged; //novo valor do form
   final VoidCallback onEditingComplete; //O que fazer quando acabar de editar
   final bool obscureText;
+  final Color boxColor;
   final String initialValue; //valor inicial, se for null, é ""
 
   ///StreamBuilder ouve a stream que foi declarada no bloc. A partir dela,
@@ -69,19 +71,31 @@ class FormTextField extends StatelessWidget {
 
           ///Depois que fazemos as verificações, retornamos o novo TextField
           ///com , ou sem, erro.
-          return TextField(
-            controller: textEditingController,
-            focusNode: focusNode,
-            decoration: InputDecoration(
-              labelText: labelText,
-              errorText: errorMessage,
+          return Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: boxColor ?? SenSemColors.primaryColor,
+                width: 1,
+              ),
             ),
-            maxLines: 6,
-            keyboardType: keyboardType,
-            textInputAction: textInputAction,
-            onEditingComplete: onEditingComplete,
-            onChanged: onChanged,
-            obscureText: obscureText,
+            child: TextField(
+              controller: textEditingController,
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                //labelText: labelText,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                //errorText: errorMessage,
+              ),
+              maxLines: 6,
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              onEditingComplete: onEditingComplete,
+              onChanged: onChanged,
+              obscureText: obscureText,
+            ),
           );
         },
       );
