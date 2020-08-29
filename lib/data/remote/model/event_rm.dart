@@ -15,6 +15,7 @@ class EventRM {
     @required this.eventTriggerList,
 //    @required this.sensorsList,
 //    @required this.complexConditionList,
+    @required this.color,
     @required this.interventionList,
   })  : assert(id != null),
         assert(title != null),
@@ -23,7 +24,8 @@ class EventRM {
         assert(eventTriggerList != null),
 //        assert(sensorsList != null),
 //        assert(complexConditionList != null),
-        assert(interventionList != null);
+        assert(interventionList != null),
+        assert(color != null);
 
   factory EventRM.fromJson(Map<String, dynamic> parsedJson) =>
       _$EventRMFromJson(parsedJson);
@@ -40,6 +42,9 @@ class EventRM {
   final String type;
   @JsonKey(name: 'triggers')
   final List<EventTriggerRM> eventTriggerList;
+
+  @JsonKey(name: 'color')
+  final String color;
 //  @JsonKey(name: 'sensors')
 //  final List<SensorRM> sensorsList;
 //  @JsonKey(name: 'complexConditions')

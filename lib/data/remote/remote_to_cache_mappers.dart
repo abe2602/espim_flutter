@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_app/data/cache/model/complex_condition_cm.dart';
 import 'package:flutter_app/data/cache/model/event_cm.dart';
 import 'package:flutter_app/data/cache/model/event_trigger_cm.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/observer_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
+import 'package:flutter_app/presentation/common/view_utils.dart';
 
 import 'model/event_trigger_rm.dart';
 import 'model/program_rm.dart';
@@ -108,6 +110,7 @@ extension EventRMtoCM on EventRM {
     type: type,
     eventTriggerList: eventTriggerList.toCM(),
     interventionList: interventionList.toCM(),
+    color:  color.toColor(),
   );
 }
 
