@@ -17,6 +17,7 @@ EventRM _$EventRMFromJson(Map<String, dynamic> json) {
             ? null
             : EventTriggerRM.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    color: json['color'] as String,
     interventionList: (json['interventions'] as List)
         ?.map((e) => e == null
             ? null
@@ -31,5 +32,6 @@ Map<String, dynamic> _$EventRMToJson(EventRM instance) => <String, dynamic>{
       'description': instance.description,
       'type': instance.type,
       'triggers': instance.eventTriggerList,
+      'color': instance.color,
       'interventions': instance.interventionList,
     };

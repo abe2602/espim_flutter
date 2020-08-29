@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/data/cache/model/event_trigger_cm.dart';
 import 'package:flutter_app/data/cache/model/intervention_cm.dart';
 import 'package:hive/hive.dart';
@@ -14,12 +15,14 @@ class EventCM {
     @required this.type,
     @required this.eventTriggerList,
     @required this.interventionList,
+    @required this.color,
   })  : assert(id != null),
         assert(title != null),
         assert(description != null),
         assert(type != null),
         assert(eventTriggerList != null),
-        assert(interventionList != null);
+        assert(interventionList != null),
+        assert(color != null);
 
   @HiveField(0)
   final int id;
@@ -38,4 +41,7 @@ class EventCM {
 
   @HiveField(5)
   final List<InterventionCM> interventionList;
+
+  @HiveField(6)
+  final Color color;
 }

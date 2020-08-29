@@ -10,7 +10,6 @@ import 'package:domain/model/participant.dart';
 import 'package:domain/model/program.dart';
 import 'package:domain/model/question_intervention.dart';
 import 'package:domain/model/task_intervention.dart';
-import 'package:domain/model/task_parameter.dart';
 import 'package:domain/model/user.dart';
 import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
 import 'package:flutter_app/data/remote/model/event_rm.dart';
@@ -19,6 +18,7 @@ import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
 import 'package:flutter_app/data/remote/model/program_rm.dart';
+import 'package:flutter_app/presentation/common/view_utils.dart';
 
 import 'model/observer_rm.dart';
 import 'model/user_rm.dart';
@@ -31,6 +31,7 @@ extension EventRMToDM on EventRM {
         type: type,
         eventTriggerList: eventTriggerList.toDM(),
         interventionList: interventionList.toDM(),
+        color: color.toColor(),
       );
 }
 
@@ -114,7 +115,6 @@ extension InterventionRMToDM on InterventionRM {
   }
 }
 
-
 extension ComplexConditionRMtoDM on ComplexConditionRM {
   ComplexCondition toDM() => ComplexCondition(
         dependencyCondition: dependencyCondition,
@@ -164,24 +164,24 @@ extension ObserverRMToDM on ObserverRM {
 
 extension ParticipantRMToDM on ParticipantRM {
   Participant toDM() => Participant(
-    id: id,
-    name: name,
-    email: email,
-    phoneNumber: phoneNumber,
-    profileImageUrl: profileImageUrl,
-  );
+        id: id,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        profileImageUrl: profileImageUrl,
+      );
 }
 
 extension ParticipantListRMtoDM on List<ParticipantRM> {
   List<Participant> toDM() => map(
         (participant) => participant.toDM(),
-  ).toList();
+      ).toList();
 }
 
 extension ObserverListRMtoDM on List<ObserverRM> {
   List<Observer> toDM() => map(
         (observer) => observer.toDM(),
-  ).toList();
+      ).toList();
 }
 
 extension MediaInformationListRMtoDM on List<MediaInformationRM> {
