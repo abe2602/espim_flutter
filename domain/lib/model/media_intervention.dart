@@ -5,6 +5,7 @@ import 'intervention.dart';
 class MediaIntervention extends Intervention {
   MediaIntervention(
       {@required this.mediaType,
+      interventionId,
       type,
       statement,
       orderPosition,
@@ -15,6 +16,7 @@ class MediaIntervention extends Intervention {
       mediaInformation})
       : assert(mediaType != null),
         super(
+          interventionId: interventionId,
           type: type,
           statement: statement,
           orderPosition: orderPosition,

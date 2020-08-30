@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 
 import '../intervention_models.dart';
 import 'media_intervention_bloc.dart';
@@ -62,6 +63,7 @@ class MediaInterventionPage extends StatefulWidget {
 class MediaInterventionPageState extends State<MediaInterventionPage> {
   File _cameraFile;
   VideoPlayerController videoPlayerController;
+  final _startTime = DateTime.now().millisecondsSinceEpoch;
 
   Future<void> captureMedia(ImageSource imageSource, String mediaType) async {
     try {
@@ -116,6 +118,19 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
                 Navigator.popUntil(context,
                     ModalRoute.withName(RouteNameBuilder.accompaniment));
               } else {
+                widget.eventResult.interventionResultsList.add(
+                  InterventionResult(
+                    interventionType: receivedEvent.intervention.type,
+                    startTime: _startTime,
+                    endTime: DateTime.now().millisecondsSinceEpoch,
+                    interventionId: receivedEvent.intervention.interventionId,
+                    answer: receivedEvent.mediaUrl,
+                  ),
+                );
+
+                widget.eventResult.interventionsIds
+                    .add(receivedEvent.intervention.interventionId);
+
                 await Navigator.of(context).pushNamed(
                   RouteNameBuilder.interventionType(
                       receivedEvent.nextInterventionType,

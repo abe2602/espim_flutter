@@ -8,6 +8,7 @@ class QuestionIntervention extends Intervention {
       this.questionConditions,
       this.questionAnswers,
       this.scales,
+      interventionId,
       type,
       statement,
       orderPosition,
@@ -18,6 +19,7 @@ class QuestionIntervention extends Intervention {
       mediaInformation})
       : assert(questionType != null),
         super(
+          interventionId: interventionId,
           type: type,
           statement: statement,
           orderPosition: orderPosition,

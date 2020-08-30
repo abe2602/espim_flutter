@@ -8,6 +8,7 @@ part of 'intervention_rm.dart';
 
 InterventionRM _$InterventionRMFromJson(Map<String, dynamic> json) {
   return InterventionRM(
+    interventionId: json['id'] as int,
     type: json['type'] as String,
     statement: json['statement'] as String,
     orderPosition: json['orderPosition'] as int,
@@ -42,6 +43,7 @@ InterventionRM _$InterventionRMFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$InterventionRMToJson(InterventionRM instance) =>
     <String, dynamic>{
+      'id': instance.interventionId,
       'type': instance.type,
       'statement': instance.statement,
       'orderPosition': instance.orderPosition,

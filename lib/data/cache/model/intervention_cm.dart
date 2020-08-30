@@ -8,7 +8,8 @@ part 'intervention_cm.g.dart';
 @HiveType(typeId: 3)
 class InterventionCM {
   InterventionCM(
-      {@required this.type,
+      {@required this.interventionId,
+        @required this.type,
       @required this.statement,
       @required this.orderPosition,
       @required this.isFirst,
@@ -24,7 +25,8 @@ class InterventionCM {
       this.startFromNotification,
       this.mediaType,
       this.mediaInformation})
-      : assert(type != null),
+      : assert(interventionId != null),
+        assert(type != null),
         assert(statement != null),
         assert(orderPosition != null),
         assert(isFirst != null),
@@ -78,4 +80,7 @@ class InterventionCM {
 
   @HiveField(15)
   final String mediaType;
+
+  @HiveField(16)
+  final int interventionId;
 }

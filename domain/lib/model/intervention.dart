@@ -5,7 +5,9 @@ import 'media_information.dart';
 
 class Intervention {
   Intervention(
-      {@required this.type,
+      {
+        @required this.interventionId,
+        @required this.type,
         @required this.statement,
         @required this.orderPosition,
         @required this.isFirst,
@@ -13,12 +15,15 @@ class Intervention {
         @required this.isObligatory,
         this.complexConditions,
         this.mediaInformation})
-      : assert(type != null),
+      : assert(interventionId != null),
+        assert(type != null),
         assert(statement != null),
         assert(orderPosition != null),
         assert(isFirst != null),
         assert(next != null),
         assert(isObligatory != null);
+
+  final int interventionId;
 
   final String type;
 

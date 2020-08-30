@@ -13,11 +13,13 @@ class Success implements InterventionResponseState {
     this.intervention,
     this.nextInterventionType,
     this.nextPage,
+    this.mediaUrl,
   });
 
   final int nextPage;
   final Intervention intervention;
   final String nextInterventionType;
+  final String mediaUrl;
 }
 
 class NoInternetError implements Error {}

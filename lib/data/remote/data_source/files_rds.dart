@@ -12,7 +12,7 @@ class FilesRDS {
 
   final Dio dio;
 
-  Future<void> uploadFile(File file) =>
+  Future<String> uploadFile(File file) =>
       dio.get('s3Credentials/').then((credentials) {
         final awsCredentials = CredentialsRM.fromJson(credentials.data);
 

@@ -52,6 +52,7 @@ extension InterventionRMToDM on InterventionRM {
         {
           return MediaIntervention(
             mediaType: mediaType,
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -69,6 +70,7 @@ extension InterventionRMToDM on InterventionRM {
             questionType: questionType,
             questionAnswers: questionAnswers,
             questionConditions: questionConditions,
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -86,6 +88,7 @@ extension InterventionRMToDM on InterventionRM {
             appPackage: appPackage,
             startFromNotification: startFromNotification,
             taskParameters: taskParameters,
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -100,6 +103,7 @@ extension InterventionRMToDM on InterventionRM {
       default:
         {
           return EmptyIntervention(
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,

@@ -76,8 +76,16 @@ class MediaInterventionBloc with SubscriptionBag {
     yield UploadLoading();
 
     try {
-      await uploadFileUC.getFuture(params: UploadFileUCParams(file: file));
-      yield _onNewStateSubject.value;
+      final mediaUrl =
+          await uploadFileUC.getFuture(params: UploadFileUCParams(file: file));
+      final Success previousSuccess = _onNewStateSubject.value;
+
+      yield Success(
+        nextInterventionType: previousSuccess.nextInterventionType,
+        nextPage: previousSuccess.nextPage,
+        mediaUrl: mediaUrl,
+        intervention: previousSuccess.intervention,
+      );
     } catch (error) {
       print('erro no bloc  ' + error.toString());
     }

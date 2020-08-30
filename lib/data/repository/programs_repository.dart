@@ -92,5 +92,7 @@ class ProgramsRepository implements ProgramDataRepository {
   Future<Intervention> getIntervention(int eventId, int positionOrder) =>
       programsCDS.getInterventionByPositionOrder(eventId, positionOrder).then(
             (intervention) => intervention.toDM(),
-          );
+          ).catchError((error) {
+            throw error;
+      });
 }

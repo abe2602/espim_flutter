@@ -9,6 +9,7 @@ import 'package:flutter_app/presentation/intervention/task_intervention/task_int
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:domain/model/intervention_result.dart';
 
 import '../intervention_models.dart';
 
@@ -54,6 +55,7 @@ class TaskInterventionPage extends StatefulWidget {
 
 class TaskInterventionPageState extends State<TaskInterventionPage> {
   bool _isTaskDone = false;
+  final _startTime = DateTime.now().millisecondsSinceEpoch;
 
   Future<void> _launchURL(String siteUrl) async {
     if (await canLaunch(siteUrl)) {
@@ -92,6 +94,20 @@ class TaskInterventionPageState extends State<TaskInterventionPage> {
                   onPressed: !_isTaskDone
                       ? null
                       : () {
+                          widget.eventResult.interventionResultsList.add(
+                            InterventionResult(
+                              interventionType: successState.intervention.type,
+                              startTime: _startTime,
+                              endTime: DateTime.now()
+                                  .millisecondsSinceEpoch,
+                              interventionId:
+                                  successState.intervention.interventionId,
+                            ),
+                          );
+
+                          widget.eventResult.interventionsIds
+                              .add(successState.intervention.interventionId);
+
                           navigateToNextIntervention(
                             context,
                             successState.nextPage,

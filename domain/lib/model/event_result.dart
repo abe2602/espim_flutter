@@ -18,8 +18,8 @@ class EventResult {
 
   final int eventTrigger;
   final int eventId;
-  final String startTime;
-  final String endTime;
+  final int startTime;
+  final int endTime;
   final List<int> interventionsIds;
   final List<InterventionResult> interventionResultsList;
 }

@@ -13,8 +13,8 @@ class InterventionResult {
         assert(interventionId != null);
 
   final String interventionType;
-  final String startTime;
-  final String endTime;
+  final int startTime;
+  final int endTime;
   final String answer;
   final int interventionId;
 }

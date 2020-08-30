@@ -229,7 +229,7 @@ class ProgramCard extends StatelessWidget {
                     event.interventionList.length),
                 arguments: EventResult(
                   eventId: event.id,
-                  startTime: DateTime.now().millisecondsSinceEpoch.toString(),
+                  startTime: DateTime.now().millisecondsSinceEpoch,
                   interventionsIds: <int>[],
                   interventionResultsList: <InterventionResult>[],
                   eventTrigger: event.eventTriggerList[0].id,

@@ -43,5 +43,5 @@ class EventCM {
   final List<InterventionCM> interventionList;
 
   @HiveField(6)
-  final Color color;
+  final String color;
 }

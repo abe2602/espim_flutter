@@ -8,6 +8,7 @@ class TaskIntervention extends Intervention {
       {@required this.appPackage,
       @required this.taskParameters,
       @required this.startFromNotification,
+      interventionId,
       type,
       statement,
       orderPosition,
@@ -20,6 +21,7 @@ class TaskIntervention extends Intervention {
         assert(taskParameters != null),
         assert(startFromNotification != null),
         super(
+          interventionId: interventionId,
           type: type,
           statement: statement,
           orderPosition: orderPosition,

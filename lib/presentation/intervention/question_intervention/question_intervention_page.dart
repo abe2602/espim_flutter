@@ -15,7 +15,7 @@ import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_models.dart';
 import 'package:provider/provider.dart';
-import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 
 import '../intervention_models.dart';
 
@@ -25,8 +25,7 @@ class QuestionInterventionPage extends StatelessWidget {
     @required this.eventId,
     @required this.flowSize,
     @required this.eventResult,
-  })
-      : assert(bloc != null),
+  })  : assert(bloc != null),
         assert(eventId != null),
         assert(flowSize != null),
         assert(eventResult != null);
@@ -53,58 +52,76 @@ class QuestionInterventionPage extends StatelessWidget {
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
-              eventResult: eventResult,
+            eventResult: eventResult,
           ),
         ),
       );
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Acompanhamentos'),
-          backgroundColor: const Color(0xff125193),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-            child: StreamBuilder(
-              stream: bloc.onNewState,
-              builder: (context, snapshot) =>
-                  AsyncSnapshotResponseView<Loading, Error, Success>(
-                snapshot: snapshot,
-                successWidgetBuilder: (successState) {
-                  if (successState is OpenQuestionSuccess) {
-                    return OpenQuestion(
+  Widget build(BuildContext context) {
+    final _startTime = DateTime.now().millisecondsSinceEpoch;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Acompanhamentos'),
+        backgroundColor: const Color(0xff125193),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
+          child: StreamBuilder(
+            stream: bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              successWidgetBuilder: (successState) {
+                if (successState is OpenQuestionSuccess) {
+                  return OpenQuestion(
+                    bloc: bloc,
+                    eventId: eventId,
+                    flowSize: flowSize,
+                    successState: successState,
+                    eventResult: eventResult,
+                  );
+                } else if (successState is ClosedQuestionSuccess) {
+                  return SensemActionListener(
+                    actionStream: bloc.navigateToNextIntervention,
+                    onReceived: (event) {
+                      eventResult.interventionResultsList.add(
+                        InterventionResult(
+                          interventionType: successState.intervention.type,
+                          startTime: _startTime,
+                          endTime: DateTime.now().millisecondsSinceEpoch,
+                          interventionId:
+                              successState.intervention.interventionId,
+                          answer: 'Mandar o valor aqui',
+                        ),
+                      );
+
+                      eventResult.interventionsIds
+                          .add(successState.intervention.interventionId);
+
+                      navigateToNextIntervention(context, event.item2, flowSize,
+                          eventId, event.item1, eventResult);
+                    },
+                    child: ClosedQuestion(
                       bloc: bloc,
                       eventId: eventId,
                       flowSize: flowSize,
                       successState: successState,
-                      eventResult: eventResult,
-                    );
-                  } else if (successState is ClosedQuestionSuccess) {
-                    return SensemActionListener(
-                      actionStream: bloc.navigateToNextIntervention,
-                      onReceived: (event) {
-                        navigateToNextIntervention(context, event.item2,
-                            flowSize, eventId, event.item1, eventResult);
-                      },
-                      child: ClosedQuestion(
-                        bloc: bloc,
-                        eventId: eventId,
-                        flowSize: flowSize,
-                        successState: successState,
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-                errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
-              ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class ClosedQuestion extends StatefulWidget {
@@ -231,6 +248,7 @@ class OpenQuestion extends StatefulWidget {
 
 class OpenQuestionState extends State<OpenQuestion> {
   final _openQuestionFocusNode = FocusNode();
+  final _startTime = DateTime.now().millisecondsSinceEpoch;
   Color boxColor = SenSemColors.primaryColor;
 
   @override
@@ -243,6 +261,21 @@ class OpenQuestionState extends State<OpenQuestion> {
   @override
   Widget build(BuildContext context) => SensemActionListener(
         onReceived: (event) {
+          widget.eventResult.interventionResultsList.add(
+            InterventionResult(
+              interventionType: widget.successState.intervention.type,
+              startTime: _startTime,
+              endTime: DateTime.now()
+                  .millisecondsSinceEpoch,
+              interventionId:
+              widget.successState.intervention.interventionId,
+              answer: widget.bloc.openQuestionText,
+            ),
+          );
+
+          widget.eventResult.interventionsIds
+              .add(widget.successState.intervention.interventionId);
+
           navigateToNextIntervention(
             context,
             widget.successState.nextPage,

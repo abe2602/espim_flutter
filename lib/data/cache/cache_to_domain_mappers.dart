@@ -27,6 +27,7 @@ extension InterventionCMToDM on InterventionCM {
       case 'media':
         {
           return MediaIntervention(
+            interventionId: interventionId,
             mediaType: mediaType,
             type: type,
             statement: statement,
@@ -42,6 +43,7 @@ extension InterventionCMToDM on InterventionCM {
       case 'question':
         {
           return QuestionIntervention(
+            interventionId: interventionId,
             questionType: questionType,
             questionAnswers: questionAnswers,
             questionConditions: questionConditions,
@@ -59,6 +61,7 @@ extension InterventionCMToDM on InterventionCM {
       case 'task':
         {
           return TaskIntervention(
+            interventionId: interventionId,
             appPackage: appPackage,
             startFromNotification: startFromNotification,
             taskParameters: taskParameters,
@@ -76,6 +79,7 @@ extension InterventionCMToDM on InterventionCM {
       default:
         {
           return EmptyIntervention(
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
