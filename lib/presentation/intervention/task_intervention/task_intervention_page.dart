@@ -1,4 +1,5 @@
 import 'package:domain/use_case/get_intervention_uc.dart';
+import 'package:domain/model/event_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_app/presentation/intervention/task_intervention/task_int
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:domain/model/event_result.dart';
 
 import '../intervention_models.dart';
 
@@ -16,14 +18,19 @@ class TaskInterventionPage extends StatelessWidget {
     @required this.bloc,
     @required this.eventId,
     @required this.flowSize,
+    @required this.eventResult,
   })  : assert(bloc != null),
         assert(eventId != null),
-        assert(flowSize != null);
+        assert(flowSize != null),
+        assert(eventResult != null);
+
+  final EventResult eventResult;
   final TaskInterventionBloc bloc;
   final int eventId;
   final int flowSize;
 
-  static Widget create(int eventId, int orderPosition, int flowSize) =>
+  static Widget create(int eventId, int orderPosition, int flowSize,
+          EventResult eventResult) =>
       ProxyProvider<GetInterventionUC, TaskInterventionBloc>(
         update: (context, getInterventionUC, _) => TaskInterventionBloc(
           eventId: eventId,
@@ -37,6 +44,7 @@ class TaskInterventionPage extends StatelessWidget {
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
+            eventResult: eventResult,
           ),
         ),
       );
@@ -82,6 +90,7 @@ class TaskInterventionPage extends StatelessWidget {
                       flowSize,
                       eventId,
                       successState.nextInterventionType,
+                      eventResult,
                     );
                   },
                   child: FlatButton(

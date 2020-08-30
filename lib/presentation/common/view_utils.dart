@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:domain/exceptions.dart';
 import 'package:domain/model/media_information.dart';
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
@@ -136,12 +138,14 @@ void navigateToNextIntervention(
   int flowSize,
   int eventId,
   String type,
+  EventResult eventResult,
 ) {
   if (flowSize == nextPosition || nextPosition == 0) {
     Navigator.of(context).popUntil((route) => route.isFirst);
   } else {
     Navigator.of(context).pushNamed(
       RouteNameBuilder.interventionType(type, eventId, nextPosition, flowSize),
+      arguments: eventResult,
     );
   }
 }

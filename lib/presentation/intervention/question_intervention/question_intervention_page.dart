@@ -1,6 +1,7 @@
 import 'package:domain/model/question_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/validate_empty_field_uc.dart';
+import 'package:domain/model/event_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_models.dart';
 import 'package:provider/provider.dart';
+import 'package:domain/model/event_result.dart';
 
 import '../intervention_models.dart';
 
@@ -21,15 +23,20 @@ class QuestionInterventionPage extends StatelessWidget {
     @required this.bloc,
     @required this.eventId,
     @required this.flowSize,
-  })  : assert(bloc != null),
+    @required this.eventResult,
+  })
+      : assert(bloc != null),
         assert(eventId != null),
-        assert(flowSize != null);
+        assert(flowSize != null),
+        assert(eventResult != null);
 
+  final EventResult eventResult;
   final QuestionInterventionBloc bloc;
   final int eventId;
   final int flowSize;
 
-  static Widget create(int eventId, int orderPosition, int flowSize) =>
+  static Widget create(int eventId, int orderPosition, int flowSize,
+          EventResult eventResult) =>
       ProxyProvider2<GetInterventionUC, ValidateOpenQuestionTextUC,
           QuestionInterventionBloc>(
         update: (context, getInterventionUC, validateOpenQuestionTextUC, _) =>
@@ -45,6 +52,7 @@ class QuestionInterventionPage extends StatelessWidget {
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
+              eventResult: eventResult,
           ),
         ),
       );
@@ -70,13 +78,14 @@ class QuestionInterventionPage extends StatelessWidget {
                       eventId: eventId,
                       flowSize: flowSize,
                       successState: successState,
+                      eventResult: eventResult,
                     );
                   } else if (successState is ClosedQuestionSuccess) {
                     return SensemActionListener(
                       actionStream: bloc.navigateToNextIntervention,
                       onReceived: (event) {
                         navigateToNextIntervention(context, event.item2,
-                            flowSize, eventId, event.item1);
+                            flowSize, eventId, event.item1, eventResult);
                       },
                       child: ClosedQuestion(
                         bloc: bloc,
@@ -202,11 +211,16 @@ class OpenQuestion extends StatefulWidget {
     @required this.successState,
     @required this.flowSize,
     @required this.eventId,
+    @required this.eventResult,
   })  : assert(bloc != null),
+        assert(eventId != null),
+        assert(flowSize != null),
+        assert(eventResult != null),
         assert(successState != null);
 
   final QuestionInterventionBloc bloc;
   final OpenQuestionSuccess successState;
+  final EventResult eventResult;
   final int flowSize;
   final int eventId;
 
@@ -241,6 +255,7 @@ class OpenQuestionState extends State<OpenQuestion> {
             widget.flowSize,
             widget.eventId,
             widget.successState.nextInterventionType,
+            widget.eventResult,
           );
         },
         child: Container(

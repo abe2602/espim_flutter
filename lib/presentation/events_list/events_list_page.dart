@@ -2,6 +2,8 @@ import 'package:domain/model/event.dart';
 import 'package:domain/use_case/get_actives_events_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -225,6 +227,13 @@ class ProgramCard extends StatelessWidget {
                     event.id,
                     1,
                     event.interventionList.length),
+                arguments: EventResult(
+                  eventId: event.id,
+                  startTime: DateTime.now().millisecondsSinceEpoch.toString(),
+                  interventionsIds: <int>[],
+                  interventionResultsList: <InterventionResult>[],
+                  eventTrigger: event.eventTriggerList[0].id,
+                ),
               );
             },
             child: Container(

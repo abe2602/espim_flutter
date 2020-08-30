@@ -13,6 +13,7 @@ import 'package:flutter_app/presentation/intervention/media_intervention/media_i
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:domain/model/event_result.dart';
 
 import '../intervention_models.dart';
 import 'media_intervention_bloc.dart';
@@ -22,15 +23,19 @@ class MediaInterventionPage extends StatefulWidget {
     @required this.bloc,
     @required this.eventId,
     @required this.flowSize,
+    @required this.eventResult,
   })  : assert(bloc != null),
         assert(eventId != null),
-        assert(flowSize != null);
+        assert(flowSize != null),
+        assert(eventResult != null);
 
+  final EventResult eventResult;
   final MediaInterventionBloc bloc;
   final int eventId;
   final int flowSize;
 
-  static Widget create(int eventId, int orderPosition, int flowSize) =>
+  static Widget create(int eventId, int orderPosition, int flowSize,
+          EventResult eventResult) =>
       ProxyProvider2<GetInterventionUC, UploadFileUC, MediaInterventionBloc>(
         update: (context, getInterventionUC, uploadFileUC, _) =>
             MediaInterventionBloc(
@@ -45,6 +50,7 @@ class MediaInterventionPage extends StatefulWidget {
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
+            eventResult: eventResult,
           ),
         ),
       );
@@ -116,6 +122,7 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
                       widget.eventId,
                       receivedEvent.nextPage,
                       widget.flowSize),
+                  arguments: widget.eventResult,
                 );
               }
             }

@@ -23,6 +23,7 @@ import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:domain/model/event_result.dart';
 
 import 'main_container/main_container_screen.dart';
 
@@ -63,93 +64,137 @@ Future<void> main() async {
     ..define(
       '${RouteNameBuilder.taskIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-        handlerFunc: (_, params) => TaskInterventionPage.create(
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
+
+        return TaskInterventionPage.create(
           int.parse(params['id'][0]),
           int.parse(params['orderPosition'][0]),
           int.parse(params['flowSize'][0]),
-        ),
-      ),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.emptyIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
-        handlerFunc: (_, params) => EmptyInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return EmptyInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
     ..define(
       '${RouteNameBuilder.questionIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
-        handlerFunc: (_, params) => QuestionInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return QuestionInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
     ..define(
       '${RouteNameBuilder.mediaIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
-        handlerFunc: (_, params) => MediaInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return MediaInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
-
     ..define(
       '${RouteNameBuilder.taskInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (_, params) => TaskInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return TaskInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
     ..define(
       '${RouteNameBuilder.emptyInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (_, params) => EmptyInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return EmptyInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
     ..define(
       '${RouteNameBuilder.questionInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (_, params) => QuestionInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return QuestionInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
     ..define(
       '${RouteNameBuilder.mediaInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
-        handlerFunc: (_, params) => MediaInterventionPage.create(
-          int.parse(params['id'][0]),
-          int.parse(params['orderPosition'][0]),
-          int.parse(params['flowSize'][0]),
-        ),
+        handlerFunc: (context, params) {
+          final EventResult eventResult =
+              ModalRoute.of(context).settings.arguments;
+
+          return MediaInterventionPage.create(
+            int.parse(params['id'][0]),
+            int.parse(params['orderPosition'][0]),
+            int.parse(params['flowSize'][0]),
+            eventResult,
+          );
+        }
       ),
     )
-
     ..define(
       RouteNameBuilder.login,
       transitionType: TransitionType.native,
