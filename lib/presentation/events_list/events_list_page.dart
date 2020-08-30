@@ -253,7 +253,7 @@ class ProgramCard extends StatelessWidget {
                     alignment: Alignment.center,
                     height: MediaQuery.of(context).size.height/7,
                     decoration: BoxDecoration(
-                      color: SenSemColors.royalBlue,
+                      color: event.color,
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(borderRadius),

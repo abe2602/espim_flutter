@@ -1,5 +1,6 @@
 import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 class Event {
@@ -12,6 +13,7 @@ class Event {
 //    @required this.sensorsList,
 //    @required this.complexConditionList,
     @required this.interventionList,
+    @required this.color,
   })  : assert(id != null),
         assert(title != null),
         assert(description != null),
@@ -19,7 +21,7 @@ class Event {
         assert(eventTriggerList != null),
 //        assert(sensorsList != null),
 //        assert(complexConditionList != null),
-        assert(interventionList != null);
+        assert(interventionList != null), assert(color != null);
 
   final int id;
 
@@ -28,6 +30,8 @@ class Event {
   final String description;
 
   final String type;
+
+  final Color color;
 
   final List<EventTrigger> eventTriggerList;
 

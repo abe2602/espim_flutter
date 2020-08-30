@@ -26,14 +26,27 @@ class QuestionInterventionBloc with SubscriptionBag {
 
     _onOpenQuestionTextFocusLostSubject
         .listen(
-          (_) => _buildUserFullNameValidationStream(
+          (_) => _buildOpenQuestionValidationStream(
               _openQuestionTextInputStatusSubject),
         )
         .addTo(subscriptionsBag);
 
     _navigateToNextInterventionSubject
         .flatMap((_) => _getNextIntervention())
-        .listen(_onNewActionSubject.add)
+        .listen(_onClosedQuestionNewActionSubject.add)
+        .addTo(subscriptionsBag);
+
+    _onNavigationActionSubject.stream
+        .flatMap(
+          (_) => Future.wait(
+            [
+              _buildOpenQuestionValidationStream(
+                  _openQuestionTextInputStatusSubject),
+            ],
+            eagerError: false,
+          ).asStream(),
+        )
+        .listen(_onOpenQuestionNewAction.add)
         .addTo(subscriptionsBag);
   }
 
@@ -45,10 +58,12 @@ class QuestionInterventionBloc with SubscriptionBag {
   final _onOpenQuestionTextFocusLostSubject = PublishSubject<void>();
   final _onOpenQuestionTextValueChangedSubject = BehaviorSubject<String>();
   final _openQuestionTextInputStatusSubject = PublishSubject<InputStatusVM>();
-
+  final _onNavigationActionSubject = PublishSubject<void>();
+  final _onOpenQuestionNewAction = PublishSubject<void>();
   final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
   final _onTryAgainSubject = PublishSubject<InterventionResponseState>();
-  final _onNewActionSubject = PublishSubject<Tuple2<String, int>>();
+  final _onClosedQuestionNewActionSubject =
+      PublishSubject<Tuple2<String, int>>();
   final _navigateToNextInterventionSubject = BehaviorSubject<int>();
 
   String nextInterventionClosedQuestion = '';
@@ -56,8 +71,16 @@ class QuestionInterventionBloc with SubscriptionBag {
   Stream<InputStatusVM> get openQuestionInputStatusStream =>
       _openQuestionTextInputStatusSubject.stream;
 
+  Stream<void> get aux =>
+      _onOpenQuestionNewAction.stream;
+
+  Stream<void> get onNavigationActionStream =>
+      _onNavigationActionSubject.stream;
+
   Sink<void> get onOpenQuestionFocusLostSink =>
       _onOpenQuestionTextFocusLostSubject.sink;
+
+  Sink<void> get onNavigateNewActionSink => _onNavigationActionSubject.sink;
 
   Sink<String> get onOpenQuestionValueChangedSink =>
       _onOpenQuestionTextValueChangedSubject.sink;
@@ -66,7 +89,7 @@ class QuestionInterventionBloc with SubscriptionBag {
       _navigateToNextInterventionSubject.sink;
 
   Sink<Tuple2<String, int>> get onNewActionSubjectSink =>
-      _onNewActionSubject.sink;
+      _onClosedQuestionNewActionSubject.sink;
 
   String get openQuestionText =>
       _onOpenQuestionTextValueChangedSubject.stream.value;
@@ -74,7 +97,7 @@ class QuestionInterventionBloc with SubscriptionBag {
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
   Stream<Tuple2<String, int>> get navigateToNextIntervention =>
-      _onNewActionSubject;
+      _onClosedQuestionNewActionSubject;
 
   Stream<Tuple2<String, int>> _getNextIntervention() async* {
     try {
@@ -120,7 +143,7 @@ class QuestionInterventionBloc with SubscriptionBag {
     }
   }
 
-  Future<void> _buildUserFullNameValidationStream(Sink<InputStatusVM> sink) =>
+  Future<void> _buildOpenQuestionValidationStream(Sink<InputStatusVM> sink) =>
       validateOpenQuestionTextUC
           .getFuture(
             params: ValidateOpenQuestionTextUCParams(openQuestionText),
@@ -128,11 +151,13 @@ class QuestionInterventionBloc with SubscriptionBag {
           .addStatusToSink(sink);
 
   void dispose() {
+    _onOpenQuestionNewAction.close();
     _openQuestionTextInputStatusSubject.close();
     _onOpenQuestionTextValueChangedSubject.close();
     _navigateToNextInterventionSubject.close();
-    _onNewActionSubject.close();
+    _onClosedQuestionNewActionSubject.close();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
+    _onNavigationActionSubject.close();
   }
 }
