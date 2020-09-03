@@ -47,7 +47,7 @@ class ProgramsRepository implements ProgramDataRepository {
           .getEmail()
           .then(
             (email) =>
-                programsRDS.getProgramList('kamila.uniara@gmail.com').then(
+                programsRDS.getProgramList(email).then(
               (programsList) {
                 final auxEvents = <EventRM>[];
 
@@ -92,7 +92,5 @@ class ProgramsRepository implements ProgramDataRepository {
   Future<Intervention> getIntervention(int eventId, int positionOrder) =>
       programsCDS.getInterventionByPositionOrder(eventId, positionOrder).then(
             (intervention) => intervention.toDM(),
-          ).catchError((error) {
-            throw error;
-      });
+          );
 }

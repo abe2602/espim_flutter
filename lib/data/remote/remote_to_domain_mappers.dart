@@ -5,6 +5,8 @@ import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
+import 'package:domain/model/likert_intervention.dart';
+import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
 import 'package:domain/model/program.dart';
@@ -64,24 +66,6 @@ extension InterventionRMToDM on InterventionRM {
           );
         }
         break;
-      case 'question':
-        {
-          return QuestionIntervention(
-            questionType: questionType,
-            questionAnswers: questionAnswers,
-            questionConditions: questionConditions,
-            interventionId: interventionId,
-            type: type,
-            statement: statement,
-            orderPosition: orderPosition,
-            isFirst: isFirst,
-            next: next,
-            isObligatory: isObligatory,
-            complexConditions: complexConditions?.toDM(),
-            mediaInformation: mediaInformation?.toDM(),
-          );
-        }
-        break;
       case 'task':
         {
           return TaskIntervention(
@@ -100,7 +84,7 @@ extension InterventionRMToDM on InterventionRM {
           );
         }
         break;
-      default:
+      case 'empty':
         {
           return EmptyIntervention(
             interventionId: interventionId,
@@ -113,6 +97,60 @@ extension InterventionRMToDM on InterventionRM {
             complexConditions: complexConditions?.toDM(),
             mediaInformation: mediaInformation?.toDM(),
           );
+        }
+        break;
+      default:
+        {
+          if (type == 'question' &&
+              scales.isNotEmpty &&
+              questionAnswers.isNotEmpty) {
+            return LikertIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'likert',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else if(type == 'question' &&
+              scales.isNotEmpty &&
+              questionAnswers.isEmpty) {
+            return MultipleAnswerIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'multiple_answer',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else {
+            return QuestionIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: type,
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }
         }
         break;
     }

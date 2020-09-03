@@ -6,10 +6,16 @@ class RouteNameBuilder {
   static const taskIntervention = 'taskIntervention';
   static const emptyIntervention = 'emptyIntervention';
   static const questionIntervention = 'questionIntervention';
+  static const likertIntervention = 'likertIntervention';
+  static const multiQuestionIntervention = 'multipleAnswerIntervention';
   static const mediaIntervention = 'mediaIntervention';
+
   static const taskInterventionModal = 'taskInterventionModal';
   static const emptyInterventionModal = 'emptyInterventionModal';
   static const questionInterventionModal = 'questionInterventionModal';
+  static const likertInterventionModal = 'likertInterventionModal';
+  static const multiQuestionInterventionModal =
+      'multipleAnswerInterventionModal';
   static const mediaInterventionModal = 'mediaInterventionModal';
 
   static String interventionType(
@@ -23,6 +29,12 @@ class RouteNameBuilder {
         break;
       case 'question':
         return '$questionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'likert':
+        return '$likertIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'multiple_answer':
+        return '$multiQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       default:
         return '$emptyIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
@@ -42,6 +54,12 @@ class RouteNameBuilder {
       case 'question':
         return '$questionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
+      case 'likert':
+        return '$likertInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'multiple_answer':
+        return '$multiQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
       default:
         return '$emptyInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
@@ -49,6 +67,8 @@ class RouteNameBuilder {
   }
 
   static String settingsPage() => '$settings';
+
   static String loginPage() => '$login';
+
   static String accompanimentPage() => '$accompaniment';
 }

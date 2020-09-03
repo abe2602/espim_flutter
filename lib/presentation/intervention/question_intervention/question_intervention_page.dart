@@ -265,10 +265,8 @@ class OpenQuestionState extends State<OpenQuestion> {
             InterventionResult(
               interventionType: widget.successState.intervention.type,
               startTime: _startTime,
-              endTime: DateTime.now()
-                  .millisecondsSinceEpoch,
-              interventionId:
-              widget.successState.intervention.interventionId,
+              endTime: DateTime.now().millisecondsSinceEpoch,
+              interventionId: widget.successState.intervention.interventionId,
               answer: widget.bloc.openQuestionText,
             ),
           );
@@ -299,45 +297,42 @@ class OpenQuestionState extends State<OpenQuestion> {
             widget.bloc.onNavigateNewActionSink.add(null);
           },
           child: StreamBuilder<InputStatusVM>(
-              stream: widget.bloc.openQuestionInputStatusStream,
-              initialData: InputStatusVM.undefined,
-              builder: (context, snapshot) => Column(
-                    children: [
-                      Container(
-                        margin:
-                            const EdgeInsets.only(left: 8, right: 8, top: 10),
+            stream: widget.bloc.openQuestionInputStatusStream,
+            initialData: InputStatusVM.undefined,
+            builder: (context, snapshot) => Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
 
-                        /// The correct way to do this is: bring all code from
-                        /// formtextfield to this Widget, but I want to have an example
-                        /// from this widget usage.
-                        child: FormTextField(
-                          statusStream:
-                              widget.bloc.openQuestionInputStatusStream,
-                          focusNode: _openQuestionFocusNode,
-                          labelText: S.of(context).openQuestionLabel,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          boxColor: boxColor,
-                          onChanged:
-                              widget.bloc.onOpenQuestionValueChangedSink.add,
-                        ),
+                  /// The correct way to do this is: bring all code from
+                  /// formtextfield to this Widget, but I want to have an example
+                  /// from this widget usage.
+                  child: FormTextField(
+                    statusStream: widget.bloc.openQuestionInputStatusStream,
+                    focusNode: _openQuestionFocusNode,
+                    labelText: S.of(context).openQuestionLabel,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    boxColor: boxColor,
+                    onChanged: widget.bloc.onOpenQuestionValueChangedSink.add,
+                  ),
+                ),
+                if (snapshot.data == InputStatusVM.empty)
+                  Container(
+                    margin: const EdgeInsets.only(left: 8, right: 8, top: 5),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      S.of(context).emptyFieldError,
+                      style: const TextStyle(
+                        color: Colors.red,
                       ),
-                      if (snapshot.data == InputStatusVM.empty)
-                        Container(
-                          margin:
-                              const EdgeInsets.only(left: 8, right: 8, top: 5),
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            S.of(context).emptyFieldError,
-                            style: const TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        )
-                      else
-                        Container(),
-                    ],
-                  )),
+                    ),
+                  )
+                else
+                  Container(),
+              ],
+            ),
+          ),
         ),
       );
 }

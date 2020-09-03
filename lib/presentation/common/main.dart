@@ -16,6 +16,7 @@ import 'package:flutter_app/presentation/common/general_provider.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/events_list/events_list_page.dart';
 import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/likert_intervention/likert_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_page.dart';
@@ -111,6 +112,23 @@ Future<void> main() async {
       ),
     )
     ..define(
+      '${RouteNameBuilder.likertIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return LikertInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
       '${RouteNameBuilder.mediaIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
@@ -162,20 +180,37 @@ Future<void> main() async {
       ),
     )
     ..define(
-      '${RouteNameBuilder.questionInterventionModal}/:id',
+      '${RouteNameBuilder.likertInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
         handlerFunc: (context, params) {
           final EventResult eventResult =
               ModalRoute.of(context).settings.arguments;
 
-          return QuestionInterventionPage.create(
+          return LikertInterventionPage.create(
             int.parse(params['id'][0]),
             int.parse(params['orderPosition'][0]),
             int.parse(params['flowSize'][0]),
             eventResult,
           );
         }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.questionInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return QuestionInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
       ),
     )
     ..define(
