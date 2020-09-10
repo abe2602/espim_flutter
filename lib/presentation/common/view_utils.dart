@@ -265,7 +265,6 @@ class InterventionBodyState extends State<InterventionBody> {
                 bottom: 20,
               ),
               child: Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ...widget.mediaInformation?.map(
                     (media) {

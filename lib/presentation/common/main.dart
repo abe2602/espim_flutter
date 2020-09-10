@@ -16,9 +16,10 @@ import 'package:flutter_app/presentation/common/general_provider.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/events_list/events_list_page.dart';
 import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_page.dart';
-import 'package:flutter_app/presentation/intervention/likert_intervention/likert_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_page.dart';
-import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/closed_question_intervention/closed_question_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/likert_intervention/likert_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/open_question_intervention/open_question_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_page.dart';
 import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -95,20 +96,37 @@ Future<void> main() async {
       ),
     )
     ..define(
-      '${RouteNameBuilder.questionIntervention}/:id',
+      '${RouteNameBuilder.openQuestionIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
         handlerFunc: (context, params) {
           final EventResult eventResult =
               ModalRoute.of(context).settings.arguments;
 
-          return QuestionInterventionPage.create(
+          return OpenQuestionInterventionPage.create(
             int.parse(params['id'][0]),
             int.parse(params['orderPosition'][0]),
             int.parse(params['flowSize'][0]),
             eventResult,
           );
         }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.closedQuestionIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return ClosedQuestionInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
       ),
     )
     ..define(
@@ -197,14 +215,31 @@ Future<void> main() async {
       ),
     )
     ..define(
-      '${RouteNameBuilder.questionInterventionModal}/:id',
+      '${RouteNameBuilder.openQuestionInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
       handler: Handler(
           handlerFunc: (context, params) {
             final EventResult eventResult =
                 ModalRoute.of(context).settings.arguments;
 
-            return QuestionInterventionPage.create(
+            return OpenQuestionInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.closedQuestionInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return ClosedQuestionInterventionPage.create(
               int.parse(params['id'][0]),
               int.parse(params['orderPosition'][0]),
               int.parse(params['flowSize'][0]),

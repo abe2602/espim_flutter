@@ -10,14 +10,3 @@ class ClosedQuestionSuccess extends Success {
       nextInterventionType: nextInterventionType,
       nextPage: nextPage);
 }
-
-class OpenQuestionSuccess extends Success {
-  OpenQuestionSuccess({
-    intervention,
-    nextInterventionType,
-    nextPage,
-  }) : super(
-            intervention: intervention,
-            nextInterventionType: nextInterventionType,
-            nextPage: nextPage);
-}

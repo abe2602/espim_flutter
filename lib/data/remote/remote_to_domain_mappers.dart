@@ -6,6 +6,7 @@ import 'package:domain/model/intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/likert_intervention.dart';
+import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
@@ -102,8 +103,7 @@ extension InterventionRMToDM on InterventionRM {
       default:
         {
           if (type == 'question' &&
-              scales.isNotEmpty &&
-              questionAnswers.isNotEmpty) {
+              questionType == 3) {
             return LikertIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
@@ -119,8 +119,7 @@ extension InterventionRMToDM on InterventionRM {
               mediaInformation: mediaInformation?.toDM(),
             );
           } else if(type == 'question' &&
-              scales.isNotEmpty &&
-              questionAnswers.isEmpty) {
+              questionType == 2) {
             return MultipleAnswerIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
@@ -135,13 +134,28 @@ extension InterventionRMToDM on InterventionRM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
+          }else if(questionType == 1){
+            return ClosedQuestionIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'closed_question',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
           } else {
             return QuestionIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
               questionConditions: questionConditions,
               interventionId: interventionId,
-              type: type,
+              type: 'open_question',
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,

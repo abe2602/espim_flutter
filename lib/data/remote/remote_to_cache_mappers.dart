@@ -21,7 +21,7 @@ import 'model/program_rm.dart';
 extension InterventionRMToCM on InterventionRM {
   InterventionCM toCM() => InterventionCM(
         interventionId: interventionId,
-        type: getInterventionType(type, scales, questionAnswers),
+        type: getInterventionType(type, questionType),
         statement: statement,
         orderPosition: orderPosition,
         isFirst: isFirst,
@@ -41,14 +41,16 @@ extension InterventionRMToCM on InterventionRM {
 }
 
 String getInterventionType(
-    String type, List<String> scales, final List<String> questionAnswers) {
+    String type, int questionType) {
   if (type == 'question') {
-    if (scales.isNotEmpty && questionAnswers.isNotEmpty) {
+    if (questionType == 3) {
       return 'likert';
-    } else if (scales.isNotEmpty && questionAnswers.isEmpty) {
+    } else if (questionType == 2) {
       return 'multiple_answer';
+    } else if(questionType == 1){
+      return 'closed_question';
     } else {
-      return type;
+      return 'open_question';
     }
   } else {
     return type;

@@ -6,12 +6,13 @@ import 'package:flutter_app/presentation/common/input_status_vm.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
-import 'package:flutter_app/presentation/intervention/question_intervention/question_intervention_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
-class QuestionInterventionBloc with SubscriptionBag {
-  QuestionInterventionBloc(
+import 'open_question_intervention_models.dart';
+
+class OpenQuestionInterventionBloc with SubscriptionBag {
+  OpenQuestionInterventionBloc(
       {@required this.eventId,
       @required this.orderPosition,
       @required this.getInterventionUC,
@@ -126,18 +127,11 @@ class QuestionInterventionBloc with SubscriptionBag {
             eventId: eventId, positionOrder: currentIntervention.next),
       );
 
-      if (currentIntervention is QuestionIntervention &&
-          currentIntervention.questionType == 0) {
-        yield OpenQuestionSuccess(
-            nextPage: currentIntervention.next,
-            intervention: currentIntervention,
-            nextInterventionType: nextIntervention.type);
-      } else {
-        yield ClosedQuestionSuccess(
-            nextPage: currentIntervention.next,
-            intervention: currentIntervention,
-            nextInterventionType: nextIntervention.type);
-      }
+      yield OpenQuestionSuccess(
+          nextPage: currentIntervention.next,
+          intervention: currentIntervention,
+          nextInterventionType: nextIntervention.type);
+
     } catch (error) {
       print('erro no bloc  ' + error.toString());
     }

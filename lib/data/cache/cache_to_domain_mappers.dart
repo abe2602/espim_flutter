@@ -77,8 +77,7 @@ extension InterventionCMToDM on InterventionCM {
         break;
       default:
         {
-          if (scales.isNotEmpty &&
-              questionAnswers.isNotEmpty) {
+          if (questionType == 3) {
             return LikertIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
@@ -95,8 +94,7 @@ extension InterventionCMToDM on InterventionCM {
               mediaInformation: mediaInformation?.toDM(),
             );
           } else if(
-              scales.isNotEmpty &&
-              questionAnswers.isEmpty) {
+          questionType == 2) {
             return MultipleAnswerIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,

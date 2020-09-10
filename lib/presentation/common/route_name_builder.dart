@@ -5,14 +5,17 @@ class RouteNameBuilder {
   static const accompaniment = 'accompaniment';
   static const taskIntervention = 'taskIntervention';
   static const emptyIntervention = 'emptyIntervention';
-  static const questionIntervention = 'questionIntervention';
+  static const openQuestionIntervention = 'openQuestionIntervention';
+  static const closedQuestionIntervention = 'closedQuestionIntervention';
   static const likertIntervention = 'likertIntervention';
   static const multiQuestionIntervention = 'multipleAnswerIntervention';
   static const mediaIntervention = 'mediaIntervention';
 
   static const taskInterventionModal = 'taskInterventionModal';
   static const emptyInterventionModal = 'emptyInterventionModal';
-  static const questionInterventionModal = 'questionInterventionModal';
+  static const openQuestionInterventionModal = 'openQuestionInterventionModal';
+  static const closedQuestionInterventionModal =
+      'closedQuestionInterventionModal';
   static const likertInterventionModal = 'likertInterventionModal';
   static const multiQuestionInterventionModal =
       'multipleAnswerInterventionModal';
@@ -27,8 +30,11 @@ class RouteNameBuilder {
       case 'media':
         return '$mediaIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'question':
-        return '$questionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+      case 'open_question':
+        return '$openQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'closed_question':
+        return '$closedQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'likert':
         return '$likertIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
@@ -51,8 +57,11 @@ class RouteNameBuilder {
       case 'media':
         return '$mediaInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'question':
-        return '$questionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+      case 'open_question':
+        return '$openQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'closed_question':
+        return '$closedQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'likert':
         return '$likertInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';

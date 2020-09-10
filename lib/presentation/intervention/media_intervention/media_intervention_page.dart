@@ -115,8 +115,7 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
               if (receivedEvent.intervention.next ==
                       receivedEvent.intervention.orderPosition ||
                   receivedEvent.nextPage == 0) {
-                Navigator.popUntil(context,
-                    ModalRoute.withName(RouteNameBuilder.accompaniment));
+                Navigator.of(context).popUntil((route) => route.isFirst);
               } else {
                 widget.eventResult.interventionResultsList.add(
                   InterventionResult(
