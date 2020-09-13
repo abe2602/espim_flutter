@@ -6,6 +6,7 @@ import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
 import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/model/custom_likert_intervention.dart';
+import 'package:domain/model/semantic_diff_intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
@@ -104,6 +105,20 @@ extension InterventionRMToDM on InterventionRM {
         break;
       default:
         {
+          if (questionType == 4) {
+            return SemanticDiffIntervention(
+              scales: scales,
+              interventionId: interventionId,
+              type: 'semantic_diff',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }
           if (questionType == 3) {
             return LikertIntervention(
               questionType: questionType,

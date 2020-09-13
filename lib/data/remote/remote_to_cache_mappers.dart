@@ -41,6 +41,9 @@ extension InterventionRMToCM on InterventionRM {
 String getInterventionType(
     String type, int questionType) {
   if (type == 'question') {
+    if (questionType == 4) {
+      return 'semantic_diff';
+    }
     if (questionType == 3) {
       return 'likert';
     }
