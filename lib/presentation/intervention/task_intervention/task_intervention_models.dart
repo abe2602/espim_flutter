@@ -1,4 +1,3 @@
-import 'package:domain/model/task_parameter.dart';
 import 'package:flutter/foundation.dart';
 
 import '../intervention_models.dart';

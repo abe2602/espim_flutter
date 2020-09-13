@@ -1,18 +1,15 @@
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:domain/model/question_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
-import 'package:domain/use_case/validate_empty_field_uc.dart';
-import 'package:domain/model/event_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
-import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/closed_question_intervention/closed_question_intervention_bloc.dart';
-
 import 'package:provider/provider.dart';
-import 'package:domain/model/intervention_result.dart';
 
 import '../../intervention_models.dart';
 import 'closed_question_intervention_models.dart';
@@ -89,7 +86,7 @@ class ClosedQuestionInterventionPage extends StatelessWidget {
                   navigateToNextIntervention(context, event.item2, flowSize,
                       eventId, event.item1, eventResult);
                 },
-                child: ClosedQuestionComponent(
+                child: ClosedQuestionCard(
                   bloc: bloc,
                   eventId: eventId,
                   flowSize: flowSize,
@@ -105,8 +102,8 @@ class ClosedQuestionInterventionPage extends StatelessWidget {
   }
 }
 
-class ClosedQuestionComponent extends StatefulWidget {
-  const ClosedQuestionComponent({
+class ClosedQuestionCard extends StatefulWidget {
+  const ClosedQuestionCard({
     @required this.bloc,
     @required this.successState,
     @required this.flowSize,
@@ -120,10 +117,10 @@ class ClosedQuestionComponent extends StatefulWidget {
   final int eventId;
 
   @override
-  State<StatefulWidget> createState() => ClosedQuestionComponentState();
+  State<StatefulWidget> createState() => ClosedQuestionCardState();
 }
 
-class ClosedQuestionComponentState extends State<ClosedQuestionComponent> {
+class ClosedQuestionCardState extends State<ClosedQuestionCard> {
   int selectedOption;
 
   @override

@@ -1,11 +1,12 @@
 import 'package:domain/model/complex_condition.dart';
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/intervention.dart';
+import 'package:domain/model/custom_likert_intervention.dart';
+import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
-import 'package:domain/model/question_intervention.dart';
-import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
+import 'package:domain/model/question_intervention.dart';
 import 'package:domain/model/settings.dart';
 import 'package:domain/model/task_intervention.dart';
 import 'package:flutter_app/data/cache/model/settings_cm.dart';
@@ -82,6 +83,19 @@ extension InterventionCMToDM on InterventionCM {
               questionType: questionType,
               questionAnswers: questionAnswers,
               questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'likert',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              scales: scales,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } if (questionType == 31) {
+            return CustomLikertIntervention(
               interventionId: interventionId,
               type: 'likert',
               statement: statement,

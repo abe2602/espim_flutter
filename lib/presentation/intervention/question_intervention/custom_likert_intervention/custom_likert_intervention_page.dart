@@ -4,18 +4,16 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
-import 'package:flutter_app/presentation/common/custom_slider.dart';
-import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import 'likert_intervention_bloc.dart';
-import 'likert_intervention_models.dart';
+import 'custom_likert_intervention_bloc.dart';
+import 'custom_likert_intervention_models.dart';
 
-class LikertInterventionPage extends StatefulWidget {
-  const LikertInterventionPage({
+class CustomLikertInterventionPage extends StatefulWidget {
+  const CustomLikertInterventionPage({
     @required this.eventId,
     @required this.flowSize,
     @required this.eventResult,
@@ -27,19 +25,19 @@ class LikertInterventionPage extends StatefulWidget {
   final EventResult eventResult;
   final int eventId;
   final int flowSize;
-  final LikertInterventionBloc bloc;
+  final CustomLikertInterventionBloc bloc;
 
   static Widget create(int eventId, int orderPosition, int flowSize,
           EventResult eventResult) =>
-      ProxyProvider<GetInterventionUC, LikertInterventionBloc>(
-        update: (context, getInterventionUC, _) => LikertInterventionBloc(
+      ProxyProvider<GetInterventionUC, CustomLikertInterventionBloc>(
+        update: (context, getInterventionUC, _) => CustomLikertInterventionBloc(
           eventId: eventId,
           orderPosition: orderPosition,
           getInterventionUC: getInterventionUC,
         ),
         dispose: (context, bloc) => bloc.dispose,
-        child: Consumer<LikertInterventionBloc>(
-          builder: (context, bloc, _) => LikertInterventionPage(
+        child: Consumer<CustomLikertInterventionBloc>(
+          builder: (context, bloc, _) => CustomLikertInterventionPage(
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
@@ -49,10 +47,10 @@ class LikertInterventionPage extends StatefulWidget {
       );
 
   @override
-  State<StatefulWidget> createState() => LikertInterventionPageState();
+  State<StatefulWidget> createState() => CustomLikertInterventionPageState();
 }
 
-class LikertInterventionPageState extends State<LikertInterventionPage> {
+class CustomLikertInterventionPageState extends State<CustomLikertInterventionPage> {
   List<String> _likertAnswer;
   final _startTime = DateTime.now().millisecondsSinceEpoch;
   bool _shouldAlwaysDisplayValueIndicator = true;
@@ -79,7 +77,7 @@ class LikertInterventionPageState extends State<LikertInterventionPage> {
                     AsyncSnapshotResponseView<Loading, Error, Success>(
                   snapshot: snapshot,
                   successWidgetBuilder: (successState) {
-                    final LikertSuccess success = successState;
+                    final CustomLikertSuccess success = successState;
                     _likertAnswer = List.filled(success.optionsList.length,
                         '1: ${success.likertScales[0]}');
 

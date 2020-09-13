@@ -4,13 +4,13 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:domain/exceptions.dart';
-import 'package:domain/model/media_information.dart';
 import 'package:domain/model/event_result.dart';
-import 'package:domain/model/intervention_result.dart';
+import 'package:domain/model/media_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
+import 'package:flutter_app/presentation/common/custom_slider.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
@@ -159,7 +159,7 @@ void navigateToNextIntervention(
   String type,
   EventResult eventResult,
 ) {
-  if (flowSize == nextPosition || nextPosition == 0) {
+  if (nextPosition == 0) {
     Navigator.of(context).popUntil((route) => route.isFirst);
   } else {
     Navigator.of(context).pushNamed(
@@ -341,4 +341,108 @@ class InterventionBodyState extends State<InterventionBody> {
           ],
         ),
       );
+}
+
+class LikertCard extends StatefulWidget {
+  const LikertCard({
+    @required this.likertScale,
+    @required this.index,
+    @required this.likertAnswer,
+    @required this.shouldAlwaysDisplayValueIndicator,
+  })  : assert(likertScale != null),
+        assert(index != null),
+        assert(likertAnswer != null),
+        assert(shouldAlwaysDisplayValueIndicator != null);
+
+  final List<String> likertScale;
+  final int index;
+  final List<String> likertAnswer;
+  final bool shouldAlwaysDisplayValueIndicator;
+
+  @override
+  State<StatefulWidget> createState() => LikertCardState();
+}
+
+class LikertCardState extends State<LikertCard> {
+  double _selectedOption;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedOption = 0.0;
+  }
+
+  @override
+  Widget build(BuildContext context) => Container(
+    color: SenSemColors.accentLightGray,
+    padding: const EdgeInsets.only(top: 30),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            activeTrackColor: SenSemColors.lightGray,
+            inactiveTrackColor: SenSemColors.lightGray,
+            trackShape: const RoundedRectSliderTrackShape(),
+            trackHeight: 4,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+            thumbColor: SenSemColors.windowBlue,
+            overlayColor: SenSemColors.primaryColor.withAlpha(32),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 28),
+            tickMarkShape:
+            const RoundSliderTickMarkShape(tickMarkRadius: 6),
+            activeTickMarkColor: SenSemColors.lightGray,
+            inactiveTickMarkColor: SenSemColors.lightGray,
+            valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+            valueIndicatorColor: SenSemColors.windowBlue,
+            valueIndicatorTextStyle: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          child: CustomSlider(
+            shouldAlwaysDisplayValueIndicator:
+            widget.shouldAlwaysDisplayValueIndicator,
+            value: _selectedOption,
+            min: 0,
+            max: widget.likertScale.length.toDouble() - 1,
+            divisions: widget.likertScale.length - 1,
+            label: '${(_selectedOption + 1).toInt()}. '
+                '${widget.likertScale[_selectedOption.floor()]}',
+            onChanged: (value) {
+              setState(
+                    () {
+                  _selectedOption = value;
+
+                  widget.likertAnswer[widget.index] =
+                  '${(_selectedOption + 1).toInt()}: '
+                      '${widget.likertScale[_selectedOption.floor()]}';
+                },
+              );
+              print(widget.likertAnswer.toString());
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ...widget.likertScale
+                    .asMap()
+                    .map(
+                      (index, _) => MapEntry(
+                    index,
+                    Text(
+                      (index + 1).toString(),
+                    ),
+                  ),
+                )
+                    .values
+                    .toList(),
+              ]),
+        ),
+      ],
+    ),
+  );
 }

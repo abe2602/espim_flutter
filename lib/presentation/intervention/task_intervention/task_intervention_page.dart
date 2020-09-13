@@ -1,5 +1,6 @@
-import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
+import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_app/presentation/intervention/task_intervention/task_int
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:domain/model/intervention_result.dart';
 
 import '../intervention_models.dart';
 

@@ -20,6 +20,7 @@ class ProgramsCDS {
       _openInterventionLisBox().then(
         (box) {
           final List<EventCM> eventsList = box.get(0);
+
           final myEvent =
               eventsList.where((event) => event.id == eventId).toList()[0];
 

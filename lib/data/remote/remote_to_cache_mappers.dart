@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_app/data/cache/model/complex_condition_cm.dart';
 import 'package:flutter_app/data/cache/model/event_cm.dart';
 import 'package:flutter_app/data/cache/model/event_trigger_cm.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/observer_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
-import 'package:flutter_app/presentation/common/view_utils.dart';
 
 import 'model/event_trigger_rm.dart';
 import 'model/program_rm.dart';
@@ -45,7 +43,11 @@ String getInterventionType(
   if (type == 'question') {
     if (questionType == 3) {
       return 'likert';
-    } else if (questionType == 2) {
+    }
+    else if(questionType == 31) {
+      return 'custom_likert';
+    }
+    else if (questionType == 2) {
       return 'multiple_answer';
     } else if(questionType == 1){
       return 'closed_question';

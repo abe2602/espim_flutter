@@ -29,5 +29,8 @@ class FilesRDS {
             file.readAsBytesSync(),
             'multipart/form-data',
             Permissions.public);
+      }).catchError((error) {
+        return '';
+        //throw error;
       });
 }

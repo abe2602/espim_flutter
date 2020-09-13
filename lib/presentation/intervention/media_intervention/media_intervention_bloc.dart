@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:domain/model/media_intervention.dart';
-import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
+import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';

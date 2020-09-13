@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:domain/data_repository/auth_data_repository.dart';
+import 'package:domain/data_repository/files_data_repository.dart';
 import 'package:domain/data_repository/programs_data_repository.dart';
 import 'package:domain/data_repository/user_data_repository.dart';
-import 'package:domain/data_repository/files_data_repository.dart';
-import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:domain/use_case/change_settings_uc.dart';
 import 'package:domain/use_case/check_has_shown_landing_page_uc.dart';
 import 'package:domain/use_case/check_is_user_logged_uc.dart';
@@ -15,6 +14,7 @@ import 'package:domain/use_case/get_settings_uc.dart';
 import 'package:domain/use_case/login_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
 import 'package:domain/use_case/mark_landing_page_as_seen_uc.dart';
+import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/data/cache/programs_cds.dart';

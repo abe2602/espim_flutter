@@ -1,3 +1,4 @@
+import 'package:domain/model/event_result.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/cache/model/complex_condition_cm.dart';
@@ -18,14 +19,16 @@ import 'package:flutter_app/presentation/events_list/events_list_page.dart';
 import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/closed_question_intervention/closed_question_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/custom_likert_intervention/custom_likert_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/likert_intervention/likert_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/multiple_answer_intervention/multiple_answer_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/open_question_intervention/open_question_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/question_intervention/semantic_diff_intervention/semantic_diff_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_page.dart';
 import 'package:flutter_app/presentation/settings/settings_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:domain/model/event_result.dart';
 
 import 'main_container/main_container_screen.dart';
 
@@ -96,6 +99,23 @@ Future<void> main() async {
       ),
     )
     ..define(
+      '${RouteNameBuilder.multiQuestionIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return MultipleAnswerInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
       '${RouteNameBuilder.openQuestionIntervention}/:id',
       transitionType: TransitionType.native,
       handler: Handler(
@@ -138,6 +158,40 @@ Future<void> main() async {
                 ModalRoute.of(context).settings.arguments;
 
             return LikertInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.customLikertIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return CustomLikertInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.semanticDiffIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return SemanticDiffInterventionPage.create(
               int.parse(params['id'][0]),
               int.parse(params['orderPosition'][0]),
               int.parse(params['flowSize'][0]),
@@ -212,6 +266,57 @@ Future<void> main() async {
             eventResult,
           );
         }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.customLikertInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return CustomLikertInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.semanticDiffInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return SemanticDiffInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
+      ),
+    )
+    ..define(
+      '${RouteNameBuilder.multiQuestionInterventionModal}/:id',
+      transitionType: TransitionType.nativeModal,
+      handler: Handler(
+          handlerFunc: (context, params) {
+            final EventResult eventResult =
+                ModalRoute.of(context).settings.arguments;
+
+            return MultipleAnswerInterventionPage.create(
+              int.parse(params['id'][0]),
+              int.parse(params['orderPosition'][0]),
+              int.parse(params['flowSize'][0]),
+              eventResult,
+            );
+          }
       ),
     )
     ..define(

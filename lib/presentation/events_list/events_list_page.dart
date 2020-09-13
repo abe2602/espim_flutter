@@ -1,9 +1,9 @@
 import 'package:domain/model/event.dart';
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:domain/use_case/get_actives_events_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
-import 'package:domain/model/event_result.dart';
-import 'package:domain/model/intervention_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

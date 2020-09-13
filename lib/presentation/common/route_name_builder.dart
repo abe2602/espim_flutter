@@ -8,6 +8,9 @@ class RouteNameBuilder {
   static const openQuestionIntervention = 'openQuestionIntervention';
   static const closedQuestionIntervention = 'closedQuestionIntervention';
   static const likertIntervention = 'likertIntervention';
+  static const customLikertIntervention = 'customLikertIntervention';
+  static const semanticDiffIntervention =
+      'semanticDiffIntervention';
   static const multiQuestionIntervention = 'multipleAnswerIntervention';
   static const mediaIntervention = 'mediaIntervention';
 
@@ -17,6 +20,9 @@ class RouteNameBuilder {
   static const closedQuestionInterventionModal =
       'closedQuestionInterventionModal';
   static const likertInterventionModal = 'likertInterventionModal';
+  static const customLikertInterventionModal = 'customLikertInterventionModal';
+  static const semanticDiffInterventionModal =
+      'semanticDiffInterventionModal';
   static const multiQuestionInterventionModal =
       'multipleAnswerInterventionModal';
   static const mediaInterventionModal = 'mediaInterventionModal';
@@ -38,6 +44,12 @@ class RouteNameBuilder {
         break;
       case 'likert':
         return '$likertIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'custom_likert':
+        return '$customLikertIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'semantic_diff':
+        return '$semanticDiffIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'multiple_answer':
         return '$multiQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
@@ -65,6 +77,12 @@ class RouteNameBuilder {
         break;
       case 'likert':
         return '$likertInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'custom_likert':
+        return '$customLikertInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'semantic_diff':
+        return '$semanticDiffInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'multiple_answer':
         return '$multiQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';

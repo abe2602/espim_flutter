@@ -1,12 +1,13 @@
+import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/complex_condition.dart';
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/event.dart';
 import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
+import 'package:domain/model/likert_intervention.dart';
+import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
-import 'package:domain/model/likert_intervention.dart';
-import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
 import 'package:flutter_app/data/remote/model/program_rm.dart';
+import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 
 import 'model/observer_rm.dart';
@@ -34,7 +36,7 @@ extension EventRMToDM on EventRM {
         type: type,
         eventTriggerList: eventTriggerList.toDM(),
         interventionList: interventionList.toDM(),
-        color: color.toColor(),
+        color: color == 'none' ? SenSemColors.primaryColor : color.toColor(),
       );
 }
 
@@ -102,8 +104,7 @@ extension InterventionRMToDM on InterventionRM {
         break;
       default:
         {
-          if (type == 'question' &&
-              questionType == 3) {
+          if (questionType == 3) {
             return LikertIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
@@ -118,8 +119,20 @@ extension InterventionRMToDM on InterventionRM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          } else if(type == 'question' &&
-              questionType == 2) {
+          } else if (questionType == 31){
+            return CustomLikertIntervention(
+              interventionId: interventionId,
+              type: 'likert',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              scales: scales,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }else if (questionType == 2) {
             return MultipleAnswerIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
@@ -134,7 +147,7 @@ extension InterventionRMToDM on InterventionRM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          }else if(questionType == 1){
+          } else if (questionType == 1) {
             return ClosedQuestionIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,

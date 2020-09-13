@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,6 @@ import 'package:flutter_app/presentation/intervention/media_intervention/media_i
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import 'package:domain/model/event_result.dart';
-import 'package:domain/model/intervention_result.dart';
 
 import '../intervention_models.dart';
 import 'media_intervention_bloc.dart';
