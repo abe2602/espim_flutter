@@ -34,7 +34,7 @@ class SemanticDiffInterventionBloc with SubscriptionBag {
     try {
       Intervention nextIntervention;
       final SemanticDiffIntervention currentIntervention =
-      await getInterventionUC.getFuture(
+          await getInterventionUC.getFuture(
         params: GetInterventionUCParams(
             eventId: eventId, positionOrder: orderPosition),
       );
@@ -46,11 +46,30 @@ class SemanticDiffInterventionBloc with SubscriptionBag {
         );
       }
 
+      final semanticDiffScales =
+          List.filled(int.parse(currentIntervention.scales[0]), '');
+
+      final index = int.parse(currentIntervention.scales[0]) ~/ 2;
+      var valuePositive = 0, valueNegative = 0, i = index - 1, j = index + 1;
+      semanticDiffScales[index] = '0';
+
+      while(i >= 0) {
+        semanticDiffScales[i] = (valueNegative - 1).toString();
+        semanticDiffScales[j] = (valuePositive + 1).toString();
+        i--;
+        j++;
+        valueNegative--;
+        valuePositive++;
+      }
+
       yield SemanticDiffSuccess(
+        semanticDiffScale: semanticDiffScales,
+        semanticDiffSize: int.parse(currentIntervention.scales[0]),
+        semanticDiffLabels: currentIntervention.scales
+            .sublist(1, currentIntervention.scales.length),
         nextPage: currentIntervention.next,
         intervention: currentIntervention,
         nextInterventionType: nextIntervention?.type ?? '',
-        likertScales: getLikertScales(currentIntervention.scales[0]),
       );
     } catch (error) {
       print(error.toString());

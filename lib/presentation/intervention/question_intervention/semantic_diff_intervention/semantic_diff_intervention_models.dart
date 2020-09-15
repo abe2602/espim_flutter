@@ -5,11 +5,14 @@ class SemanticDiffSuccess extends Success {
     intervention,
     nextInterventionType,
     nextPage,
-    this.likertScales,
+    this.semanticDiffSize,
+    this.semanticDiffLabels,
+    this.semanticDiffScale,
   }) : super(
-      intervention: intervention,
-      nextInterventionType: nextInterventionType,
-      nextPage: nextPage);
-
-  final List<String> likertScales;
+            intervention: intervention,
+            nextInterventionType: nextInterventionType,
+            nextPage: nextPage);
+  final int semanticDiffSize;
+  final List<String> semanticDiffScale;
+  final List<String> semanticDiffLabels;
 }

@@ -11,6 +11,7 @@ import 'package:flutter_app/presentation/intervention/question_intervention/sema
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+//todo: terminar aqui
 class SemanticDiffInterventionPage extends StatefulWidget {
   const SemanticDiffInterventionPage({
     @required this.eventId,
@@ -51,7 +52,7 @@ class SemanticDiffInterventionPage extends StatefulWidget {
 
 class SemanticDiffInterventionPageState
     extends State<SemanticDiffInterventionPage> {
-  List<String> _likertAnswer;
+  List<String> _semanticDiffAnswer;
   final _startTime = DateTime.now().millisecondsSinceEpoch;
   bool _shouldAlwaysDisplayValueIndicator = true;
 
@@ -78,8 +79,8 @@ class SemanticDiffInterventionPageState
                   snapshot: snapshot,
                   successWidgetBuilder: (successState) {
                     final SemanticDiffSuccess success = successState;
-//                    _likertAnswer = List.filled(success.optionsList.length,
-//                        '1: ${success.likertScales[0]}');
+                    _semanticDiffAnswer =
+                        List.filled(success.semanticDiffLabels.length, '0');
 
                     return InterventionBody(
                       statement: successState.intervention.statement,
@@ -92,13 +93,18 @@ class SemanticDiffInterventionPageState
                       flowSize: widget.flowSize,
                       orderPosition: successState.intervention.orderPosition,
                       onPressed: () {
-                        var likertAnswerString = '';
+                        var semanticDiffAnswerString = '';
 
-                        for (var i = 0; i < _likertAnswer.length - 1; i++) {
-                          likertAnswerString += _likertAnswer[i];
-                          likertAnswerString += '_SEP_';
-                          likertAnswerString += _likertAnswer[i + 1];
+                        for (var i = 0;
+                            i < _semanticDiffAnswer.length - 1;
+                            i++) {
+                          semanticDiffAnswerString += _semanticDiffAnswer[i];
+                          semanticDiffAnswerString += '_SEP_';
+                          semanticDiffAnswerString +=
+                              _semanticDiffAnswer[i + 1];
                         }
+
+                        print(semanticDiffAnswerString);
 
                         widget.eventResult.interventionResultsList.add(
                           InterventionResult(
@@ -107,7 +113,7 @@ class SemanticDiffInterventionPageState
                             endTime: DateTime.now().millisecondsSinceEpoch,
                             interventionId:
                                 successState.intervention.interventionId,
-                            answer: likertAnswerString,
+                            answer: semanticDiffAnswerString,
                           ),
                         );
 
@@ -127,7 +133,7 @@ class SemanticDiffInterventionPageState
                       child: Column(
                         // todo: voltar aqui
                         children: [
-                          ...success.likertScales
+                          ...success.semanticDiffLabels
                               .asMap()
                               .map(
                                 (index, statement) => MapEntry(
@@ -139,10 +145,15 @@ class SemanticDiffInterventionPageState
                                       Text(statement),
                                       Padding(
                                         padding: const EdgeInsets.all(8),
-                                        child: LikertCard(
-                                          likertScale: success.likertScales,
+                                        child: SemanticDiffCard(
+                                          semanticDiffAnswer:
+                                              _semanticDiffAnswer,
+                                          semanticDiffScale:
+                                              success.semanticDiffScale,
                                           index: index,
-                                          likertAnswer: _likertAnswer,
+                                          semanticDiffLabels:
+                                              success.semanticDiffLabels,
+                                          size: success.semanticDiffSize,
                                           shouldAlwaysDisplayValueIndicator:
                                               _shouldAlwaysDisplayValueIndicator,
                                         ),

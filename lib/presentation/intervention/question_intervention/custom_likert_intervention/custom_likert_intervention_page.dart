@@ -12,6 +12,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'custom_likert_intervention_bloc.dart';
 import 'custom_likert_intervention_models.dart';
 
+//todo: terminar aqui
 class CustomLikertInterventionPage extends StatefulWidget {
   const CustomLikertInterventionPage({
     @required this.eventId,
