@@ -23,7 +23,7 @@ class EventCMAdapter extends TypeAdapter<EventCM> {
       type: fields[3] as String,
       eventTriggerList: (fields[4] as List)?.cast<EventTriggerCM>(),
       interventionList: (fields[5] as List)?.cast<InterventionCM>(),
-      color: fields[6] as Color,
+      color: fields[6] as String,
     );
   }
 

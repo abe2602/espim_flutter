@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/material.dart';
@@ -22,15 +24,19 @@ class MediaInterventionPage extends StatefulWidget {
     @required this.bloc,
     @required this.eventId,
     @required this.flowSize,
+    @required this.eventResult,
   })  : assert(bloc != null),
         assert(eventId != null),
-        assert(flowSize != null);
+        assert(flowSize != null),
+        assert(eventResult != null);
 
+  final EventResult eventResult;
   final MediaInterventionBloc bloc;
   final int eventId;
   final int flowSize;
 
-  static Widget create(int eventId, int orderPosition, int flowSize) =>
+  static Widget create(int eventId, int orderPosition, int flowSize,
+          EventResult eventResult) =>
       ProxyProvider2<GetInterventionUC, UploadFileUC, MediaInterventionBloc>(
         update: (context, getInterventionUC, uploadFileUC, _) =>
             MediaInterventionBloc(
@@ -45,6 +51,7 @@ class MediaInterventionPage extends StatefulWidget {
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
+            eventResult: eventResult,
           ),
         ),
       );
@@ -56,6 +63,7 @@ class MediaInterventionPage extends StatefulWidget {
 class MediaInterventionPageState extends State<MediaInterventionPage> {
   File _cameraFile;
   VideoPlayerController videoPlayerController;
+  final _startTime = DateTime.now().millisecondsSinceEpoch;
 
   Future<void> captureMedia(ImageSource imageSource, String mediaType) async {
     try {
@@ -107,15 +115,28 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
               if (receivedEvent.intervention.next ==
                       receivedEvent.intervention.orderPosition ||
                   receivedEvent.nextPage == 0) {
-                Navigator.popUntil(context,
-                    ModalRoute.withName(RouteNameBuilder.accompaniment));
+                Navigator.of(context).popUntil((route) => route.isFirst);
               } else {
+                widget.eventResult.interventionResultsList.add(
+                  InterventionResult(
+                    interventionType: receivedEvent.intervention.type,
+                    startTime: _startTime,
+                    endTime: DateTime.now().millisecondsSinceEpoch,
+                    interventionId: receivedEvent.intervention.interventionId,
+                    answer: receivedEvent.mediaUrl,
+                  ),
+                );
+
+                widget.eventResult.interventionsIds
+                    .add(receivedEvent.intervention.interventionId);
+
                 await Navigator.of(context).pushNamed(
                   RouteNameBuilder.interventionType(
                       receivedEvent.nextInterventionType,
                       widget.eventId,
                       receivedEvent.nextPage,
                       widget.flowSize),
+                  arguments: widget.eventResult,
                 );
               }
             }

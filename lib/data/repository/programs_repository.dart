@@ -47,7 +47,7 @@ class ProgramsRepository implements ProgramDataRepository {
           .getEmail()
           .then(
             (email) =>
-                programsRDS.getProgramList('kamila.uniara@gmail.com').then(
+                programsRDS.getProgramList(email).then(
               (programsList) {
                 final auxEvents = <EventRM>[];
 

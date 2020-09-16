@@ -1,4 +1,6 @@
 import 'package:domain/model/event.dart';
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:domain/use_case/get_actives_events_list_uc.dart';
 import 'package:domain/use_case/get_logged_user_uc.dart';
 import 'package:domain/use_case/logout_uc.dart';
@@ -225,6 +227,13 @@ class ProgramCard extends StatelessWidget {
                     event.id,
                     1,
                     event.interventionList.length),
+                arguments: EventResult(
+                  eventId: event.id,
+                  startTime: DateTime.now().millisecondsSinceEpoch,
+                  interventionsIds: <int>[],
+                  interventionResultsList: <InterventionResult>[],
+                  eventTrigger: event.eventTriggerList[0].id,
+                ),
               );
             },
             child: Container(
@@ -268,27 +277,27 @@ class ProgramCard extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       height: MediaQuery.of(context).size.height/7,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
+                        padding: const EdgeInsets.only(left: 15, top: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               event.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.fade,
-                              style: const TextStyle(
+                              //maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14,
+                                fontSize: MediaQuery.of(context).size.height/37,
                                 color: Colors.black,
                               ),
                             ),
                             Text(
                               event.description,
-                              maxLines: 4,
-                              overflow: TextOverflow.fade,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                fontSize: 13,
+                                fontSize: MediaQuery.of(context).size.height/39,
                                 color: SenSemColors.mediumGray,
                               ),
                             ),

@@ -1,3 +1,5 @@
+import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_result.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
@@ -16,14 +18,19 @@ class TaskInterventionPage extends StatefulWidget {
     @required this.bloc,
     @required this.eventId,
     @required this.flowSize,
+    @required this.eventResult,
   })  : assert(bloc != null),
         assert(eventId != null),
-        assert(flowSize != null);
+        assert(flowSize != null),
+        assert(eventResult != null);
+
+  final EventResult eventResult;
   final TaskInterventionBloc bloc;
   final int eventId;
   final int flowSize;
 
-  static Widget create(int eventId, int orderPosition, int flowSize) =>
+  static Widget create(int eventId, int orderPosition, int flowSize,
+          EventResult eventResult) =>
       ProxyProvider<GetInterventionUC, TaskInterventionBloc>(
         update: (context, getInterventionUC, _) => TaskInterventionBloc(
           eventId: eventId,
@@ -37,6 +44,7 @@ class TaskInterventionPage extends StatefulWidget {
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,
+            eventResult: eventResult,
           ),
         ),
       );
@@ -47,6 +55,7 @@ class TaskInterventionPage extends StatefulWidget {
 
 class TaskInterventionPageState extends State<TaskInterventionPage> {
   bool _isTaskDone = false;
+  final _startTime = DateTime.now().millisecondsSinceEpoch;
 
   Future<void> _launchURL(String siteUrl) async {
     if (await canLaunch(siteUrl)) {
@@ -85,12 +94,27 @@ class TaskInterventionPageState extends State<TaskInterventionPage> {
                   onPressed: !_isTaskDone
                       ? null
                       : () {
+                          widget.eventResult.interventionResultsList.add(
+                            InterventionResult(
+                              interventionType: successState.intervention.type,
+                              startTime: _startTime,
+                              endTime: DateTime.now()
+                                  .millisecondsSinceEpoch,
+                              interventionId:
+                                  successState.intervention.interventionId,
+                            ),
+                          );
+
+                          widget.eventResult.interventionsIds
+                              .add(successState.intervention.interventionId);
+
                           navigateToNextIntervention(
                             context,
                             successState.nextPage,
                             widget.flowSize,
                             widget.eventId,
                             successState.nextInterventionType,
+                            widget.eventResult,
                           );
                         },
                   child: FlatButton(

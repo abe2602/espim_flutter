@@ -81,8 +81,8 @@ class FormTextField extends StatelessWidget {
             child: TextField(
               controller: textEditingController,
               focusNode: focusNode,
-              decoration: const InputDecoration(
-                //labelText: labelText,
+              decoration: InputDecoration(
+                labelText: labelText,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 errorBorder: InputBorder.none,

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:domain/model/media_intervention.dart';
-import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
+import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
@@ -76,8 +76,16 @@ class MediaInterventionBloc with SubscriptionBag {
     yield UploadLoading();
 
     try {
-      await uploadFileUC.getFuture(params: UploadFileUCParams(file: file));
-      yield _onNewStateSubject.value;
+      final mediaUrl =
+          await uploadFileUC.getFuture(params: UploadFileUCParams(file: file));
+      final Success previousSuccess = _onNewStateSubject.value;
+
+      yield Success(
+        nextInterventionType: previousSuccess.nextInterventionType,
+        nextPage: previousSuccess.nextPage,
+        mediaUrl: mediaUrl,
+        intervention: previousSuccess.intervention,
+      );
     } catch (error) {
       print('erro no bloc  ' + error.toString());
     }

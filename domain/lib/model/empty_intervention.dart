@@ -2,7 +2,8 @@ import 'intervention.dart';
 
 class EmptyIntervention extends Intervention {
   EmptyIntervention(
-      {type,
+      {interventionId,
+      type,
       statement,
       orderPosition,
       isFirst,
@@ -11,6 +12,7 @@ class EmptyIntervention extends Intervention {
       complexConditions,
       mediaInformation})
       : super(
+          interventionId: interventionId,
           type: type,
           statement: statement,
           orderPosition: orderPosition,

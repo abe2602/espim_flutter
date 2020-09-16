@@ -17,6 +17,7 @@ class InterventionCMAdapter extends TypeAdapter<InterventionCM> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return InterventionCM(
+      interventionId: fields[16] as int,
       type: fields[0] as String,
       statement: fields[1] as String,
       orderPosition: fields[2] as int,
@@ -39,7 +40,7 @@ class InterventionCMAdapter extends TypeAdapter<InterventionCM> {
   @override
   void write(BinaryWriter writer, InterventionCM obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.type)
       ..writeByte(1)
@@ -71,7 +72,9 @@ class InterventionCMAdapter extends TypeAdapter<InterventionCM> {
       ..writeByte(14)
       ..write(obj.startFromNotification)
       ..writeByte(15)
-      ..write(obj.mediaType);
+      ..write(obj.mediaType)
+      ..writeByte(16)
+      ..write(obj.interventionId);
   }
 
   @override

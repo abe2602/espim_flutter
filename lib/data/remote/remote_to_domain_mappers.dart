@@ -1,10 +1,15 @@
+import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/complex_condition.dart';
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/event.dart';
 import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
+import 'package:domain/model/likert_intervention.dart';
+import 'package:domain/model/custom_likert_intervention.dart';
+import 'package:domain/model/semantic_diff_intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
+import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
 import 'package:domain/model/program.dart';
@@ -18,6 +23,7 @@ import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
 import 'package:flutter_app/data/remote/model/program_rm.dart';
+import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 
 import 'model/observer_rm.dart';
@@ -31,7 +37,7 @@ extension EventRMToDM on EventRM {
         type: type,
         eventTriggerList: eventTriggerList.toDM(),
         interventionList: interventionList.toDM(),
-        color: color.toColor(),
+        color: color == 'none' ? SenSemColors.primaryColor : color.toColor(),
       );
 }
 
@@ -52,23 +58,7 @@ extension InterventionRMToDM on InterventionRM {
         {
           return MediaIntervention(
             mediaType: mediaType,
-            type: type,
-            statement: statement,
-            orderPosition: orderPosition,
-            isFirst: isFirst,
-            next: next,
-            isObligatory: isObligatory,
-            complexConditions: complexConditions?.toDM(),
-            mediaInformation: mediaInformation?.toDM(),
-          );
-        }
-        break;
-      case 'question':
-        {
-          return QuestionIntervention(
-            questionType: questionType,
-            questionAnswers: questionAnswers,
-            questionConditions: questionConditions,
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -86,6 +76,22 @@ extension InterventionRMToDM on InterventionRM {
             appPackage: appPackage,
             startFromNotification: startFromNotification,
             taskParameters: taskParameters,
+            interventionId: interventionId,
+            type: type,
+            statement: statement,
+            orderPosition: orderPosition,
+            isFirst: isFirst,
+            next: next,
+            isObligatory: isObligatory,
+            complexConditions: complexConditions?.toDM(),
+            mediaInformation: mediaInformation?.toDM(),
+          );
+        }
+        break;
+      case 'empty':
+        {
+          return EmptyIntervention(
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -99,16 +105,94 @@ extension InterventionRMToDM on InterventionRM {
         break;
       default:
         {
-          return EmptyIntervention(
-            type: type,
-            statement: statement,
-            orderPosition: orderPosition,
-            isFirst: isFirst,
-            next: next,
-            isObligatory: isObligatory,
-            complexConditions: complexConditions?.toDM(),
-            mediaInformation: mediaInformation?.toDM(),
-          );
+          if (questionType == 4) {
+            return SemanticDiffIntervention(
+              scales: scales,
+              interventionId: interventionId,
+              type: 'semantic_diff',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }
+          if (questionType == 3) {
+            return LikertIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'likert',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else if (questionType == 31){
+            return CustomLikertIntervention(
+              interventionId: interventionId,
+              type: 'custom_likert',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              scales: scales,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }else if (questionType == 2) {
+            return MultipleAnswerIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'multiple_answer',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else if (questionType == 1) {
+            return ClosedQuestionIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'closed_question',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else {
+            return QuestionIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: 'open_question',
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }
         }
         break;
     }

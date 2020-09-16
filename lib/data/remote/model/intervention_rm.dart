@@ -8,7 +8,9 @@ part 'intervention_rm.g.dart';
 @JsonSerializable()
 class InterventionRM {
   InterventionRM(
-      {@required this.type,
+      {
+        @required this.interventionId,
+        @required this.type,
       @required this.statement,
       @required this.orderPosition,
       @required this.isFirst,
@@ -24,7 +26,8 @@ class InterventionRM {
       this.startFromNotification,
       this.mediaType,
       this.mediaInformation})
-      : assert(type != null),
+      : assert(interventionId != null),
+        assert(type != null),
         assert(statement != null),
         assert(orderPosition != null),
         assert(isFirst != null),
@@ -35,6 +38,9 @@ class InterventionRM {
       _$InterventionRMFromJson(parsedJson);
 
   Map<String, dynamic> toJson() => _$InterventionRMToJson(this);
+
+  @JsonKey(name: 'id')
+  final int interventionId;
 
   @JsonKey(name: 'type')
   final String type;

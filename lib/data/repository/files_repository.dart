@@ -12,6 +12,6 @@ class FilesRepository implements FilesDataRepository{
   final FilesRDS filesRDS;
 
   @override
-  Future<void> uploadFile(File file) => filesRDS.uploadFile(file);
+  Future<String> uploadFile(File file) => filesRDS.uploadFile(file);
 
 }
