@@ -10,6 +10,7 @@ import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/closed_question_intervention/closed_question_intervention_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../intervention_models.dart';
 import 'closed_question_intervention_models.dart';
@@ -76,7 +77,7 @@ class ClosedQuestionInterventionPage extends StatelessWidget {
                       startTime: _startTime,
                       endTime: DateTime.now().millisecondsSinceEpoch,
                       interventionId: successState.intervention.interventionId,
-                      answer: 'Mandar o valor aqui',
+                      answer: event.item3,
                     ),
                   );
 
@@ -149,9 +150,10 @@ class ClosedQuestionCardState extends State<ClosedQuestionCard> {
               if (widget.flowSize == widget.successState.nextPage) {
                 Navigator.of(context).popUntil((route) => route.isFirst);
               } else {
-                widget.bloc.navigateToNextInterventionSink.add(
+                widget.bloc.navigateToNextInterventionSink.add(Tuple2(
+                    questionIntervention.questionAnswers[selectedOption],
                     questionIntervention.questionConditions[
-                        questionIntervention.questionAnswers[selectedOption]]);
+                        questionIntervention.questionAnswers[selectedOption]]));
               }
             },
       child: Column(

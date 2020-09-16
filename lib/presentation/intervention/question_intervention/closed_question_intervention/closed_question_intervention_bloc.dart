@@ -33,8 +33,9 @@ class ClosedQuestionInterventionBloc with SubscriptionBag {
   final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
   final _onTryAgainSubject = PublishSubject<InterventionResponseState>();
   final _onClosedQuestionNewActionSubject =
-      PublishSubject<Tuple2<String, int>>();
-  final _navigateToNextInterventionSubject = BehaviorSubject<int>();
+      PublishSubject<Tuple3<String, int, String>>();
+  final _navigateToNextInterventionSubject =
+      BehaviorSubject<Tuple2<String, int>>();
 
   String nextInterventionClosedQuestion = '';
 
@@ -43,27 +44,28 @@ class ClosedQuestionInterventionBloc with SubscriptionBag {
 
   Sink<void> get onNavigateNewActionSink => _onNavigationActionSubject.sink;
 
-  Sink<int> get navigateToNextInterventionSink =>
+  Sink<Tuple2<String, int>> get navigateToNextInterventionSink =>
       _navigateToNextInterventionSubject.sink;
 
-  Sink<Tuple2<String, int>> get onNewActionSubjectSink =>
+  Sink<Tuple3<String, int, String>> get onNewActionSubjectSink =>
       _onClosedQuestionNewActionSubject.sink;
 
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
-  Stream<Tuple2<String, int>> get navigateToNextIntervention =>
+  Stream<Tuple3<String, int, String>> get navigateToNextIntervention =>
       _onClosedQuestionNewActionSubject;
 
-  Stream<Tuple2<String, int>> _getNextIntervention() async* {
+  Stream<Tuple3<String, int, String>> _getNextIntervention() async* {
+    final informationToNavigate = _navigateToNextInterventionSubject.value;
+
     try {
       final newIntervention = await getInterventionUC.getFuture(
         params: GetInterventionUCParams(
-            eventId: eventId,
-            positionOrder: _navigateToNextInterventionSubject.value),
+            eventId: eventId, positionOrder: informationToNavigate.item2),
       );
 
-      yield Tuple2(
-          newIntervention.type, _navigateToNextInterventionSubject.value);
+      yield Tuple3(newIntervention.type, informationToNavigate.item2,
+          informationToNavigate.item1);
     } catch (e) {}
   }
 
