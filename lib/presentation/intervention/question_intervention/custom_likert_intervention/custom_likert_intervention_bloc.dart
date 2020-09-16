@@ -1,3 +1,4 @@
+import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/intervention.dart';
 import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
@@ -34,7 +35,7 @@ class CustomLikertInterventionBloc with SubscriptionBag {
 
     try {
       Intervention nextIntervention;
-      final LikertIntervention currentIntervention =
+      final CustomLikertIntervention currentIntervention =
           await getInterventionUC.getFuture(
         params: GetInterventionUCParams(
             eventId: eventId, positionOrder: orderPosition),
@@ -51,8 +52,7 @@ class CustomLikertInterventionBloc with SubscriptionBag {
         nextPage: currentIntervention.next,
         intervention: currentIntervention,
         nextInterventionType: nextIntervention?.type ?? '',
-        optionsList: currentIntervention.questionAnswers,
-        likertScales: getLikertScales(currentIntervention.scales[0]),
+        likertScales: currentIntervention.scales,
       );
     } catch (error) {
       print(error.toString());
@@ -61,67 +61,5 @@ class CustomLikertInterventionBloc with SubscriptionBag {
 
   void dispose() {
     _onNewStateSubject.close();
-  }
-}
-
-List<String> getLikertScales(String likertScale) {
-  switch (likertScale) {
-    case '5 AGREEMENT':
-      return [
-        'Strongly disagree',
-        'Disagree',
-        'Neutral',
-        'Agree',
-        'Strongly Agree'
-      ];
-      break;
-    case '7 AGREEMENT':
-      return [
-        'Strongly disagree',
-        'Somewhat disagree',
-        'Disagree',
-        'Neutral',
-        'Somewhat agree',
-        'Agree',
-        'Strongly Agree'
-      ];
-      break;
-    case '5 FREQUENCY':
-      return ['Never', 'Rarely', 'Sometime', 'Often', 'Always'];
-      break;
-    case '7 FREQUENCY':
-      return [
-        'Never',
-        'Almost never',
-        'Rarely',
-        'Sometime',
-        'Often',
-        'Almost always',
-        'Always'
-      ];
-      break;
-    case '5 SATISFACTION':
-      return [
-        'Very dissatisfied',
-        'Dissatisfied',
-        'Neutral',
-        'Satisfied',
-        'Very Satisfied'
-      ];
-      break;
-    case '7 SATISFACTION':
-      return [
-        'Very dissatisfied',
-        'Dissatisfied',
-        'Somewhat dissatisfied',
-        'Neutral',
-        'Somewhat satisfied',
-        'Satisfied',
-        'Very satisfied'
-      ];
-      break;
-    default:
-      return [];
-      break;
   }
 }

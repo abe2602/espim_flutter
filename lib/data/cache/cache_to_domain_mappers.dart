@@ -112,7 +112,7 @@ extension InterventionCMToDM on InterventionCM {
           } if (questionType == 31) {
             return CustomLikertIntervention(
               interventionId: interventionId,
-              type: 'likert',
+              type: 'custom_likert',
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,

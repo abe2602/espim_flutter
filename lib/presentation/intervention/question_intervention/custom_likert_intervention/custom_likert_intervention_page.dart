@@ -51,7 +51,8 @@ class CustomLikertInterventionPage extends StatefulWidget {
   State<StatefulWidget> createState() => CustomLikertInterventionPageState();
 }
 
-class CustomLikertInterventionPageState extends State<CustomLikertInterventionPage> {
+class CustomLikertInterventionPageState
+    extends State<CustomLikertInterventionPage> {
   List<String> _likertAnswer;
   final _startTime = DateTime.now().millisecondsSinceEpoch;
   bool _shouldAlwaysDisplayValueIndicator = true;
@@ -79,7 +80,7 @@ class CustomLikertInterventionPageState extends State<CustomLikertInterventionPa
                   snapshot: snapshot,
                   successWidgetBuilder: (successState) {
                     final CustomLikertSuccess success = successState;
-                    _likertAnswer = List.filled(success.optionsList.length,
+                    _likertAnswer = List.filled(success.likertScales.length,
                         '1: ${success.likertScales[0]}');
 
                     return InterventionBody(
@@ -127,32 +128,22 @@ class CustomLikertInterventionPageState extends State<CustomLikertInterventionPa
                       },
                       child: Column(
                         children: [
-                          ...success.optionsList
-                              .asMap()
-                              .map(
-                                (index, statement) => MapEntry(
-                                  index,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(statement),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: LikertCard(
-                                          likertScale: success.likertScales,
-                                          index: index,
-                                          likertAnswer: _likertAnswer,
-                                          shouldAlwaysDisplayValueIndicator:
-                                              _shouldAlwaysDisplayValueIndicator,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                          Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: LikertCard(
+                                  likertScale: success.likertScales,
+                                  index: 0,
+                                  likertAnswer: _likertAnswer,
+                                  shouldAlwaysDisplayValueIndicator:
+                                  _shouldAlwaysDisplayValueIndicator,
                                 ),
-                              )
-                              .values
-                              .toList(),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     );

@@ -5,14 +5,12 @@ class CustomLikertSuccess extends Success {
     intervention,
     nextInterventionType,
     nextPage,
-    this.optionsList,
     this.likertScales,
   }) : super(
       intervention: intervention,
       nextInterventionType: nextInterventionType,
       nextPage: nextPage);
 
-  final List<String> optionsList;
   final List<String> likertScales;
 }
 

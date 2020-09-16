@@ -547,7 +547,7 @@ class SemanticDiffCardState extends State<SemanticDiffCard> {
                                   ? Text(
                                       widget.semanticDiffLabels[1],
                                     )
-                                  : Text(' '),
+                                  : const Text(' '),
                         ),
                       )
                       .values
