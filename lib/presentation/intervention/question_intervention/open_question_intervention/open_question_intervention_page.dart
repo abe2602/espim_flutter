@@ -175,7 +175,7 @@ class OpenQuestionState extends State<OpenQuestion> {
                   child: FormTextField(
                     statusStream: widget.bloc.openQuestionInputStatusStream,
                     focusNode: _openQuestionFocusNode,
-                    labelText: S.of(context).openQuestionLabel,
+                    labelText: S.of(context).open_question_label,
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                     boxColor: boxColor,
@@ -187,7 +187,7 @@ class OpenQuestionState extends State<OpenQuestion> {
                     margin: const EdgeInsets.only(left: 8, right: 8, top: 5),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      S.of(context).emptyFieldError,
+                      S.of(context).empty_field_error,
                       style: const TextStyle(
                         color: Colors.red,
                       ),

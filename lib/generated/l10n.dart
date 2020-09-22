@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -237,49 +236,49 @@ class S {
   }
 
   /// `Empty Field`
-  String get emptyFieldError {
+  String get empty_field_error {
     return Intl.message(
       'Empty Field',
-      name: 'emptyFieldError',
+      name: 'empty_field_error',
       desc: '',
       args: [],
     );
   }
 
   /// `Invalid Field`
-  String get invalidFieldError {
+  String get invalid_field_error {
     return Intl.message(
       'Invalid Field',
-      name: 'invalidFieldError',
+      name: 'invalid_field_error',
       desc: '',
       args: [],
     );
   }
 
   /// `Answer`
-  String get openQuestionLabel {
+  String get open_question_label {
     return Intl.message(
       'Answer',
-      name: 'openQuestionLabel',
+      name: 'open_question_label',
       desc: '',
       args: [],
     );
   }
 
-  /// `Next`
+  /// `NEXT`
   String get next {
     return Intl.message(
-      'Next',
+      'NEXT',
       name: 'next',
       desc: '',
       args: [],
     );
   }
 
-  /// `Finish`
+  /// `FINISH`
   String get finish {
     return Intl.message(
-      'Finish',
+      'FINISH',
       name: 'finish',
       desc: '',
       args: [],
@@ -441,6 +440,16 @@ class S {
     return Intl.message(
       'Wait, please!',
       name: 'wait_please_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HOLD TO RECORD`
+  String get record_audio_label {
+    return Intl.message(
+      'HOLD TO RECORD',
+      name: 'record_audio_label',
       desc: '',
       args: [],
     );

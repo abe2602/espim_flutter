@@ -91,9 +91,7 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
               );
             } else if (receivedEvent is Success) {
               Navigator.pop(context);
-              if (receivedEvent.intervention.next ==
-                      receivedEvent.intervention.orderPosition ||
-                  receivedEvent.nextPage == 0) {
+              if (receivedEvent.nextPage == 0) {
                 Navigator.of(context).popUntil((route) => route.isFirst);
               } else {
                 widget.eventResult.interventionResultsList.add(
@@ -144,20 +142,35 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
                               successState.intervention.orderPosition,
                           bloc: widget.bloc,
                         )
-                      : _TakePictureView(
-                          statement: successState.intervention.statement,
-                          mediaInformation:
-                              successState.intervention.mediaInformation,
-                          nextPage: successState.nextPage,
-                          nextIntervention: successState.intervention.next,
-                          nextInterventionType:
-                              successState.nextInterventionType,
-                          eventId: widget.eventId,
-                          flowSize: widget.flowSize,
-                          orderPosition:
-                              successState.intervention.orderPosition,
-                          bloc: widget.bloc,
-                        ),
+                      : successState.mediaType == 'image'
+                          ? _TakePictureView(
+                              statement: successState.intervention.statement,
+                              mediaInformation:
+                                  successState.intervention.mediaInformation,
+                              nextPage: successState.nextPage,
+                              nextIntervention: successState.intervention.next,
+                              nextInterventionType:
+                                  successState.nextInterventionType,
+                              eventId: widget.eventId,
+                              flowSize: widget.flowSize,
+                              orderPosition:
+                                  successState.intervention.orderPosition,
+                              bloc: widget.bloc,
+                            )
+                          : _RecordAudioView(
+                              statement: successState.intervention.statement,
+                              mediaInformation:
+                                  successState.intervention.mediaInformation,
+                              nextPage: successState.nextPage,
+                              nextIntervention: successState.intervention.next,
+                              nextInterventionType:
+                                  successState.nextInterventionType,
+                              eventId: widget.eventId,
+                              flowSize: widget.flowSize,
+                              orderPosition:
+                                  successState.intervention.orderPosition,
+                              bloc: widget.bloc,
+                            ),
                 ),
                 errorWidgetBuilder: (errorState) => Text(
                   errorState.toString(),
@@ -456,4 +469,76 @@ class _RecordVideoViewState extends State<_RecordVideoView> {
     videoPlayerController?.dispose();
     super.dispose();
   }
+}
+
+// RecordVideo Widget
+class _RecordAudioView extends StatefulWidget {
+  const _RecordAudioView({
+    @required this.statement,
+    @required this.nextIntervention,
+    @required this.nextPage,
+    @required this.nextInterventionType,
+    @required this.eventId,
+    @required this.flowSize,
+    @required this.orderPosition,
+    @required this.mediaInformation,
+    @required this.bloc,
+  })  : assert(statement != null),
+        assert(nextIntervention != null),
+        assert(nextPage != null),
+        assert(nextInterventionType != null),
+        assert(eventId != null),
+        assert(flowSize != null),
+        assert(orderPosition != null),
+        assert(mediaInformation != null),
+        assert(bloc != null);
+
+  final String statement, nextInterventionType;
+  final List<MediaInformation> mediaInformation;
+  final MediaInterventionBloc bloc;
+  final int eventId, flowSize, nextPage, nextIntervention, orderPosition;
+
+  @override
+  State<StatefulWidget> createState() => _RecordAudioViewState();
+}
+
+class _RecordAudioViewState extends State<_RecordAudioView> {
+  File _audioFile;
+
+  Future<void> _recordAudio() async {
+    try {} catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => InterventionBody(
+        statement: widget.statement,
+        mediaInformation: widget.mediaInformation,
+        nextPage: widget.nextPage,
+        next: widget.nextIntervention,
+        nextInterventionType: widget.nextInterventionType,
+        eventId: widget.eventId,
+        flowSize: widget.flowSize,
+        orderPosition: widget.orderPosition,
+        onPressed: _audioFile == null ? null : () async {},
+        child: Container(
+          transform: Matrix4.translationValues(0, 0, 0),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  await _recordAudio();
+                },
+                child: _audioFile == null ? Center(
+                  child: FlatButton(
+                    onPressed: (){},
+                    child: Text('HOLD TO RECORD', textAlign: TextAlign.center,),
+                  ),
+                ) : Container(),
+              ),
+            ],
+          ),
+        ),
+      );
 }
