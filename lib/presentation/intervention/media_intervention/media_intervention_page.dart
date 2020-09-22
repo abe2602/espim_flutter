@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
+import 'package:domain/model/media_information.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/material.dart';
@@ -61,28 +62,7 @@ class MediaInterventionPage extends StatefulWidget {
 }
 
 class MediaInterventionPageState extends State<MediaInterventionPage> {
-  File _cameraFile;
-  VideoPlayerController videoPlayerController;
   final _startTime = DateTime.now().millisecondsSinceEpoch;
-
-  Future<void> captureMedia(ImageSource imageSource, String mediaType) async {
-    try {
-      final pickedFile = mediaType == 'video'
-          ? await ImagePicker().getVideo(source: imageSource)
-          : await ImagePicker().getImage(source: imageSource);
-
-      setState(() {
-        _cameraFile = File(pickedFile.path);
-
-        if (mediaType == 'video') {
-          videoPlayerController = VideoPlayerController.file(_cameraFile)
-            ..initialize();
-        }
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -92,7 +72,6 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
         ),
         body: SensemActionListener<InterventionResponseState>(
           onReceived: (receivedEvent) async {
-            await videoPlayerController?.pause();
             if (receivedEvent is UploadLoading) {
               await showDialog(
                 context: context,
@@ -150,119 +129,35 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
                 snapshot: snapshot,
                 successWidgetBuilder: (successState) => Container(
                   margin: const EdgeInsets.all(15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      InterventionBody(
-                        statement: successState.intervention.statement,
-                        mediaInformation:
-                            successState.intervention.mediaInformation,
-                        nextPage: successState.nextPage,
-                        next: successState.intervention.next,
-                        nextInterventionType: successState.nextInterventionType,
-                        eventId: widget.eventId,
-                        flowSize: widget.flowSize,
-                        orderPosition: successState.intervention.orderPosition,
-                        onPressed: _cameraFile == null
-                            ? null
-                            : () async {
-                                widget.bloc.onActionEventSink.add(_cameraFile);
-                              },
-                        child: Container(
-                          transform: Matrix4.translationValues(0, 0, 0),
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  captureMedia(ImageSource.camera,
-                                      successState.mediaType);
-                                },
-                                child: _cameraFile == null
-                                    ? Stack(
-                                        alignment: AlignmentDirectional.center,
-                                        children: [
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 18),
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                3,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            color: SenSemColors.lightGray2,
-                                          ),
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 15),
-                                                child: Image.asset(
-                                                    'images/file.png'),
-                                              ),
-                                              Text(
-                                                S
-                                                    .of(context)
-                                                    .upload_files_action_label,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                      SenSemColors.mediumGray,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )
-                                    : CameraFile(
-                                        cameraFile: _cameraFile,
-                                        changeFileAction: () {
-                                          captureMedia(ImageSource.camera,
-                                              successState.mediaType);
-                                        },
-                                        fileWidget: successState.mediaType ==
-                                                'video'
-                                            ? InternetVideoPlayer(
-                                                videoPlayerController:
-                                                    videoPlayerController,
-                                                autoPlay: false,
-                                              )
-                                            : Column(
-                                                children: [
-                                                  Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            4,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            2,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.fill,
-                                                      child: Image.file(
-                                                          _cameraFile),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    _cameraFile.path
-                                                        .split('/')
-                                                        .last,
-                                                    overflow: TextOverflow.fade,
-                                                  ),
-                                                ],
-                                              ),
-                                      ),
-                              ),
-                            ],
-                          ),
+                  child: successState.mediaType == 'video'
+                      ? _RecordVideoView(
+                          statement: successState.intervention.statement,
+                          mediaInformation:
+                              successState.intervention.mediaInformation,
+                          nextPage: successState.nextPage,
+                          nextIntervention: successState.intervention.next,
+                          nextInterventionType:
+                              successState.nextInterventionType,
+                          eventId: widget.eventId,
+                          flowSize: widget.flowSize,
+                          orderPosition:
+                              successState.intervention.orderPosition,
+                          bloc: widget.bloc,
+                        )
+                      : _TakePictureView(
+                          statement: successState.intervention.statement,
+                          mediaInformation:
+                              successState.intervention.mediaInformation,
+                          nextPage: successState.nextPage,
+                          nextIntervention: successState.intervention.next,
+                          nextInterventionType:
+                              successState.nextInterventionType,
+                          eventId: widget.eventId,
+                          flowSize: widget.flowSize,
+                          orderPosition:
+                              successState.intervention.orderPosition,
+                          bloc: widget.bloc,
                         ),
-                      ),
-                    ],
-                  ),
                 ),
                 errorWidgetBuilder: (errorState) => Text(
                   errorState.toString(),
@@ -272,16 +167,10 @@ class MediaInterventionPageState extends State<MediaInterventionPage> {
           ),
         ),
       );
-
-  @override
-  void dispose() {
-    videoPlayerController?.dispose();
-    super.dispose();
-  }
 }
 
-class CameraFile extends StatelessWidget {
-  const CameraFile({
+class _CameraFile extends StatelessWidget {
+  const _CameraFile({
     @required this.cameraFile,
     @required this.changeFileAction,
     @required this.fileWidget,
@@ -320,4 +209,251 @@ class CameraFile extends StatelessWidget {
           ),
         ],
       );
+}
+
+// TakePicture Widget
+class _TakePictureView extends StatefulWidget {
+  const _TakePictureView({
+    @required this.statement,
+    @required this.nextIntervention,
+    @required this.nextPage,
+    @required this.nextInterventionType,
+    @required this.eventId,
+    @required this.flowSize,
+    @required this.orderPosition,
+    @required this.mediaInformation,
+    @required this.bloc,
+  })  : assert(statement != null),
+        assert(nextIntervention != null),
+        assert(nextPage != null),
+        assert(nextInterventionType != null),
+        assert(eventId != null),
+        assert(flowSize != null),
+        assert(orderPosition != null),
+        assert(mediaInformation != null),
+        assert(bloc != null);
+
+  final String statement, nextInterventionType;
+  final List<MediaInformation> mediaInformation;
+  final MediaInterventionBloc bloc;
+  final int eventId, flowSize, nextPage, nextIntervention, orderPosition;
+
+  @override
+  State<StatefulWidget> createState() => _TakePictureViewState();
+}
+
+class _TakePictureViewState extends State<_TakePictureView> {
+  File _cameraFile;
+
+  Future<void> takePicture(ImageSource imageSource) async {
+    try {
+      final pickedFile = await ImagePicker().getImage(source: imageSource);
+
+      setState(() {
+        _cameraFile = File(pickedFile.path);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => InterventionBody(
+        statement: widget.statement,
+        mediaInformation: widget.mediaInformation,
+        nextPage: widget.nextPage,
+        next: widget.nextIntervention,
+        nextInterventionType: widget.nextInterventionType,
+        eventId: widget.eventId,
+        flowSize: widget.flowSize,
+        orderPosition: widget.orderPosition,
+        onPressed: _cameraFile == null
+            ? null
+            : () async {
+                widget.bloc.onActionEventSink.add(_cameraFile);
+              },
+        child: Container(
+          transform: Matrix4.translationValues(0, 0, 0),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  takePicture(ImageSource.camera);
+                },
+                child: _cameraFile == null
+                    ? Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 18),
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width,
+                            color: SenSemColors.lightGray2,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Image.asset('images/file.png'),
+                              ),
+                              Text(
+                                S.of(context).upload_files_action_label,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: SenSemColors.mediumGray,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : _CameraFile(
+                        cameraFile: _cameraFile,
+                        changeFileAction: () {
+                          takePicture(ImageSource.camera);
+                        },
+                        fileWidget: Column(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height / 4,
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.file(_cameraFile),
+                              ),
+                            ),
+                            Text(
+                              _cameraFile.path.split('/').last,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      );
+}
+
+// RecordVideo Widget
+class _RecordVideoView extends StatefulWidget {
+  const _RecordVideoView({
+    @required this.statement,
+    @required this.nextIntervention,
+    @required this.nextPage,
+    @required this.nextInterventionType,
+    @required this.eventId,
+    @required this.flowSize,
+    @required this.orderPosition,
+    @required this.mediaInformation,
+    @required this.bloc,
+  })  : assert(statement != null),
+        assert(nextIntervention != null),
+        assert(nextPage != null),
+        assert(nextInterventionType != null),
+        assert(eventId != null),
+        assert(flowSize != null),
+        assert(orderPosition != null),
+        assert(mediaInformation != null),
+        assert(bloc != null);
+
+  final String statement, nextInterventionType;
+  final List<MediaInformation> mediaInformation;
+  final MediaInterventionBloc bloc;
+  final int eventId, flowSize, nextPage, nextIntervention, orderPosition;
+
+  @override
+  State<StatefulWidget> createState() => _RecordVideoViewState();
+}
+
+class _RecordVideoViewState extends State<_RecordVideoView> {
+  File _videoFile;
+  VideoPlayerController videoPlayerController;
+
+  Future<void> _recordVideo(ImageSource imageSource) async {
+    try {
+      final pickedFile = await ImagePicker().getVideo(source: imageSource);
+
+      setState(() {
+        _videoFile = File(pickedFile.path);
+        videoPlayerController = VideoPlayerController.file(_videoFile)
+          ..initialize();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => InterventionBody(
+        statement: widget.statement,
+        mediaInformation: widget.mediaInformation,
+        nextPage: widget.nextPage,
+        next: widget.nextIntervention,
+        nextInterventionType: widget.nextInterventionType,
+        eventId: widget.eventId,
+        flowSize: widget.flowSize,
+        orderPosition: widget.orderPosition,
+        onPressed: _videoFile == null
+            ? null
+            : () async {
+                widget.bloc.onActionEventSink.add(_videoFile);
+                await videoPlayerController?.pause();
+              },
+        child: Container(
+          transform: Matrix4.translationValues(0, 0, 0),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  await _recordVideo(ImageSource.camera);
+                },
+                child: _videoFile == null
+                    ? Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 18),
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width,
+                            color: SenSemColors.lightGray2,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Image.asset('images/file.png'),
+                              ),
+                              Text(
+                                S.of(context).upload_files_action_label,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: SenSemColors.mediumGray,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : _CameraFile(
+                        cameraFile: _videoFile,
+                        changeFileAction: () =>
+                            _recordVideo(ImageSource.camera),
+                        fileWidget: InternetVideoPlayer(
+                          videoPlayerController: videoPlayerController,
+                          autoPlay: false,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  @override
+  void dispose() {
+    videoPlayerController?.dispose();
+    super.dispose();
+  }
 }
