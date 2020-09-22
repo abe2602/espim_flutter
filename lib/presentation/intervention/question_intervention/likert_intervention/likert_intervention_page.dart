@@ -53,26 +53,29 @@ class LikertInterventionPage extends StatefulWidget {
 }
 
 class LikertInterventionPageState extends State<LikertInterventionPage> {
-  List<String> _likertAnswer;
   final _startTime = DateTime.now().millisecondsSinceEpoch;
+  final _visibilityKey = UniqueKey();
+  List<String> _likertAnswer;
   bool _shouldAlwaysDisplayValueIndicator = true;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Acompanhamentos'),
-          backgroundColor: const Color(0xff125193),
+          backgroundColor: SenSemColors.mediumRoyalBlue,
         ),
         body: VisibilityDetector(
-          key: UniqueKey(),
+          key: _visibilityKey,
           onVisibilityChanged: (visibilityInfo) async {
-            if (visibilityInfo.visibleFraction == 0.0) {
-              _shouldAlwaysDisplayValueIndicator = false;
+            if (visibilityInfo.visibleFraction == 1) {
+              setState(() {
+                _shouldAlwaysDisplayValueIndicator = true;
+              });
             }
           },
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: StreamBuilder<InterventionResponseState>(
                 stream: widget.bloc.onNewState,
                 builder: (context, snapshot) =>
@@ -94,14 +97,6 @@ class LikertInterventionPageState extends State<LikertInterventionPage> {
                       flowSize: widget.flowSize,
                       orderPosition: successState.intervention.orderPosition,
                       onPressed: () {
-                        var likertAnswerString = '';
-
-                        for (var i = 0; i < _likertAnswer.length - 1; i++) {
-                          likertAnswerString += _likertAnswer[i];
-                          likertAnswerString += '_SEP_';
-                          likertAnswerString += _likertAnswer[i + 1];
-                        }
-
                         widget.eventResult.interventionResultsList.add(
                           InterventionResult(
                             interventionType: 'question',
@@ -109,7 +104,8 @@ class LikertInterventionPageState extends State<LikertInterventionPage> {
                             endTime: DateTime.now().millisecondsSinceEpoch,
                             interventionId:
                                 successState.intervention.interventionId,
-                            answer: likertAnswerString,
+                            answer: createLikertTypeResponse(
+                                _likertAnswer.length - 1, _likertAnswer),
                           ),
                         );
 

@@ -334,9 +334,8 @@ class InterventionBodyState extends State<InterventionBody> {
             ),
             SensemButton(
               onPressed: widget.onPressed,
-              buttonText: widget.next == widget.flowSize || widget.next == 0
-                  ? S.of(context).finish
-                  : S.of(context).next,
+              buttonText:
+                  widget.next == 0 ? S.of(context).finish : S.of(context).next,
             ),
           ],
         ),
@@ -478,7 +477,7 @@ class SemanticDiffCardState extends State<SemanticDiffCard> {
   @override
   void initState() {
     super.initState();
-    _selectedOption = (widget.size/2).floorToDouble();
+    _selectedOption = (widget.size / 2).floorToDouble();
   }
 
   @override
@@ -521,7 +520,6 @@ class SemanticDiffCardState extends State<SemanticDiffCard> {
                   setState(
                     () {
                       _selectedOption = value;
-                      print(widget.semanticDiffScale[_selectedOption.floor()]);
                       widget.semanticDiffAnswer[widget.index] =
                           '${widget.semanticDiffScale[_selectedOption.floor()]}';
                     },
@@ -558,4 +556,16 @@ class SemanticDiffCardState extends State<SemanticDiffCard> {
           ],
         ),
       );
+}
+
+String createLikertTypeResponse(int length, List<String> answerList) {
+  var semanticDiffAnswerString = '';
+
+  for (var i = 0; i < length; i++) {
+    semanticDiffAnswerString += answerList[i];
+    semanticDiffAnswerString += '_SEP_';
+    semanticDiffAnswerString += answerList[i + 1];
+  }
+
+  return semanticDiffAnswerString;
 }

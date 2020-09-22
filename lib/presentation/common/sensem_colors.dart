@@ -3,6 +3,7 @@ import 'dart:ui';
 // ignore: avoid_classes_with_only_static_members
 class SenSemColors {
   static Color primaryColor = const Color(0xff105197);
+  static Color mediumRoyalBlue = const Color(0xff125193);
   static Color royalBlue = const Color(0xff1976d5);
   static Color windowBlue = const Color(0xff5586b1);
   static Color lightRoyalBlue = const Color(0xff73b9f1);

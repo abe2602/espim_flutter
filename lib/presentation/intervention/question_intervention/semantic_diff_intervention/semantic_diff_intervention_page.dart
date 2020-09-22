@@ -11,7 +11,6 @@ import 'package:flutter_app/presentation/intervention/question_intervention/sema
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-//todo: terminar aqui
 class SemanticDiffInterventionPage extends StatefulWidget {
   const SemanticDiffInterventionPage({
     @required this.eventId,
@@ -52,9 +51,10 @@ class SemanticDiffInterventionPage extends StatefulWidget {
 
 class SemanticDiffInterventionPageState
     extends State<SemanticDiffInterventionPage> {
-  List<String> _semanticDiffAnswer;
+  final _visibilityKey = UniqueKey();
   final _startTime = DateTime.now().millisecondsSinceEpoch;
   bool _shouldAlwaysDisplayValueIndicator = true;
+  List<String> _semanticDiffAnswer;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -63,15 +63,17 @@ class SemanticDiffInterventionPageState
           backgroundColor: const Color(0xff125193),
         ),
         body: VisibilityDetector(
-          key: UniqueKey(),
+          key: _visibilityKey,
           onVisibilityChanged: (visibilityInfo) async {
-            if (visibilityInfo.visibleFraction == 0.0) {
-              _shouldAlwaysDisplayValueIndicator = false;
+            if (visibilityInfo.visibleFraction == 1) {
+              setState(() {
+                _shouldAlwaysDisplayValueIndicator = true;
+              });
             }
           },
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: StreamBuilder<InterventionResponseState>(
                 stream: widget.bloc.onNewState,
                 builder: (context, snapshot) =>
@@ -93,19 +95,6 @@ class SemanticDiffInterventionPageState
                       flowSize: widget.flowSize,
                       orderPosition: successState.intervention.orderPosition,
                       onPressed: () {
-                        var semanticDiffAnswerString = '';
-
-                        for (var i = 0;
-                            i < _semanticDiffAnswer.length - 1;
-                            i++) {
-                          semanticDiffAnswerString += _semanticDiffAnswer[i];
-                          semanticDiffAnswerString += '_SEP_';
-                          semanticDiffAnswerString +=
-                              _semanticDiffAnswer[i + 1];
-                        }
-
-                        print(semanticDiffAnswerString);
-
                         widget.eventResult.interventionResultsList.add(
                           InterventionResult(
                             interventionType: 'question',
@@ -113,7 +102,9 @@ class SemanticDiffInterventionPageState
                             endTime: DateTime.now().millisecondsSinceEpoch,
                             interventionId:
                                 successState.intervention.interventionId,
-                            answer: semanticDiffAnswerString,
+                            answer: createLikertTypeResponse(
+                                _semanticDiffAnswer.length - 1,
+                                _semanticDiffAnswer),
                           ),
                         );
 
@@ -131,7 +122,6 @@ class SemanticDiffInterventionPageState
                         );
                       },
                       child: Column(
-                        // todo: voltar aqui
                         children: [
                           ...success.semanticDiffLabels
                               .asMap()

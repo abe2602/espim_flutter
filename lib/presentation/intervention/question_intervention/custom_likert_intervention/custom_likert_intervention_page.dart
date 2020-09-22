@@ -12,7 +12,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'custom_likert_intervention_bloc.dart';
 import 'custom_likert_intervention_models.dart';
 
-//todo: terminar aqui
 class CustomLikertInterventionPage extends StatefulWidget {
   const CustomLikertInterventionPage({
     @required this.eventId,
@@ -53,9 +52,10 @@ class CustomLikertInterventionPage extends StatefulWidget {
 
 class CustomLikertInterventionPageState
     extends State<CustomLikertInterventionPage> {
-  List<String> _likertAnswer;
   final _startTime = DateTime.now().millisecondsSinceEpoch;
+  final _visibilityKey = UniqueKey();
   bool _shouldAlwaysDisplayValueIndicator = true;
+  List<String> _likertAnswer;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -64,15 +64,17 @@ class CustomLikertInterventionPageState
           backgroundColor: const Color(0xff125193),
         ),
         body: VisibilityDetector(
-          key: UniqueKey(),
+          key: _visibilityKey,
           onVisibilityChanged: (visibilityInfo) async {
-            if (visibilityInfo.visibleFraction == 0.0) {
-              _shouldAlwaysDisplayValueIndicator = false;
+            if (visibilityInfo.visibleFraction == 1) {
+              setState(() {
+                _shouldAlwaysDisplayValueIndicator = true;
+              });
             }
           },
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: StreamBuilder<InterventionResponseState>(
                 stream: widget.bloc.onNewState,
                 builder: (context, snapshot) =>
@@ -94,14 +96,6 @@ class CustomLikertInterventionPageState
                       flowSize: widget.flowSize,
                       orderPosition: successState.intervention.orderPosition,
                       onPressed: () {
-                        var likertAnswerString = '';
-
-                        for (var i = 0; i < _likertAnswer.length - 1; i++) {
-                          likertAnswerString += _likertAnswer[i];
-                          likertAnswerString += '_SEP_';
-                          likertAnswerString += _likertAnswer[i + 1];
-                        }
-
                         widget.eventResult.interventionResultsList.add(
                           InterventionResult(
                             interventionType: 'question',
@@ -109,7 +103,8 @@ class CustomLikertInterventionPageState
                             endTime: DateTime.now().millisecondsSinceEpoch,
                             interventionId:
                                 successState.intervention.interventionId,
-                            answer: likertAnswerString,
+                            answer: createLikertTypeResponse(
+                                _likertAnswer.length - 1, _likertAnswer),
                           ),
                         );
 
@@ -129,8 +124,7 @@ class CustomLikertInterventionPageState
                       child: Column(
                         children: [
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8),
@@ -139,7 +133,7 @@ class CustomLikertInterventionPageState
                                   index: 0,
                                   likertAnswer: _likertAnswer,
                                   shouldAlwaysDisplayValueIndicator:
-                                  _shouldAlwaysDisplayValueIndicator,
+                                      _shouldAlwaysDisplayValueIndicator,
                                 ),
                               ),
                             ],
