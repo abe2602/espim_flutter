@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
 import 'package:domain/model/media_information.dart';
@@ -8,13 +9,17 @@ import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/iconed_text.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_models.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:record_mp3/record_mp3.dart';
 import 'package:video_player/video_player.dart';
 
 import '../intervention_models.dart';
@@ -471,6 +476,7 @@ class _RecordVideoViewState extends State<_RecordVideoView> {
   }
 }
 
+// https://pub.dev/packages/flutter_audio_recorder
 // RecordVideo Widget
 class _RecordAudioView extends StatefulWidget {
   const _RecordAudioView({
@@ -503,12 +509,17 @@ class _RecordAudioView extends StatefulWidget {
 }
 
 class _RecordAudioViewState extends State<_RecordAudioView> {
-  File _audioFile;
+  String _recordFilePath;
+  bool _isComplete = false;
+  bool _isAudioPlaying;
+  IconData _buttonIcon;
+  AudioPlayer audioPlayer;
 
-  Future<void> _recordAudio() async {
-    try {} catch (e) {
-      print(e);
-    }
+  @override
+  void initState() {
+    _isAudioPlaying = true;
+    _buttonIcon = Icons.pause_circle_filled;
+    super.initState();
   }
 
   @override
@@ -521,24 +532,177 @@ class _RecordAudioViewState extends State<_RecordAudioView> {
         eventId: widget.eventId,
         flowSize: widget.flowSize,
         orderPosition: widget.orderPosition,
-        onPressed: _audioFile == null ? null : () async {},
-        child: Container(
-          transform: Matrix4.translationValues(0, 0, 0),
-          child: Column(
-            children: [
-              GestureDetector(
+        onPressed: _recordFilePath == null ? null : () async {},
+        child: Column(
+          children: [
+            if (_isComplete)
+              InkWell(
                 onTap: () async {
-                  await _recordAudio();
+                  if (_isAudioPlaying) {
+                    _playAudio();
+
+                    setState(() {
+                      _buttonIcon = Icons.pause_circle_filled;
+                    });
+
+                    _isAudioPlaying = !_isAudioPlaying;
+                  } else {
+                    _pauseAudio();
+                    setState(() {
+                      _buttonIcon = Icons.play_circle_filled;
+                    });
+
+                    _isAudioPlaying = !_isAudioPlaying;
+                  }
                 },
-                child: _audioFile == null ? Center(
-                  child: FlatButton(
-                    onPressed: (){},
-                    child: Text('HOLD TO RECORD', textAlign: TextAlign.center,),
+                child: StreamBuilder<Duration>(
+                  stream: audioPlayer?.onAudioPositionChanged,
+                  builder: (_, snapshot) => Row(
+                    children: [
+                      Icon(
+                        _buttonIcon,
+                        color: SenSemColors.primaryColor,
+                        size: 40,
+                      ),
+                      Text(
+                        snapshot.data
+                                ?.toString()
+                                ?.substring(2, 7)
+                                ?.replaceAll('.', ':') ??
+                            '',
+                      ),
+                    ],
                   ),
-                ) : Container(),
+                ),
+              )
+            else
+              Container(),
+            GestureDetector(
+              onLongPressStart: (_) {
+                _startRecording();
+              },
+              onLongPressEnd: (_) {
+                _stopRecording();
+              },
+              child: Center(
+                child: FlatButton(
+                  color: SenSemColors.primaryColor,
+                  onPressed: () {},
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: IconedText(
+                    icon: Icons.mic,
+                    text: S.of(context).record_audio_label,
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
+      );
+
+  Future<bool> _checkPermission() async {
+    final permissionHashMap = await [
+      Permission.microphone,
+    ].request();
+
+    return permissionHashMap[Permission.microphone] == PermissionStatus.granted;
+  }
+
+  Future<void> _startRecording() async {
+    if (await _checkPermission()) {
+      _recordFilePath = await _getFilePath();
+      _isComplete = false;
+      RecordMp3.instance.start(_recordFilePath, (type) {
+        setState(() {});
+      });
+    } else {
+      // todo: fazer algo
+    }
+  }
+
+  void _stopRecording() {
+    final hasStopped = RecordMp3.instance.stop();
+    if (hasStopped) {
+      _isComplete = true;
+      setState(() {});
+    }
+  }
+
+  void _playAudio() {
+    if (_recordFilePath != null && File(_recordFilePath).existsSync()) {
+      audioPlayer ??= AudioPlayer();
+      audioPlayer.play(_recordFilePath, isLocal: true);
+    }
+  }
+
+  void _pauseAudio() {
+    audioPlayer?.pause();
+  }
+
+  Future<String> _getFilePath() async {
+    final storageDirectory = await getApplicationDocumentsDirectory();
+    final pathDirectory = '${storageDirectory.path}/record';
+    final directory = Directory(pathDirectory);
+    if (!directory.existsSync()) {
+      directory.createSync(recursive: true);
+    }
+    return "$pathDirectory${"/recorded_audio.mp3"}";
+  }
+}
+
+class _AudioPlayerView extends StatefulWidget {
+  const _AudioPlayerView({
+    this.audioFilePath,
+    this.playAudioFunction,
+    this.pauseAudioFunction,
+  });
+
+  final String audioFilePath;
+  final Function playAudioFunction;
+  final Function pauseAudioFunction;
+
+  @override
+  State<StatefulWidget> createState() => _AudioPlayerViewState();
+}
+
+class _AudioPlayerViewState extends State<_AudioPlayerView> {
+  bool _isAudioPlaying;
+  IconData _buttonIcon;
+
+  @override
+  void initState() {
+    _isAudioPlaying = true;
+    _buttonIcon = Icons.pause_circle_filled;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+        onTap: () async {
+          if (_isAudioPlaying) {
+            widget.pauseAudioFunction();
+
+            setState(() {
+              _buttonIcon = Icons.pause_circle_filled;
+            });
+
+            _isAudioPlaying = !_isAudioPlaying;
+          } else {
+            widget.playAudioFunction();
+
+            setState(() {
+              _buttonIcon = Icons.play_circle_filled;
+            });
+
+            _isAudioPlaying = !_isAudioPlaying;
+          }
+        },
+        child: Icon(
+          _buttonIcon,
+          color: SenSemColors.primaryColor,
+          size: 40,
         ),
       );
 }
