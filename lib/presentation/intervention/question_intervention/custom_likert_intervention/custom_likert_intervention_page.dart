@@ -4,10 +4,13 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/lib/presentation/common/likert_card.dart';
 
 import 'custom_likert_intervention_bloc.dart';
 import 'custom_likert_intervention_models.dart';

@@ -5,6 +5,7 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
@@ -113,8 +114,8 @@ class MultipleAnswerInterventionPage extends StatelessWidget {
                         likertAnswerString += _likertAnswer[i + 1];
                       }
 
-                      if(likertAnswerString == '_SEP_') {
-                        likertAnswerString ='';
+                      if (likertAnswerString == '_SEP_') {
+                        likertAnswerString = '';
                       }
 
                       eventResult.interventionResultsList.add(
@@ -123,7 +124,7 @@ class MultipleAnswerInterventionPage extends StatelessWidget {
                           startTime: _startTime,
                           endTime: DateTime.now().millisecondsSinceEpoch,
                           interventionId:
-                          successState.intervention.interventionId,
+                              successState.intervention.interventionId,
                           answer: likertAnswerString,
                         ),
                       );
@@ -197,7 +198,7 @@ class SingleOptionCardState extends State<SingleOptionCard> {
               value: _checkBoxValue,
               onChanged: (isChecked) {
                 setState(() {
-                  if(isChecked) {
+                  if (isChecked) {
                     widget.resultList[widget.index] = widget.optionText;
                   } else {
                     widget.resultList[widget.index] = '';

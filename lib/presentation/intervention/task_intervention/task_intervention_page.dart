@@ -4,6 +4,7 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/task_intervention/task_intervention_bloc.dart';
@@ -98,8 +99,7 @@ class TaskInterventionPageState extends State<TaskInterventionPage> {
                             InterventionResult(
                               interventionType: successState.intervention.type,
                               startTime: _startTime,
-                              endTime: DateTime.now()
-                                  .millisecondsSinceEpoch,
+                              endTime: DateTime.now().millisecondsSinceEpoch,
                               interventionId:
                                   successState.intervention.interventionId,
                             ),

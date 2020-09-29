@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/presentation/common/view_utils.dart';
+import 'package:flutter_app/presentation/common/loading_indicator.dart';
 
 class AsyncSnapshotResponseView<Loading, Error, Success>
     extends StatelessWidget {
   AsyncSnapshotResponseView(
       {@required this.snapshot,
-        @required this.successWidgetBuilder,
-        @required this.errorWidgetBuilder})
+      @required this.successWidgetBuilder,
+      @required this.errorWidgetBuilder})
       : assert(snapshot != null),
         assert(successWidgetBuilder != null),
         assert(Loading != null),
