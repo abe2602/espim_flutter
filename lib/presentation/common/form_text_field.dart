@@ -64,9 +64,9 @@ class FormTextField extends StatelessWidget {
           }
 
           final errorMessage = (status == InputStatusVM.invalid)
-              ? (invalidErrorMessage ?? S.of(context).invalidFieldError)
+              ? (invalidErrorMessage ?? S.of(context).invalid_field_error)
               : ((status == InputStatusVM.empty)
-                  ? (emptyErrorMessage ?? S.of(context).emptyFieldError)
+                  ? (emptyErrorMessage ?? S.of(context).empty_field_error)
                   : null);
 
           ///Depois que fazemos as verificações, retornamos o novo TextField

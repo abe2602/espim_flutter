@@ -19,11 +19,11 @@
   "no_events_description": "You don't have events yet",
   "refresh_label": "Refresh",
   "question_label": "Question",
-  "emptyFieldError": "Empty Field",
-  "invalidFieldError": "Invalid Field",
-  "openQuestionLabel": "Answer",
-  "next" : "Next",
-  "finish" : "Finish",
+  "empty_field_error": "Empty Field",
+  "invalid_field_error": "Invalid Field",
+  "open_question_label": "Answer",
+  "next" : "NEXT",
+  "finish" : "FINISH",
   "upload_files": "Upload files",
   "upload_files_action_label" : "Touch to upload files",
   "change_file_label": "Change file",
@@ -39,5 +39,6 @@
   "enable_mobile_network_subtitle_label": "Enable or disable 3G/4G utilization",
   "landscape_layout_mode_title_label": "Landscape layout",
   "landscape_layout_mode_subtitle_label": "Changes layout orientation",
-  "wait_please_label": "Wait, please!"
+  "wait_please_label": "Wait, please!",
+  "record_audio_label": "HOLD TO RECORD"
 }

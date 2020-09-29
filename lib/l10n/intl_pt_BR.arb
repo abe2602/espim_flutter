@@ -18,9 +18,9 @@
   "no_events_label": "Nenhum evento",
   "no_events_description": "Você ainda não possui eventos",
   "refresh_label": "Atualizar",
-  "question_label": "Pergunta",
-  "emptyFieldError": "Campo Vazio",
-  "invalidFieldError": "Formato Invalido",
+  "open_question_label": "Pergunta",
+  "empty_field_error": "Campo Vazio",
+  "invalid_field_error": "Formato Invalido",
   "next" : "Continuar",
   "finish" : "Finalizar",
   "upload_files": "Upload de arquivo",
@@ -38,5 +38,6 @@
   "enable_mobile_network_subtitle_label": "Habilitar ou desbilitar uso de 3G/4G",
   "landscape_layout_mode_title_label": "Tela na horizontal",
   "landscape_layout_mode_subtitle_label": "Mudar a orientação da tela",
-  "wait_please_label": "Aguarde, por favor!"
+  "wait_please_label": "Aguarde, por favor!",
+  "record_audio_label": "PRESSIONE PARA GRAVAR"
 }
