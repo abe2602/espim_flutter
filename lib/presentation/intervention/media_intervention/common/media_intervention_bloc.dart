@@ -6,9 +6,8 @@ import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'media_intervention_models.dart';
 
 class MediaInterventionBloc with SubscriptionBag {
   MediaInterventionBloc({

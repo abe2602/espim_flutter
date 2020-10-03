@@ -12,14 +12,14 @@ import 'package:flutter_app/presentation/common/internet_video_player.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
-import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_body.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_bloc.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_body.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../intervention_models.dart';
-import 'media_intervention_bloc.dart';
-import 'media_intervention_models.dart';
 
 class RecordVideoInterventionPage extends StatelessWidget {
   RecordVideoInterventionPage({

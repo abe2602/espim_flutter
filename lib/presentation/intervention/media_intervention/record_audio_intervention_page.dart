@@ -12,15 +12,15 @@ import 'package:flutter_app/presentation/common/async_snapshot_response_view.dar
 import 'package:flutter_app/presentation/common/iconed_text.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
-import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_body.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_bloc.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_body.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:record_mp3/record_mp3.dart';
 
 import '../intervention_models.dart';
-import 'media_intervention_bloc.dart';
-import 'media_intervention_models.dart';
 
 class RecordAudioInterventionPage extends StatelessWidget {
   RecordAudioInterventionPage({

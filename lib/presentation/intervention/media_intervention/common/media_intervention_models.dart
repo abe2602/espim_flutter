@@ -1,4 +1,4 @@
-import '../intervention_models.dart';
+import '../../intervention_models.dart';
 
 class MediaInterventionSuccess extends Success {
   MediaInterventionSuccess({
