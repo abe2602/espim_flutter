@@ -5,6 +5,7 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
@@ -59,108 +60,100 @@ class MultipleAnswerInterventionPage extends StatelessWidget {
         title: const Text('Acompanhamentos'),
         backgroundColor: const Color(0xff125193),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-          child: StreamBuilder(
-            stream: bloc.onNewState,
-            builder: (context, snapshot) =>
-                AsyncSnapshotResponseView<Loading, Error, Success>(
-              snapshot: snapshot,
-              successWidgetBuilder: (successState) {
-                final MultipleAnswerIntervention multipleAnswerIntervention =
-                    successState.intervention;
+      body: StreamBuilder(
+        stream: bloc.onNewState,
+        builder: (context, snapshot) =>
+            AsyncSnapshotResponseView<Loading, Error, Success>(
+          snapshot: snapshot,
+          successWidgetBuilder: (successState) {
+            final MultipleAnswerIntervention multipleAnswerIntervention =
+                successState.intervention;
 
-                _likertAnswer = List.filled(
-                    multipleAnswerIntervention.questionAnswers.length, '');
+            _likertAnswer = List.filled(
+                multipleAnswerIntervention.questionAnswers.length, '');
 
-                return SensemActionListener(
-                  actionStream: bloc.navigateToNextIntervention,
-                  onReceived: (event) {
-                    eventResult.interventionResultsList.add(
-                      InterventionResult(
-                        interventionType: successState.intervention.type,
-                        startTime: _startTime,
-                        endTime: DateTime.now().millisecondsSinceEpoch,
-                        interventionId:
-                            successState.intervention.interventionId,
-                        answer: 'Mandar o valor aqui',
-                      ),
-                    );
-
-                    eventResult.interventionsIds
-                        .add(successState.intervention.interventionId);
-
-                    navigateToNextIntervention(context, event.item2, flowSize,
-                        eventId, event.item1, eventResult);
-                  },
-                  child: InterventionBody(
-                    statement: successState.intervention.statement,
-                    mediaInformation:
-                        successState.intervention.mediaInformation,
-                    nextPage: successState.nextPage,
-                    next: successState.intervention.next,
-                    nextInterventionType: successState.nextInterventionType,
-                    eventId: eventId,
-                    flowSize: flowSize,
-                    orderPosition: successState.intervention.orderPosition,
-                    onPressed: () {
-                      var likertAnswerString = '';
-
-                      for (var i = 0; i < _likertAnswer.length - 1; i++) {
-                        likertAnswerString += _likertAnswer[i];
-                        likertAnswerString += '_SEP_';
-                        likertAnswerString += _likertAnswer[i + 1];
-                      }
-
-                      if(likertAnswerString == '_SEP_') {
-                        likertAnswerString ='';
-                      }
-
-                      eventResult.interventionResultsList.add(
-                        InterventionResult(
-                          interventionType: 'question',
-                          startTime: _startTime,
-                          endTime: DateTime.now().millisecondsSinceEpoch,
-                          interventionId:
-                          successState.intervention.interventionId,
-                          answer: likertAnswerString,
-                        ),
-                      );
-
-                      navigateToNextIntervention(
-                        context,
-                        successState.nextPage,
-                        flowSize,
-                        eventId,
-                        successState.nextInterventionType,
-                        eventResult,
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        ...multipleAnswerIntervention.questionAnswers
-                            .asMap()
-                            .map(
-                              (index, optionText) => MapEntry(
-                                index,
-                                SingleOptionCard(
-                                  index: index,
-                                  optionText: optionText,
-                                  resultList: _likertAnswer,
-                                ),
-                              ),
-                            )
-                            .values
-                            .toList(),
-                      ],
-                    ),
+            return SensemActionListener(
+              actionStream: bloc.navigateToNextIntervention,
+              onReceived: (event) {
+                eventResult.interventionResultsList.add(
+                  InterventionResult(
+                    interventionType: successState.intervention.type,
+                    startTime: _startTime,
+                    endTime: DateTime.now().millisecondsSinceEpoch,
+                    interventionId: successState.intervention.interventionId,
+                    answer: 'Mandar o valor aqui',
                   ),
                 );
+
+                eventResult.interventionsIds
+                    .add(successState.intervention.interventionId);
+
+                navigateToNextIntervention(context, event.item2, flowSize,
+                    eventId, event.item1, eventResult);
               },
-              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
-            ),
-          ),
+              child: InterventionBody(
+                statement: successState.intervention.statement,
+                mediaInformation: successState.intervention.mediaInformation,
+                nextPage: successState.nextPage,
+                next: successState.intervention.next,
+                nextInterventionType: successState.nextInterventionType,
+                eventId: eventId,
+                flowSize: flowSize,
+                orderPosition: successState.intervention.orderPosition,
+                onPressed: () {
+                  var likertAnswerString = '';
+
+                  for (var i = 0; i < _likertAnswer.length - 1; i++) {
+                    likertAnswerString += _likertAnswer[i];
+                    likertAnswerString += '_SEP_';
+                    likertAnswerString += _likertAnswer[i + 1];
+                  }
+
+                  if (likertAnswerString == '_SEP_') {
+                    likertAnswerString = '';
+                  }
+
+                  eventResult.interventionResultsList.add(
+                    InterventionResult(
+                      interventionType: 'question',
+                      startTime: _startTime,
+                      endTime: DateTime.now().millisecondsSinceEpoch,
+                      interventionId: successState.intervention.interventionId,
+                      answer: likertAnswerString,
+                    ),
+                  );
+
+                  navigateToNextIntervention(
+                    context,
+                    successState.nextPage,
+                    flowSize,
+                    eventId,
+                    successState.nextInterventionType,
+                    eventResult,
+                  );
+                },
+                child: Column(
+                  children: [
+                    ...multipleAnswerIntervention.questionAnswers
+                        .asMap()
+                        .map(
+                          (index, optionText) => MapEntry(
+                            index,
+                            SingleOptionCard(
+                              index: index,
+                              optionText: optionText,
+                              resultList: _likertAnswer,
+                            ),
+                          ),
+                        )
+                        .values
+                        .toList(),
+                  ],
+                ),
+              ),
+            );
+          },
+          errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
         ),
       ),
     );
@@ -197,7 +190,7 @@ class SingleOptionCardState extends State<SingleOptionCard> {
               value: _checkBoxValue,
               onChanged: (isChecked) {
                 setState(() {
-                  if(isChecked) {
+                  if (isChecked) {
                     widget.resultList[widget.index] = widget.optionText;
                   } else {
                     widget.resultList[widget.index] = '';

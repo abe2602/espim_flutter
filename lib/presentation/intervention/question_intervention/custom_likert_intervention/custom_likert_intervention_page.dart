@@ -4,10 +4,13 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/lib/presentation/common/likert_card.dart';
 
 import 'custom_likert_intervention_bloc.dart';
 import 'custom_likert_intervention_models.dart';
@@ -72,81 +75,75 @@ class CustomLikertInterventionPageState
               });
             }
           },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: StreamBuilder<InterventionResponseState>(
-                stream: widget.bloc.onNewState,
-                builder: (context, snapshot) =>
-                    AsyncSnapshotResponseView<Loading, Error, Success>(
-                  snapshot: snapshot,
-                  successWidgetBuilder: (successState) {
-                    final CustomLikertSuccess success = successState;
-                    _likertAnswer = List.filled(success.likertScales.length,
-                        '1: ${success.likertScales[0]}');
+          child: StreamBuilder<InterventionResponseState>(
+            stream: widget.bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              successWidgetBuilder: (successState) {
+                final CustomLikertSuccess success = successState;
+                _likertAnswer = List.filled(success.likertScales.length,
+                    '1: ${success.likertScales[0]}');
 
-                    return InterventionBody(
-                      statement: successState.intervention.statement,
-                      mediaInformation:
-                          successState.intervention.mediaInformation,
-                      nextPage: successState.nextPage,
-                      next: successState.intervention.next,
-                      nextInterventionType: successState.nextInterventionType,
-                      eventId: widget.eventId,
-                      flowSize: widget.flowSize,
-                      orderPosition: successState.intervention.orderPosition,
-                      onPressed: () {
-                        widget.eventResult.interventionResultsList.add(
-                          InterventionResult(
-                            interventionType: 'question',
-                            startTime: _startTime,
-                            endTime: DateTime.now().millisecondsSinceEpoch,
-                            interventionId:
-                                successState.intervention.interventionId,
-                            answer: createLikertTypeResponse(
-                                _likertAnswer.length - 1, _likertAnswer),
-                          ),
-                        );
+                return InterventionBody(
+                  statement: successState.intervention.statement,
+                  mediaInformation: successState.intervention.mediaInformation,
+                  nextPage: successState.nextPage,
+                  next: successState.intervention.next,
+                  nextInterventionType: successState.nextInterventionType,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
+                  orderPosition: successState.intervention.orderPosition,
+                  onPressed: () {
+                    widget.eventResult.interventionResultsList.add(
+                      InterventionResult(
+                        interventionType: 'question',
+                        startTime: _startTime,
+                        endTime: DateTime.now().millisecondsSinceEpoch,
+                        interventionId:
+                            successState.intervention.interventionId,
+                        answer: createLikertTypeResponse(
+                            _likertAnswer.length - 1, _likertAnswer),
+                      ),
+                    );
 
-                        setState(() {
-                          _shouldAlwaysDisplayValueIndicator = false;
-                        });
+                    setState(() {
+                      _shouldAlwaysDisplayValueIndicator = false;
+                    });
 
-                        navigateToNextIntervention(
-                          context,
-                          successState.nextPage,
-                          widget.flowSize,
-                          widget.eventId,
-                          successState.nextInterventionType,
-                          widget.eventResult,
-                        );
-                      },
-                      child: Column(
+                    navigateToNextIntervention(
+                      context,
+                      successState.nextPage,
+                      widget.flowSize,
+                      widget.eventId,
+                      successState.nextInterventionType,
+                      widget.eventResult,
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: LikertCard(
-                                  likertScale: success.likertScales,
-                                  index: 0,
-                                  likertAnswer: _likertAnswer,
-                                  shouldAlwaysDisplayValueIndicator:
-                                      _shouldAlwaysDisplayValueIndicator,
-                                ),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: LikertCard(
+                              likertScale: success.likertScales,
+                              index: 0,
+                              likertAnswer: _likertAnswer,
+                              shouldAlwaysDisplayValueIndicator:
+                                  _shouldAlwaysDisplayValueIndicator,
+                            ),
                           ),
                         ],
                       ),
-                    );
-                  },
-                  errorWidgetBuilder: (errorState) {
-                    return Text('Eita');
-                  },
-                ),
-              ),
+                    ],
+                  ),
+                );
+              },
+              errorWidgetBuilder: (errorState) {
+                return Text('Eita');
+              },
             ),
           ),
         ),

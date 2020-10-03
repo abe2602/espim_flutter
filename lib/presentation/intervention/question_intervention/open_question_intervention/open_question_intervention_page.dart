@@ -8,6 +8,7 @@ import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/form_text_field.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
@@ -64,24 +65,19 @@ class OpenQuestionInterventionPage extends StatelessWidget {
         title: const Text('Acompanhamentos'),
         backgroundColor: const Color(0xff125193),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-          child: StreamBuilder(
-            stream: bloc.onNewState,
-            builder: (context, snapshot) =>
-                AsyncSnapshotResponseView<Loading, Error, Success>(
-              snapshot: snapshot,
-              successWidgetBuilder: (successState) => OpenQuestion(
-                bloc: bloc,
-                eventId: eventId,
-                flowSize: flowSize,
-                successState: successState,
-                eventResult: eventResult,
-              ),
-              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
-            ),
+      body: StreamBuilder(
+        stream: bloc.onNewState,
+        builder: (context, snapshot) =>
+            AsyncSnapshotResponseView<Loading, Error, Success>(
+          snapshot: snapshot,
+          successWidgetBuilder: (successState) => OpenQuestion(
+            bloc: bloc,
+            eventId: eventId,
+            flowSize: flowSize,
+            successState: successState,
+            eventResult: eventResult,
           ),
+          errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
         ),
       ),
     );

@@ -1,21 +1,21 @@
 import 'package:domain/model/complex_condition.dart';
+import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/intervention.dart';
-import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/likert_intervention.dart';
-import 'package:domain/model/semantic_diff_intervention.dart';
 import 'package:domain/model/media_information.dart';
-import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/model/question_intervention.dart';
+import 'package:domain/model/record_audio_intervention.dart';
+import 'package:domain/model/record_video_intervention.dart';
+import 'package:domain/model/semantic_diff_intervention.dart';
 import 'package:domain/model/settings.dart';
+import 'package:domain/model/take_picture_intervention.dart';
 import 'package:domain/model/task_intervention.dart';
+import 'package:flutter_app/data/cache/model/complex_condition_cm.dart';
+import 'package:flutter_app/data/cache/model/intervention_cm.dart';
+import 'package:flutter_app/data/cache/model/media_information_cm.dart';
 import 'package:flutter_app/data/cache/model/settings_cm.dart';
-
-import 'model/complex_condition_cm.dart';
-import 'model/intervention_cm.dart';
-import 'model/media_information_cm.dart';
-
 
 extension SettingsCMtoDM on SettingsCM {
   Settings toDM() => Settings(
@@ -28,11 +28,40 @@ extension SettingsCMtoDM on SettingsCM {
 extension InterventionCMToDM on InterventionCM {
   Intervention toDM() {
     switch (type) {
-      case 'media':
+      case 'take_picture':
         {
-          return MediaIntervention(
+          return TakePictureIntervention(
             interventionId: interventionId,
-            mediaType: mediaType,
+            type: type,
+            statement: statement,
+            orderPosition: orderPosition,
+            isFirst: isFirst,
+            next: next,
+            isObligatory: isObligatory,
+            complexConditions: complexConditions?.toDM(),
+            mediaInformation: mediaInformation?.toDM(),
+          );
+        }
+        break;
+      case 'record_video':
+        {
+          return RecordVideoIntervention(
+            interventionId: interventionId,
+            type: type,
+            statement: statement,
+            orderPosition: orderPosition,
+            isFirst: isFirst,
+            next: next,
+            isObligatory: isObligatory,
+            complexConditions: complexConditions?.toDM(),
+            mediaInformation: mediaInformation?.toDM(),
+          );
+        }
+        break;
+      case 'record_audio':
+        {
+          return RecordAudioIntervention(
+            interventionId: interventionId,
             type: type,
             statement: statement,
             orderPosition: orderPosition,
@@ -109,7 +138,8 @@ extension InterventionCMToDM on InterventionCM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          } if (questionType == 31) {
+          }
+          if (questionType == 31) {
             return CustomLikertIntervention(
               interventionId: interventionId,
               type: 'custom_likert',
@@ -122,8 +152,7 @@ extension InterventionCMToDM on InterventionCM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          } else if(
-          questionType == 2) {
+          } else if (questionType == 2) {
             return MultipleAnswerIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,

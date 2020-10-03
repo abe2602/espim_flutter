@@ -1,7 +1,7 @@
-import 'intervention.dart';
+import 'media_intervention.dart';
 
-class MediaIntervention extends Intervention {
-  MediaIntervention(
+class RecordAudioIntervention extends MediaIntervention {
+  RecordAudioIntervention(
       {interventionId,
       type,
       statement,

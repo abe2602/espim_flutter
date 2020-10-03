@@ -5,9 +5,11 @@ part 'character_rm.g.dart';
 
 @JsonSerializable()
 class CharacterRM {
-  const CharacterRM(
-      {@required this.id, @required this.name, @required this.imgUrl})
-      : assert(id != null),
+  const CharacterRM({
+    @required this.id,
+    @required this.name,
+    @required this.imgUrl,
+  })  : assert(id != null),
         assert(name != null),
         assert(imgUrl != null);
 

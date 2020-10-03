@@ -5,9 +5,9 @@ part 'login_rm.g.dart';
 
 @JsonSerializable()
 class LoginRM {
-  const LoginRM(
-      {@required this.id})
-      : assert(id != null);
+  const LoginRM({
+    @required this.id,
+  }) : assert(id != null);
 
   factory LoginRM.fromJson(Map<String, dynamic> parsedJson) =>
       _$LoginRMFromJson(parsedJson);

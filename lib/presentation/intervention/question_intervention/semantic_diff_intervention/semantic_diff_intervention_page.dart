@@ -4,6 +4,8 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
+import 'package:flutter_app/presentation/common/semantic_diff_card.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/semantic_diff_intervention/semantic_diff_intervention_bloc.dart';
@@ -71,98 +73,90 @@ class SemanticDiffInterventionPageState
               });
             }
           },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: StreamBuilder<InterventionResponseState>(
-                stream: widget.bloc.onNewState,
-                builder: (context, snapshot) =>
-                    AsyncSnapshotResponseView<Loading, Error, Success>(
-                  snapshot: snapshot,
-                  successWidgetBuilder: (successState) {
-                    final SemanticDiffSuccess success = successState;
-                    _semanticDiffAnswer =
-                        List.filled(success.semanticDiffLabels.length, '0');
+          child: StreamBuilder<InterventionResponseState>(
+            stream: widget.bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              successWidgetBuilder: (successState) {
+                final SemanticDiffSuccess success = successState;
+                _semanticDiffAnswer =
+                    List.filled(success.semanticDiffLabels.length, '0');
 
-                    return InterventionBody(
-                      statement: successState.intervention.statement,
-                      mediaInformation:
-                          successState.intervention.mediaInformation,
-                      nextPage: successState.nextPage,
-                      next: successState.intervention.next,
-                      nextInterventionType: successState.nextInterventionType,
-                      eventId: widget.eventId,
-                      flowSize: widget.flowSize,
-                      orderPosition: successState.intervention.orderPosition,
-                      onPressed: () {
-                        widget.eventResult.interventionResultsList.add(
-                          InterventionResult(
-                            interventionType: 'question',
-                            startTime: _startTime,
-                            endTime: DateTime.now().millisecondsSinceEpoch,
-                            interventionId:
-                                successState.intervention.interventionId,
-                            answer: createLikertTypeResponse(
-                                _semanticDiffAnswer.length - 1,
-                                _semanticDiffAnswer),
-                          ),
-                        );
-
-                        setState(() {
-                          _shouldAlwaysDisplayValueIndicator = false;
-                        });
-
-                        navigateToNextIntervention(
-                          context,
-                          successState.nextPage,
-                          widget.flowSize,
-                          widget.eventId,
-                          successState.nextInterventionType,
-                          widget.eventResult,
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          ...success.semanticDiffLabels
-                              .asMap()
-                              .map(
-                                (index, statement) => MapEntry(
-                                  index,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(statement),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: SemanticDiffCard(
-                                          semanticDiffAnswer:
-                                              _semanticDiffAnswer,
-                                          semanticDiffScale:
-                                              success.semanticDiffScale,
-                                          index: index,
-                                          semanticDiffLabels:
-                                              success.semanticDiffLabels,
-                                          size: success.semanticDiffSize,
-                                          shouldAlwaysDisplayValueIndicator:
-                                              _shouldAlwaysDisplayValueIndicator,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                              .values
-                              .toList(),
-                        ],
+                return InterventionBody(
+                  statement: successState.intervention.statement,
+                  mediaInformation: successState.intervention.mediaInformation,
+                  nextPage: successState.nextPage,
+                  next: successState.intervention.next,
+                  nextInterventionType: successState.nextInterventionType,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
+                  orderPosition: successState.intervention.orderPosition,
+                  onPressed: () {
+                    widget.eventResult.interventionResultsList.add(
+                      InterventionResult(
+                        interventionType: 'question',
+                        startTime: _startTime,
+                        endTime: DateTime.now().millisecondsSinceEpoch,
+                        interventionId:
+                            successState.intervention.interventionId,
+                        answer: createLikertTypeResponse(
+                            _semanticDiffAnswer.length - 1,
+                            _semanticDiffAnswer),
                       ),
                     );
+
+                    setState(() {
+                      _shouldAlwaysDisplayValueIndicator = false;
+                    });
+
+                    navigateToNextIntervention(
+                      context,
+                      successState.nextPage,
+                      widget.flowSize,
+                      widget.eventId,
+                      successState.nextInterventionType,
+                      widget.eventResult,
+                    );
                   },
-                  errorWidgetBuilder: (errorState) {
-                    return Text('Eita');
-                  },
-                ),
-              ),
+                  child: Column(
+                    children: [
+                      ...success.semanticDiffLabels
+                          .asMap()
+                          .map(
+                            (index, statement) => MapEntry(
+                              index,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(statement),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: SemanticDiffCard(
+                                      semanticDiffAnswer: _semanticDiffAnswer,
+                                      semanticDiffScale:
+                                          success.semanticDiffScale,
+                                      index: index,
+                                      semanticDiffLabels:
+                                          success.semanticDiffLabels,
+                                      size: success.semanticDiffSize,
+                                      shouldAlwaysDisplayValueIndicator:
+                                          _shouldAlwaysDisplayValueIndicator,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .values
+                          .toList(),
+                    ],
+                  ),
+                );
+              },
+              errorWidgetBuilder: (errorState) {
+                return Text('Eita');
+              },
             ),
           ),
         ),

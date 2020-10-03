@@ -1,6 +1,5 @@
 import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/intervention.dart';
-import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';

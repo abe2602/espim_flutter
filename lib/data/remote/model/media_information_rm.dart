@@ -5,12 +5,12 @@ part 'media_information_rm.g.dart';
 
 @JsonSerializable()
 class MediaInformationRM {
-  MediaInformationRM(
-      {@required this.id,
-      @required this.mediaType,
-      @required this.mediaUrl,
-      @required this.shouldAutoPlay})
-      : assert(id != null),
+  MediaInformationRM({
+    @required this.id,
+    @required this.mediaType,
+    @required this.mediaUrl,
+    @required this.shouldAutoPlay,
+  })  : assert(id != null),
         assert(mediaUrl != null),
         assert(mediaType != null),
         assert(shouldAutoPlay != null);

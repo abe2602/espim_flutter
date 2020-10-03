@@ -4,12 +4,14 @@ import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
-import 'package:flutter_app/presentation/common/custom_slider.dart';
+import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/lib/presentation/common/likert_card.dart';
 
 import 'likert_intervention_bloc.dart';
 import 'likert_intervention_models.dart';
@@ -73,92 +75,85 @@ class LikertInterventionPageState extends State<LikertInterventionPage> {
               });
             }
           },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: StreamBuilder<InterventionResponseState>(
-                stream: widget.bloc.onNewState,
-                builder: (context, snapshot) =>
-                    AsyncSnapshotResponseView<Loading, Error, Success>(
-                  snapshot: snapshot,
-                  successWidgetBuilder: (successState) {
-                    final LikertSuccess success = successState;
-                    _likertAnswer = List.filled(success.optionsList.length,
-                        '1: ${success.likertScales[0]}');
+          child: StreamBuilder<InterventionResponseState>(
+            stream: widget.bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              successWidgetBuilder: (successState) {
+                final LikertSuccess success = successState;
+                _likertAnswer = List.filled(success.optionsList.length,
+                    '1: ${success.likertScales[0]}');
 
-                    return InterventionBody(
-                      statement: successState.intervention.statement,
-                      mediaInformation:
-                          successState.intervention.mediaInformation,
-                      nextPage: successState.nextPage,
-                      next: successState.intervention.next,
-                      nextInterventionType: successState.nextInterventionType,
-                      eventId: widget.eventId,
-                      flowSize: widget.flowSize,
-                      orderPosition: successState.intervention.orderPosition,
-                      onPressed: () {
-                        widget.eventResult.interventionResultsList.add(
-                          InterventionResult(
-                            interventionType: 'question',
-                            startTime: _startTime,
-                            endTime: DateTime.now().millisecondsSinceEpoch,
-                            interventionId:
-                                successState.intervention.interventionId,
-                            answer: createLikertTypeResponse(
-                                _likertAnswer.length - 1, _likertAnswer),
-                          ),
-                        );
-
-                        setState(() {
-                          _shouldAlwaysDisplayValueIndicator = false;
-                        });
-
-                        navigateToNextIntervention(
-                          context,
-                          successState.nextPage,
-                          widget.flowSize,
-                          widget.eventId,
-                          successState.nextInterventionType,
-                          widget.eventResult,
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          ...success.optionsList
-                              .asMap()
-                              .map(
-                                (index, statement) => MapEntry(
-                                  index,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(statement),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: LikertCard(
-                                          likertScale: success.likertScales,
-                                          index: index,
-                                          likertAnswer: _likertAnswer,
-                                          shouldAlwaysDisplayValueIndicator:
-                                              _shouldAlwaysDisplayValueIndicator,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                              .values
-                              .toList(),
-                        ],
+                return InterventionBody(
+                  statement: successState.intervention.statement,
+                  mediaInformation: successState.intervention.mediaInformation,
+                  nextPage: successState.nextPage,
+                  next: successState.intervention.next,
+                  nextInterventionType: successState.nextInterventionType,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
+                  orderPosition: successState.intervention.orderPosition,
+                  onPressed: () {
+                    widget.eventResult.interventionResultsList.add(
+                      InterventionResult(
+                        interventionType: 'question',
+                        startTime: _startTime,
+                        endTime: DateTime.now().millisecondsSinceEpoch,
+                        interventionId:
+                            successState.intervention.interventionId,
+                        answer: createLikertTypeResponse(
+                            _likertAnswer.length - 1, _likertAnswer),
                       ),
                     );
+
+                    setState(() {
+                      _shouldAlwaysDisplayValueIndicator = false;
+                    });
+
+                    navigateToNextIntervention(
+                      context,
+                      successState.nextPage,
+                      widget.flowSize,
+                      widget.eventId,
+                      successState.nextInterventionType,
+                      widget.eventResult,
+                    );
                   },
-                  errorWidgetBuilder: (errorState) {
-                    return Text('Eita');
-                  },
-                ),
-              ),
+                  child: Column(
+                    children: [
+                      ...success.optionsList
+                          .asMap()
+                          .map(
+                            (index, statement) => MapEntry(
+                              index,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(statement),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: LikertCard(
+                                      likertScale: success.likertScales,
+                                      index: index,
+                                      likertAnswer: _likertAnswer,
+                                      shouldAlwaysDisplayValueIndicator:
+                                          _shouldAlwaysDisplayValueIndicator,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .values
+                          .toList(),
+                    ],
+                  ),
+                );
+              },
+              errorWidgetBuilder: (errorState) {
+                return Text('Eita');
+              },
             ),
           ),
         ),

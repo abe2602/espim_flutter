@@ -13,13 +13,13 @@ import 'package:flutter_app/data/remote/model/media_information_rm.dart';
 import 'package:flutter_app/data/remote/model/observer_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
 
-import 'model/event_trigger_rm.dart';
-import 'model/program_rm.dart';
+import '../model/event_trigger_rm.dart';
+import '../model/program_rm.dart';
 
 extension InterventionRMToCM on InterventionRM {
   InterventionCM toCM() => InterventionCM(
         interventionId: interventionId,
-        type: getInterventionType(type, questionType),
+        type: _getInterventionType(type, questionType, statement),
         statement: statement,
         orderPosition: orderPosition,
         isFirst: isFirst,
@@ -38,24 +38,29 @@ extension InterventionRMToCM on InterventionRM {
       );
 }
 
-String getInterventionType(
-    String type, int questionType) {
+String _getInterventionType(String type, int questionType, String mediaType) {
   if (type == 'question') {
     if (questionType == 4) {
       return 'semantic_diff';
     }
     if (questionType == 3) {
       return 'likert';
-    }
-    else if(questionType == 31) {
+    } else if (questionType == 31) {
       return 'custom_likert';
-    }
-    else if (questionType == 2) {
+    } else if (questionType == 2) {
       return 'multiple_answer';
-    } else if(questionType == 1){
+    } else if (questionType == 1) {
       return 'closed_question';
     } else {
       return 'open_question';
+    }
+  } else if (type == 'media') {
+    if (mediaType == 'video') {
+      return 'record_video';
+    } else if (mediaType == 'audio') {
+      return 'record_audio';
+    } else {
+      return 'take_picture';
     }
   } else {
     return type;
