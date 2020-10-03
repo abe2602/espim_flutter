@@ -65,23 +65,21 @@ class OpenQuestionInterventionPage extends StatelessWidget {
         title: const Text('Acompanhamentos'),
         backgroundColor: const Color(0xff125193),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-          child: StreamBuilder(
-            stream: bloc.onNewState,
-            builder: (context, snapshot) =>
-                AsyncSnapshotResponseView<Loading, Error, Success>(
-              snapshot: snapshot,
-              successWidgetBuilder: (successState) => OpenQuestion(
-                bloc: bloc,
-                eventId: eventId,
-                flowSize: flowSize,
-                successState: successState,
-                eventResult: eventResult,
-              ),
-              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        child: StreamBuilder(
+          stream: bloc.onNewState,
+          builder: (context, snapshot) =>
+              AsyncSnapshotResponseView<Loading, Error, Success>(
+            snapshot: snapshot,
+            successWidgetBuilder: (successState) => OpenQuestion(
+              bloc: bloc,
+              eventId: eventId,
+              flowSize: flowSize,
+              successState: successState,
+              eventResult: eventResult,
             ),
+            errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
           ),
         ),
       ),

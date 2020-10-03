@@ -11,6 +11,5 @@ class LoginUC extends UseCase<void, void> {
   final AuthDataRepository authRepository;
 
   @override
-  Future<void> getRawFuture({void params}) =>
-      authRepository.login();
+  Future<void> getRawFuture({void params}) => authRepository.login();
 }

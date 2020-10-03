@@ -21,6 +21,7 @@ class SensemButton extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Text(
             buttonText,
+            textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.white),
           ),
         ),

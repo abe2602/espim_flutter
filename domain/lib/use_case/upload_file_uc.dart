@@ -14,11 +14,15 @@ class UploadFileUC extends UseCase<UploadFileUCParams, String> {
 
   @override
   Future<String> getRawFuture({UploadFileUCParams params}) =>
-      filesRepository.uploadFile(params.file);
+      params.file == null
+          ? Future.value('')
+          : filesRepository.uploadFile(params.file);
 }
 
 class UploadFileUCParams {
-  const UploadFileUCParams({@required this.file,}) : assert(file != null);
+  const UploadFileUCParams({
+    this.file,
+  });
 
   final File file;
 }

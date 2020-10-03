@@ -75,91 +75,88 @@ class LikertInterventionPageState extends State<LikertInterventionPage> {
               });
             }
           },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: StreamBuilder<InterventionResponseState>(
-                stream: widget.bloc.onNewState,
-                builder: (context, snapshot) =>
-                    AsyncSnapshotResponseView<Loading, Error, Success>(
-                  snapshot: snapshot,
-                  successWidgetBuilder: (successState) {
-                    final LikertSuccess success = successState;
-                    _likertAnswer = List.filled(success.optionsList.length,
-                        '1: ${success.likertScales[0]}');
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: StreamBuilder<InterventionResponseState>(
+              stream: widget.bloc.onNewState,
+              builder: (context, snapshot) =>
+                  AsyncSnapshotResponseView<Loading, Error, Success>(
+                snapshot: snapshot,
+                successWidgetBuilder: (successState) {
+                  final LikertSuccess success = successState;
+                  _likertAnswer = List.filled(success.optionsList.length,
+                      '1: ${success.likertScales[0]}');
 
-                    return InterventionBody(
-                      statement: successState.intervention.statement,
-                      mediaInformation:
-                          successState.intervention.mediaInformation,
-                      nextPage: successState.nextPage,
-                      next: successState.intervention.next,
-                      nextInterventionType: successState.nextInterventionType,
-                      eventId: widget.eventId,
-                      flowSize: widget.flowSize,
-                      orderPosition: successState.intervention.orderPosition,
-                      onPressed: () {
-                        widget.eventResult.interventionResultsList.add(
-                          InterventionResult(
-                            interventionType: 'question',
-                            startTime: _startTime,
-                            endTime: DateTime.now().millisecondsSinceEpoch,
-                            interventionId:
-                                successState.intervention.interventionId,
-                            answer: createLikertTypeResponse(
-                                _likertAnswer.length - 1, _likertAnswer),
-                          ),
-                        );
+                  return InterventionBody(
+                    statement: successState.intervention.statement,
+                    mediaInformation:
+                        successState.intervention.mediaInformation,
+                    nextPage: successState.nextPage,
+                    next: successState.intervention.next,
+                    nextInterventionType: successState.nextInterventionType,
+                    eventId: widget.eventId,
+                    flowSize: widget.flowSize,
+                    orderPosition: successState.intervention.orderPosition,
+                    onPressed: () {
+                      widget.eventResult.interventionResultsList.add(
+                        InterventionResult(
+                          interventionType: 'question',
+                          startTime: _startTime,
+                          endTime: DateTime.now().millisecondsSinceEpoch,
+                          interventionId:
+                              successState.intervention.interventionId,
+                          answer: createLikertTypeResponse(
+                              _likertAnswer.length - 1, _likertAnswer),
+                        ),
+                      );
 
-                        setState(() {
-                          _shouldAlwaysDisplayValueIndicator = false;
-                        });
+                      setState(() {
+                        _shouldAlwaysDisplayValueIndicator = false;
+                      });
 
-                        navigateToNextIntervention(
-                          context,
-                          successState.nextPage,
-                          widget.flowSize,
-                          widget.eventId,
-                          successState.nextInterventionType,
-                          widget.eventResult,
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          ...success.optionsList
-                              .asMap()
-                              .map(
-                                (index, statement) => MapEntry(
-                                  index,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(statement),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: LikertCard(
-                                          likertScale: success.likertScales,
-                                          index: index,
-                                          likertAnswer: _likertAnswer,
-                                          shouldAlwaysDisplayValueIndicator:
-                                              _shouldAlwaysDisplayValueIndicator,
-                                        ),
+                      navigateToNextIntervention(
+                        context,
+                        successState.nextPage,
+                        widget.flowSize,
+                        widget.eventId,
+                        successState.nextInterventionType,
+                        widget.eventResult,
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        ...success.optionsList
+                            .asMap()
+                            .map(
+                              (index, statement) => MapEntry(
+                                index,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(statement),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: LikertCard(
+                                        likertScale: success.likertScales,
+                                        index: index,
+                                        likertAnswer: _likertAnswer,
+                                        shouldAlwaysDisplayValueIndicator:
+                                            _shouldAlwaysDisplayValueIndicator,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                              .values
-                              .toList(),
-                        ],
-                      ),
-                    );
-                  },
-                  errorWidgetBuilder: (errorState) {
-                    return Text('Eita');
-                  },
-                ),
+                              ),
+                            )
+                            .values
+                            .toList(),
+                      ],
+                    ),
+                  );
+                },
+                errorWidgetBuilder: (errorState) {
+                  return Text('Eita');
+                },
               ),
             ),
           ),

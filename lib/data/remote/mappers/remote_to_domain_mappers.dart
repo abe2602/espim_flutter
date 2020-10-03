@@ -21,13 +21,13 @@ import 'package:flutter_app/data/remote/model/event_rm.dart';
 import 'package:flutter_app/data/remote/model/event_trigger_rm.dart';
 import 'package:flutter_app/data/remote/model/intervention_rm.dart';
 import 'package:flutter_app/data/remote/model/media_information_rm.dart';
+import 'package:flutter_app/data/remote/model/observer_rm.dart';
 import 'package:flutter_app/data/remote/model/participant_rm.dart';
 import 'package:flutter_app/data/remote/model/program_rm.dart';
+import 'package:flutter_app/data/remote/model/user_rm.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 
-import 'model/observer_rm.dart';
-import 'model/user_rm.dart';
 
 extension EventRMToDM on EventRM {
   Event toDM() => Event(

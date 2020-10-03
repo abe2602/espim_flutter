@@ -57,59 +57,50 @@ class EmptyInterventionPage extends StatelessWidget {
         title: const Text('Acompanhamentos'),
         backgroundColor: const Color(0xff125193),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(
-            right: 15,
-            left: 15,
-          ),
-          child: StreamBuilder(
-            stream: bloc.onNewState,
-            builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
-                Error, EmptyInterventionSuccess>(
-              snapshot: snapshot,
-              successWidgetBuilder: (successState) => InterventionBody(
-                statement: successState.intervention.statement,
-                mediaInformation: successState.intervention.mediaInformation,
-                nextPage: successState.nextPage,
-                next: successState.intervention.next,
-                nextInterventionType: successState.nextInterventionType,
-                eventId: eventId,
-                flowSize: flowSize,
-                orderPosition: successState.intervention.orderPosition,
-                onPressed: () {
-                  eventResult.interventionResultsList.add(
-                    InterventionResult(
-                      interventionType: successState.intervention.type,
-                      startTime: _startTime,
-                      endTime: DateTime.now().millisecondsSinceEpoch,
-                      interventionId: successState.intervention.interventionId,
-                    ),
-                  );
+      body: StreamBuilder(
+        stream: bloc.onNewState,
+        builder: (context, snapshot) =>
+            AsyncSnapshotResponseView<Loading, Error, EmptyInterventionSuccess>(
+          snapshot: snapshot,
+          successWidgetBuilder: (successState) => InterventionBody(
+            statement: successState.intervention.statement,
+            mediaInformation: successState.intervention.mediaInformation,
+            nextPage: successState.nextPage,
+            next: successState.intervention.next,
+            nextInterventionType: successState.nextInterventionType,
+            eventId: eventId,
+            flowSize: flowSize,
+            orderPosition: successState.intervention.orderPosition,
+            onPressed: () {
+              eventResult.interventionResultsList.add(
+                InterventionResult(
+                  interventionType: successState.intervention.type,
+                  startTime: _startTime,
+                  endTime: DateTime.now().millisecondsSinceEpoch,
+                  interventionId: successState.intervention.interventionId,
+                ),
+              );
 
-                  eventResult.interventionsIds
-                      .add(successState.intervention.interventionId);
+              eventResult.interventionsIds
+                  .add(successState.intervention.interventionId);
 
-                  navigateToNextIntervention(
-                    context,
-                    successState.nextPage,
-                    flowSize,
-                    eventId,
-                    successState.nextInterventionType,
-                    EventResult(
-                      startTime: eventResult.startTime,
-                      eventId: eventResult.eventId,
-                      interventionResultsList:
-                          eventResult.interventionResultsList,
-                      interventionsIds: eventResult.interventionsIds,
-                      eventTrigger: eventResult.eventTrigger,
-                    ),
-                  );
-                },
-              ),
-              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
-            ),
+              navigateToNextIntervention(
+                context,
+                successState.nextPage,
+                flowSize,
+                eventId,
+                successState.nextInterventionType,
+                EventResult(
+                  startTime: eventResult.startTime,
+                  eventId: eventResult.eventId,
+                  interventionResultsList: eventResult.interventionResultsList,
+                  interventionsIds: eventResult.interventionsIds,
+                  eventTrigger: eventResult.eventTrigger,
+                ),
+              );
+            },
           ),
+          errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
         ),
       ),
     );

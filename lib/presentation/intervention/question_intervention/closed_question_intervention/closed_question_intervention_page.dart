@@ -61,42 +61,40 @@ class ClosedQuestionInterventionPage extends StatelessWidget {
         title: const Text('Acompanhamentos'),
         backgroundColor: const Color(0xff125193),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-          child: StreamBuilder(
-            stream: bloc.onNewState,
-            builder: (context, snapshot) =>
-                AsyncSnapshotResponseView<Loading, Error, Success>(
-              snapshot: snapshot,
-              successWidgetBuilder: (successState) => SensemActionListener(
-                actionStream: bloc.navigateToNextIntervention,
-                onReceived: (event) {
-                  eventResult.interventionResultsList.add(
-                    InterventionResult(
-                      interventionType: successState.intervention.type,
-                      startTime: _startTime,
-                      endTime: DateTime.now().millisecondsSinceEpoch,
-                      interventionId: successState.intervention.interventionId,
-                      answer: event.item3,
-                    ),
-                  );
+      body: Container(
+        margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
+        child: StreamBuilder(
+          stream: bloc.onNewState,
+          builder: (context, snapshot) =>
+              AsyncSnapshotResponseView<Loading, Error, Success>(
+            snapshot: snapshot,
+            successWidgetBuilder: (successState) => SensemActionListener(
+              actionStream: bloc.navigateToNextIntervention,
+              onReceived: (event) {
+                eventResult.interventionResultsList.add(
+                  InterventionResult(
+                    interventionType: successState.intervention.type,
+                    startTime: _startTime,
+                    endTime: DateTime.now().millisecondsSinceEpoch,
+                    interventionId: successState.intervention.interventionId,
+                    answer: event.item3,
+                  ),
+                );
 
-                  eventResult.interventionsIds
-                      .add(successState.intervention.interventionId);
+                eventResult.interventionsIds
+                    .add(successState.intervention.interventionId);
 
-                  navigateToNextIntervention(context, event.item2, flowSize,
-                      eventId, event.item1, eventResult);
-                },
-                child: ClosedQuestionCard(
-                  bloc: bloc,
-                  eventId: eventId,
-                  flowSize: flowSize,
-                  successState: successState,
-                ),
+                navigateToNextIntervention(context, event.item2, flowSize,
+                    eventId, event.item1, eventResult);
+              },
+              child: ClosedQuestionCard(
+                bloc: bloc,
+                eventId: eventId,
+                flowSize: flowSize,
+                successState: successState,
               ),
-              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
             ),
+            errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
           ),
         ),
       ),
@@ -122,6 +120,7 @@ class ClosedQuestionCard extends StatefulWidget {
   State<StatefulWidget> createState() => ClosedQuestionCardState();
 }
 
+// todo: mudar o comportamento no bloc no caso -1
 class ClosedQuestionCardState extends State<ClosedQuestionCard> {
   int selectedOption;
 
@@ -129,6 +128,21 @@ class ClosedQuestionCardState extends State<ClosedQuestionCard> {
   void initState() {
     super.initState();
     selectedOption = -1;
+  }
+
+  void _onPressed(
+      BuildContext context, QuestionIntervention questionIntervention) {
+    if (widget.flowSize == widget.successState.nextPage) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else {
+      widget.bloc.navigateToNextInterventionSink.add(
+        Tuple2(
+          questionIntervention.questionAnswers[selectedOption],
+          questionIntervention.questionConditions[
+              questionIntervention.questionAnswers[selectedOption]],
+        ),
+      );
+    }
   }
 
   @override
@@ -145,18 +159,11 @@ class ClosedQuestionCardState extends State<ClosedQuestionCard> {
       eventId: widget.eventId,
       flowSize: widget.flowSize,
       orderPosition: widget.successState.intervention.orderPosition,
-      onPressed: selectedOption == -1
-          ? null
-          : () {
-              if (widget.flowSize == widget.successState.nextPage) {
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              } else {
-                widget.bloc.navigateToNextInterventionSink.add(Tuple2(
-                    questionIntervention.questionAnswers[selectedOption],
-                    questionIntervention.questionConditions[
-                        questionIntervention.questionAnswers[selectedOption]]));
-              }
-            },
+      onPressed: widget.successState.intervention.isObligatory
+          ? selectedOption == -1
+              ? null
+              : () => _onPressed(context, questionIntervention)
+          : () => _onPressed(context, questionIntervention),
       child: Column(
         children: [
           ...questionIntervention.questionAnswers

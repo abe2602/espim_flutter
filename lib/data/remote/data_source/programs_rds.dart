@@ -16,11 +16,13 @@ class ProgramsRDS {
                 (program) => ProgramRM.fromJson(program),
               ),
             )
-//                .where((program) =>
-//                    DateTime.now().millisecondsSinceEpoch >=
-//                        int.parse(program.startTime) &&
-//                    DateTime.now().millisecondsSinceEpoch <=
-//                        int.parse(program.endTime))
+                .where(
+                  (program) =>
+                      DateTime.now().millisecondsSinceEpoch >=
+                          int.parse(program.startTime) &&
+                      DateTime.now().millisecondsSinceEpoch <=
+                          int.parse(program.endTime),
+                )
                 .toList(),
           );
 }
