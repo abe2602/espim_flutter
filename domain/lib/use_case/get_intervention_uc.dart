@@ -13,14 +13,11 @@ class GetInterventionUC extends UseCase<GetInterventionUCParams, Intervention> {
 
   @override
   Future<Intervention> getRawFuture({GetInterventionUCParams params}) =>
-      programsRepository
-          .getIntervention(
-              params.eventId, params.positionOrder);
+      programsRepository.getIntervention(params.eventId, params.positionOrder);
 }
 
 class GetInterventionUCParams {
-  const GetInterventionUCParams(
-      {@required this.eventId, this.positionOrder})
+  const GetInterventionUCParams({@required this.eventId, this.positionOrder})
       : assert(eventId != null);
 
   final int eventId;

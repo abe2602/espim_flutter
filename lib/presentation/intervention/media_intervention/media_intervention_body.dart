@@ -33,61 +33,56 @@ class MediaInterventionBody extends StatelessWidget {
   final int startTime;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Acompanhamentos'),
-          backgroundColor: const Color(0xff125193),
-        ),
-        body: SensemActionListener<InterventionResponseState>(
-          actionStream: bloc.onActionEventStream,
-          onReceived: (receivedEvent) async {
-            if (receivedEvent is UploadLoading) {
-              await showDialog(
-                context: context,
-                child: AlertDialog(
-                  title: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Text(
-                          S.of(context).wait_please_label,
-                        ),
+  Widget build(BuildContext context) =>
+      SensemActionListener<InterventionResponseState>(
+        actionStream: bloc.onActionEventStream,
+        onReceived: (receivedEvent) async {
+          if (receivedEvent is UploadLoading) {
+            await showDialog(
+              context: context,
+              child: AlertDialog(
+                title: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Text(
+                        S.of(context).wait_please_label,
                       ),
-                      LoadingIndicator(),
-                    ],
-                  ),
+                    ),
+                    LoadingIndicator(),
+                  ],
+                ),
+              ),
+            );
+          } else if (receivedEvent is Success) {
+            Navigator.pop(context);
+            if (receivedEvent.nextPage == 0) {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            } else {
+              eventResult.interventionResultsList.add(
+                InterventionResult(
+                  interventionType: receivedEvent.intervention.type,
+                  startTime: startTime,
+                  endTime: DateTime.now().millisecondsSinceEpoch,
+                  interventionId: receivedEvent.intervention.interventionId,
+                  answer: receivedEvent.mediaUrl,
                 ),
               );
-            } else if (receivedEvent is Success) {
-              Navigator.pop(context);
-              if (receivedEvent.nextPage == 0) {
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              } else {
-                eventResult.interventionResultsList.add(
-                  InterventionResult(
-                    interventionType: receivedEvent.intervention.type,
-                    startTime: startTime,
-                    endTime: DateTime.now().millisecondsSinceEpoch,
-                    interventionId: receivedEvent.intervention.interventionId,
-                    answer: receivedEvent.mediaUrl,
-                  ),
-                );
 
-                eventResult.interventionsIds
-                    .add(receivedEvent.intervention.interventionId);
+              eventResult.interventionsIds
+                  .add(receivedEvent.intervention.interventionId);
 
-                await Navigator.of(context).pushNamed(
-                  RouteNameBuilder.interventionType(
-                      receivedEvent.nextInterventionType,
-                      eventId,
-                      receivedEvent.nextPage,
-                      flowSize),
-                  arguments: eventResult,
-                );
-              }
+              await Navigator.of(context).pushNamed(
+                RouteNameBuilder.interventionType(
+                    receivedEvent.nextInterventionType,
+                    eventId,
+                    receivedEvent.nextPage,
+                    flowSize),
+                arguments: eventResult,
+              );
             }
-          },
-          child: child,
-        ),
+          }
+        },
+        child: child,
       );
 }

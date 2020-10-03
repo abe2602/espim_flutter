@@ -63,7 +63,6 @@ class MediaInterventionBloc with SubscriptionBag {
       );
 
       yield MediaInterventionSuccess(
-          mediaType: currentIntervention.mediaType,
           nextPage: currentIntervention.next,
           intervention: currentIntervention,
           nextInterventionType: nextIntervention.type);

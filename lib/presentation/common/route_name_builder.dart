@@ -9,10 +9,11 @@ class RouteNameBuilder {
   static const closedQuestionIntervention = 'closedQuestionIntervention';
   static const likertIntervention = 'likertIntervention';
   static const customLikertIntervention = 'customLikertIntervention';
-  static const semanticDiffIntervention =
-      'semanticDiffIntervention';
+  static const semanticDiffIntervention = 'semanticDiffIntervention';
   static const multiQuestionIntervention = 'multipleAnswerIntervention';
-  static const mediaIntervention = 'mediaIntervention';
+  static const recordVideoIntervention = 'recordVideoIntervention';
+  static const recordAudioIntervention = 'recordAudioIntervention';
+  static const takePictureIntervention = 'takePictureIntervention';
 
   static const taskInterventionModal = 'taskInterventionModal';
   static const emptyInterventionModal = 'emptyInterventionModal';
@@ -21,11 +22,12 @@ class RouteNameBuilder {
       'closedQuestionInterventionModal';
   static const likertInterventionModal = 'likertInterventionModal';
   static const customLikertInterventionModal = 'customLikertInterventionModal';
-  static const semanticDiffInterventionModal =
-      'semanticDiffInterventionModal';
+  static const semanticDiffInterventionModal = 'semanticDiffInterventionModal';
   static const multiQuestionInterventionModal =
       'multipleAnswerInterventionModal';
-  static const mediaInterventionModal = 'mediaInterventionModal';
+  static const recordVideoInterventionModal = 'recordVideoInterventionModal';
+  static const recordAudioInterventionModal = 'recordAudioInterventionModal';
+  static const takePictureInterventionModal = 'takePictureInterventionModal';
 
   static String interventionType(
       String interventionType, int eventId, int orderPosition, int flowSize) {
@@ -33,8 +35,14 @@ class RouteNameBuilder {
       case 'task':
         return '$taskIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'media':
-        return '$mediaIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+      case 'record_video':
+        return '$recordAudioIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'record_audio':
+        return '$recordAudioIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'take_picture':
+        return '$takePictureIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'open_question':
         return '$openQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
@@ -66,8 +74,14 @@ class RouteNameBuilder {
       case 'task':
         return '$taskInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'media':
-        return '$mediaInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+      case 'record_video':
+        return '$recordAudioInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'record_audio':
+        return '$recordAudioInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case 'take_picture':
+        return '$takePictureInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       case 'open_question':
         return '$openQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';

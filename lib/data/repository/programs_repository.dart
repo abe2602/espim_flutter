@@ -90,7 +90,13 @@ class ProgramsRepository implements ProgramDataRepository {
 
   @override
   Future<Intervention> getIntervention(int eventId, int positionOrder) =>
-      programsCDS.getInterventionByPositionOrder(eventId, positionOrder).then(
+      programsCDS
+          .getInterventionByPositionOrder(eventId, positionOrder)
+          .then(
             (intervention) => intervention.toDM(),
-          );
+          )
+          .catchError((error) {
+        print(error.toString());
+        throw error;
+      });
 }

@@ -17,7 +17,9 @@ import 'package:flutter_app/presentation/common/general_provider.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/events_list/events_list_page.dart';
 import 'package:flutter_app/presentation/intervention/empty_intervention/empty_intervention_page.dart';
-import 'package:flutter_app/presentation/intervention/media_intervention/media_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/record_audio_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/record_video_intervention_page.dart';
+import 'package:flutter_app/presentation/intervention/media_intervention/take_picture_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/closed_question_intervention/closed_question_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/custom_likert_intervention/custom_likert_intervention_page.dart';
 import 'package:flutter_app/presentation/intervention/question_intervention/likert_intervention/likert_intervention_page.dart';
@@ -84,291 +86,317 @@ Future<void> main() async {
     ..define(
       '${RouteNameBuilder.emptyIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return EmptyInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return EmptyInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.multiQuestionIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return MultipleAnswerInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return MultipleAnswerInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.openQuestionIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return OpenQuestionInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return OpenQuestionInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.closedQuestionIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return ClosedQuestionInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return ClosedQuestionInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.likertIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return LikertInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return LikertInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.customLikertIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return CustomLikertInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return CustomLikertInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.semanticDiffIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return SemanticDiffInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return SemanticDiffInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
-      '${RouteNameBuilder.mediaIntervention}/:id',
+      '${RouteNameBuilder.recordVideoIntervention}/:id',
       transitionType: TransitionType.native,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return MediaInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return RecordVideoInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
+    )
+    ..define(
+      '${RouteNameBuilder.recordAudioIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
+
+        return RecordAudioInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
+    )
+    ..define(
+      '${RouteNameBuilder.takePictureIntervention}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
+
+        return TakePictureInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.taskInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return TaskInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return TaskInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.emptyInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return EmptyInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return EmptyInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.likertInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return LikertInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return LikertInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.customLikertInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return CustomLikertInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return CustomLikertInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.semanticDiffInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return SemanticDiffInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return SemanticDiffInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.multiQuestionInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return MultipleAnswerInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return MultipleAnswerInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.openQuestionInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return OpenQuestionInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return OpenQuestionInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       '${RouteNameBuilder.closedQuestionInterventionModal}/:id',
       transitionType: TransitionType.nativeModal,
-      handler: Handler(
-          handlerFunc: (context, params) {
-            final EventResult eventResult =
-                ModalRoute.of(context).settings.arguments;
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-            return ClosedQuestionInterventionPage.create(
-              int.parse(params['id'][0]),
-              int.parse(params['orderPosition'][0]),
-              int.parse(params['flowSize'][0]),
-              eventResult,
-            );
-          }
-      ),
+        return ClosedQuestionInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
-      '${RouteNameBuilder.mediaInterventionModal}/:id',
-      transitionType: TransitionType.nativeModal,
-      handler: Handler(
-        handlerFunc: (context, params) {
-          final EventResult eventResult =
-              ModalRoute.of(context).settings.arguments;
+      '${RouteNameBuilder.recordVideoInterventionModal}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
 
-          return MediaInterventionPage.create(
-            int.parse(params['id'][0]),
-            int.parse(params['orderPosition'][0]),
-            int.parse(params['flowSize'][0]),
-            eventResult,
-          );
-        }
-      ),
+        return RecordVideoInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
+    )
+    ..define(
+      '${RouteNameBuilder.recordAudioInterventionModal}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
+
+        return RecordAudioInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
+    )
+    ..define(
+      '${RouteNameBuilder.takePictureInterventionModal}/:id',
+      transitionType: TransitionType.native,
+      handler: Handler(handlerFunc: (context, params) {
+        final EventResult eventResult =
+            ModalRoute.of(context).settings.arguments;
+
+        return TakePictureInterventionPage.create(
+          int.parse(params['id'][0]),
+          int.parse(params['orderPosition'][0]),
+          int.parse(params['flowSize'][0]),
+          eventResult,
+        );
+      }),
     )
     ..define(
       RouteNameBuilder.login,

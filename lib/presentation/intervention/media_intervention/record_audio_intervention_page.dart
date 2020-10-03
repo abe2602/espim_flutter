@@ -22,8 +22,8 @@ import '../intervention_models.dart';
 import 'media_intervention_bloc.dart';
 import 'media_intervention_models.dart';
 
-class RecordVideoInterventionPage extends StatelessWidget {
-  RecordVideoInterventionPage({
+class RecordAudioInterventionPage extends StatelessWidget {
+  RecordAudioInterventionPage({
     @required this.bloc,
     @required this.eventId,
     @required this.flowSize,
@@ -51,7 +51,7 @@ class RecordVideoInterventionPage extends StatelessWidget {
         ),
         dispose: (context, bloc) => bloc.dispose,
         child: Consumer<MediaInterventionBloc>(
-          builder: (context, bloc, _) => RecordVideoInterventionPage(
+          builder: (context, bloc, _) => RecordAudioInterventionPage(
             bloc: bloc,
             eventId: eventId,
             flowSize: flowSize,

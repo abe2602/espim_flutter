@@ -7,13 +7,15 @@ import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
 import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/model/media_information.dart';
-import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
 import 'package:domain/model/program.dart';
 import 'package:domain/model/question_intervention.dart';
+import 'package:domain/model/record_audio_intervention.dart';
+import 'package:domain/model/record_video_intervention.dart';
 import 'package:domain/model/semantic_diff_intervention.dart';
+import 'package:domain/model/take_picture_intervention.dart';
 import 'package:domain/model/task_intervention.dart';
 import 'package:domain/model/user.dart';
 import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
@@ -55,18 +57,43 @@ extension InterventionRMToDM on InterventionRM {
     switch (type) {
       case 'media':
         {
-          return MediaIntervention(
-            mediaType: mediaType,
-            interventionId: interventionId,
-            type: type,
-            statement: statement,
-            orderPosition: orderPosition,
-            isFirst: isFirst,
-            next: next,
-            isObligatory: isObligatory,
-            complexConditions: complexConditions?.toDM(),
-            mediaInformation: mediaInformation?.toDM(),
-          );
+          if (statement == 'video') {
+            return RecordVideoIntervention(
+              interventionId: interventionId,
+              type: type,
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else if (statement == 'audio') {
+            return RecordAudioIntervention(
+              interventionId: interventionId,
+              type: type,
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else {
+            return TakePictureIntervention(
+              interventionId: interventionId,
+              type: type,
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          }
         }
         break;
       case 'task':
