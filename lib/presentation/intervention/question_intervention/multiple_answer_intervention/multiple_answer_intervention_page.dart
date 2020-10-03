@@ -60,104 +60,100 @@ class MultipleAnswerInterventionPage extends StatelessWidget {
         title: const Text('Acompanhamentos'),
         backgroundColor: const Color(0xff125193),
       ),
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        child: StreamBuilder(
-          stream: bloc.onNewState,
-          builder: (context, snapshot) =>
-              AsyncSnapshotResponseView<Loading, Error, Success>(
-            snapshot: snapshot,
-            successWidgetBuilder: (successState) {
-              final MultipleAnswerIntervention multipleAnswerIntervention =
-                  successState.intervention;
+      body: StreamBuilder(
+        stream: bloc.onNewState,
+        builder: (context, snapshot) =>
+            AsyncSnapshotResponseView<Loading, Error, Success>(
+          snapshot: snapshot,
+          successWidgetBuilder: (successState) {
+            final MultipleAnswerIntervention multipleAnswerIntervention =
+                successState.intervention;
 
-              _likertAnswer = List.filled(
-                  multipleAnswerIntervention.questionAnswers.length, '');
+            _likertAnswer = List.filled(
+                multipleAnswerIntervention.questionAnswers.length, '');
 
-              return SensemActionListener(
-                actionStream: bloc.navigateToNextIntervention,
-                onReceived: (event) {
+            return SensemActionListener(
+              actionStream: bloc.navigateToNextIntervention,
+              onReceived: (event) {
+                eventResult.interventionResultsList.add(
+                  InterventionResult(
+                    interventionType: successState.intervention.type,
+                    startTime: _startTime,
+                    endTime: DateTime.now().millisecondsSinceEpoch,
+                    interventionId: successState.intervention.interventionId,
+                    answer: 'Mandar o valor aqui',
+                  ),
+                );
+
+                eventResult.interventionsIds
+                    .add(successState.intervention.interventionId);
+
+                navigateToNextIntervention(context, event.item2, flowSize,
+                    eventId, event.item1, eventResult);
+              },
+              child: InterventionBody(
+                statement: successState.intervention.statement,
+                mediaInformation: successState.intervention.mediaInformation,
+                nextPage: successState.nextPage,
+                next: successState.intervention.next,
+                nextInterventionType: successState.nextInterventionType,
+                eventId: eventId,
+                flowSize: flowSize,
+                orderPosition: successState.intervention.orderPosition,
+                onPressed: () {
+                  var likertAnswerString = '';
+
+                  for (var i = 0; i < _likertAnswer.length - 1; i++) {
+                    likertAnswerString += _likertAnswer[i];
+                    likertAnswerString += '_SEP_';
+                    likertAnswerString += _likertAnswer[i + 1];
+                  }
+
+                  if (likertAnswerString == '_SEP_') {
+                    likertAnswerString = '';
+                  }
+
                   eventResult.interventionResultsList.add(
                     InterventionResult(
-                      interventionType: successState.intervention.type,
+                      interventionType: 'question',
                       startTime: _startTime,
                       endTime: DateTime.now().millisecondsSinceEpoch,
                       interventionId: successState.intervention.interventionId,
-                      answer: 'Mandar o valor aqui',
+                      answer: likertAnswerString,
                     ),
                   );
 
-                  eventResult.interventionsIds
-                      .add(successState.intervention.interventionId);
-
-                  navigateToNextIntervention(context, event.item2, flowSize,
-                      eventId, event.item1, eventResult);
+                  navigateToNextIntervention(
+                    context,
+                    successState.nextPage,
+                    flowSize,
+                    eventId,
+                    successState.nextInterventionType,
+                    eventResult,
+                  );
                 },
-                child: InterventionBody(
-                  statement: successState.intervention.statement,
-                  mediaInformation: successState.intervention.mediaInformation,
-                  nextPage: successState.nextPage,
-                  next: successState.intervention.next,
-                  nextInterventionType: successState.nextInterventionType,
-                  eventId: eventId,
-                  flowSize: flowSize,
-                  orderPosition: successState.intervention.orderPosition,
-                  onPressed: () {
-                    var likertAnswerString = '';
-
-                    for (var i = 0; i < _likertAnswer.length - 1; i++) {
-                      likertAnswerString += _likertAnswer[i];
-                      likertAnswerString += '_SEP_';
-                      likertAnswerString += _likertAnswer[i + 1];
-                    }
-
-                    if (likertAnswerString == '_SEP_') {
-                      likertAnswerString = '';
-                    }
-
-                    eventResult.interventionResultsList.add(
-                      InterventionResult(
-                        interventionType: 'question',
-                        startTime: _startTime,
-                        endTime: DateTime.now().millisecondsSinceEpoch,
-                        interventionId:
-                            successState.intervention.interventionId,
-                        answer: likertAnswerString,
-                      ),
-                    );
-
-                    navigateToNextIntervention(
-                      context,
-                      successState.nextPage,
-                      flowSize,
-                      eventId,
-                      successState.nextInterventionType,
-                      eventResult,
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      ...multipleAnswerIntervention.questionAnswers
-                          .asMap()
-                          .map(
-                            (index, optionText) => MapEntry(
-                              index,
-                              SingleOptionCard(
-                                index: index,
-                                optionText: optionText,
-                                resultList: _likertAnswer,
-                              ),
+                child: Column(
+                  children: [
+                    ...multipleAnswerIntervention.questionAnswers
+                        .asMap()
+                        .map(
+                          (index, optionText) => MapEntry(
+                            index,
+                            SingleOptionCard(
+                              index: index,
+                              optionText: optionText,
+                              resultList: _likertAnswer,
                             ),
-                          )
-                          .values
-                          .toList(),
-                    ],
-                  ),
+                          ),
+                        )
+                        .values
+                        .toList(),
+                  ],
                 ),
-              );
-            },
-            errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
-          ),
+              ),
+            );
+          },
+          errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
         ),
       ),
     );

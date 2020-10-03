@@ -1,12 +1,11 @@
 import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/complex_condition.dart';
+import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/event.dart';
 import 'package:domain/model/event_trigger.dart';
 import 'package:domain/model/intervention.dart';
 import 'package:domain/model/likert_intervention.dart';
-import 'package:domain/model/custom_likert_intervention.dart';
-import 'package:domain/model/semantic_diff_intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/media_intervention.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
@@ -14,6 +13,7 @@ import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
 import 'package:domain/model/program.dart';
 import 'package:domain/model/question_intervention.dart';
+import 'package:domain/model/semantic_diff_intervention.dart';
 import 'package:domain/model/task_intervention.dart';
 import 'package:domain/model/user.dart';
 import 'package:flutter_app/data/remote/model/complex_condition_rm.dart';
@@ -27,7 +27,6 @@ import 'package:flutter_app/data/remote/model/program_rm.dart';
 import 'package:flutter_app/data/remote/model/user_rm.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
-
 
 extension EventRMToDM on EventRM {
   Event toDM() => Event(
@@ -134,7 +133,7 @@ extension InterventionRMToDM on InterventionRM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          } else if (questionType == 31){
+          } else if (questionType == 31) {
             return CustomLikertIntervention(
               interventionId: interventionId,
               type: 'custom_likert',
@@ -147,7 +146,7 @@ extension InterventionRMToDM on InterventionRM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          }else if (questionType == 2) {
+          } else if (questionType == 2) {
             return MultipleAnswerIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,

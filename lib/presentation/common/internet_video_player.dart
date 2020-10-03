@@ -29,7 +29,7 @@ class VideoPlayerState extends State<InternetVideoPlayer> {
   void initState() {
     super.initState();
 
-    _controller = ChewieController(
+    _controller ??= ChewieController(
       videoPlayerController: videoPlayerController,
       aspectRatio: videoPlayerController.value.aspectRatio,
       autoPlay: widget.autoPlay,
@@ -52,15 +52,12 @@ class VideoPlayerState extends State<InternetVideoPlayer> {
         ),
         child: FittedBox(
           fit: BoxFit.fill,
-          child: Flexible(
-            child: _videoPlayer,
-          ),
+          child: _videoPlayer,
         ),
       );
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
     _controller.dispose();
     super.dispose();
   }

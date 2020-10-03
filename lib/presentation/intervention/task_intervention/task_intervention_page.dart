@@ -95,63 +95,60 @@ class TaskInterventionPageState extends State<TaskInterventionPage> {
           title: const Text('Acompanhamentos'),
           backgroundColor: const Color(0xff125193),
         ),
-        body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 15),
-          child: StreamBuilder(
-            stream: widget.bloc.onNewState,
-            builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
-                Error, TaskInterventionSuccess>(
-              snapshot: snapshot,
-              successWidgetBuilder: (successState) => InterventionBody(
-                statement: successState.intervention.statement,
-                mediaInformation: successState.intervention.mediaInformation,
-                nextPage: successState.nextPage,
-                next: successState.intervention.next,
-                nextInterventionType: successState.nextInterventionType,
-                eventId: widget.eventId,
-                flowSize: widget.flowSize,
-                orderPosition: successState.intervention.orderPosition,
-                onPressed: successState.intervention.isObligatory
-                    ? !_isTaskDone
-                        ? null
-                        : () {
-                            _onPressed(
-                                successState.intervention.type,
-                                successState.intervention.interventionId,
-                                successState.nextPage,
-                                successState.nextInterventionType);
-                          }
-                    : () {
-                        _onPressed(
-                            successState.intervention.type,
-                            successState.intervention.interventionId,
-                            successState.nextPage,
-                            successState.nextInterventionType);
-                      },
-                child: FlatButton(
-                  onPressed: () {
-                    setState(() {
-                      _isTaskDone = true;
-                    });
+        body: StreamBuilder(
+          stream: widget.bloc.onNewState,
+          builder: (context, snapshot) => AsyncSnapshotResponseView<Loading,
+              Error, TaskInterventionSuccess>(
+            snapshot: snapshot,
+            successWidgetBuilder: (successState) => InterventionBody(
+              statement: successState.intervention.statement,
+              mediaInformation: successState.intervention.mediaInformation,
+              nextPage: successState.nextPage,
+              next: successState.intervention.next,
+              nextInterventionType: successState.nextInterventionType,
+              eventId: widget.eventId,
+              flowSize: widget.flowSize,
+              orderPosition: successState.intervention.orderPosition,
+              onPressed: successState.intervention.isObligatory
+                  ? !_isTaskDone
+                      ? null
+                      : () {
+                          _onPressed(
+                              successState.intervention.type,
+                              successState.intervention.interventionId,
+                              successState.nextPage,
+                              successState.nextInterventionType);
+                        }
+                  : () {
+                      _onPressed(
+                          successState.intervention.type,
+                          successState.intervention.interventionId,
+                          successState.nextPage,
+                          successState.nextInterventionType);
+                    },
+              child: FlatButton(
+                onPressed: () {
+                  setState(() {
+                    _isTaskDone = true;
+                  });
 
-                    _launchURL(
-                      successState.taskParameters[
-                          successState.taskParameters.keys.toList()[0]],
-                    );
-                  },
-                  color: SenSemColors.lightRoyalBlue,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      S.of(context).open_outside_link,
-                      style: const TextStyle(color: Colors.white),
-                    ),
+                  _launchURL(
+                    successState.taskParameters[
+                        successState.taskParameters.keys.toList()[0]],
+                  );
+                },
+                color: SenSemColors.lightRoyalBlue,
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    S.of(context).open_outside_link,
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
             ),
+            errorWidgetBuilder: (errorState) => Text('deu ruim na view'),
           ),
         ),
       );

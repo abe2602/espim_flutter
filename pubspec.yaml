@@ -51,6 +51,7 @@ dependencies:
   audioplayers: ^0.16.1
   permission_handler: ^5.0.1+1
   fading_edge_scrollview: ^1.1.4
+  dotted_border: ^1.0.6
  # camera:
   path:
   domain:

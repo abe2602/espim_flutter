@@ -73,94 +73,90 @@ class SemanticDiffInterventionPageState
               });
             }
           },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: StreamBuilder<InterventionResponseState>(
-              stream: widget.bloc.onNewState,
-              builder: (context, snapshot) =>
-                  AsyncSnapshotResponseView<Loading, Error, Success>(
-                snapshot: snapshot,
-                successWidgetBuilder: (successState) {
-                  final SemanticDiffSuccess success = successState;
-                  _semanticDiffAnswer =
-                      List.filled(success.semanticDiffLabels.length, '0');
+          child: StreamBuilder<InterventionResponseState>(
+            stream: widget.bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              successWidgetBuilder: (successState) {
+                final SemanticDiffSuccess success = successState;
+                _semanticDiffAnswer =
+                    List.filled(success.semanticDiffLabels.length, '0');
 
-                  return InterventionBody(
-                    statement: successState.intervention.statement,
-                    mediaInformation:
-                        successState.intervention.mediaInformation,
-                    nextPage: successState.nextPage,
-                    next: successState.intervention.next,
-                    nextInterventionType: successState.nextInterventionType,
-                    eventId: widget.eventId,
-                    flowSize: widget.flowSize,
-                    orderPosition: successState.intervention.orderPosition,
-                    onPressed: () {
-                      widget.eventResult.interventionResultsList.add(
-                        InterventionResult(
-                          interventionType: 'question',
-                          startTime: _startTime,
-                          endTime: DateTime.now().millisecondsSinceEpoch,
-                          interventionId:
-                              successState.intervention.interventionId,
-                          answer: createLikertTypeResponse(
-                              _semanticDiffAnswer.length - 1,
-                              _semanticDiffAnswer),
-                        ),
-                      );
+                return InterventionBody(
+                  statement: successState.intervention.statement,
+                  mediaInformation: successState.intervention.mediaInformation,
+                  nextPage: successState.nextPage,
+                  next: successState.intervention.next,
+                  nextInterventionType: successState.nextInterventionType,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
+                  orderPosition: successState.intervention.orderPosition,
+                  onPressed: () {
+                    widget.eventResult.interventionResultsList.add(
+                      InterventionResult(
+                        interventionType: 'question',
+                        startTime: _startTime,
+                        endTime: DateTime.now().millisecondsSinceEpoch,
+                        interventionId:
+                            successState.intervention.interventionId,
+                        answer: createLikertTypeResponse(
+                            _semanticDiffAnswer.length - 1,
+                            _semanticDiffAnswer),
+                      ),
+                    );
 
-                      setState(() {
-                        _shouldAlwaysDisplayValueIndicator = false;
-                      });
+                    setState(() {
+                      _shouldAlwaysDisplayValueIndicator = false;
+                    });
 
-                      navigateToNextIntervention(
-                        context,
-                        successState.nextPage,
-                        widget.flowSize,
-                        widget.eventId,
-                        successState.nextInterventionType,
-                        widget.eventResult,
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        ...success.semanticDiffLabels
-                            .asMap()
-                            .map(
-                              (index, statement) => MapEntry(
-                                index,
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(statement),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: SemanticDiffCard(
-                                        semanticDiffAnswer: _semanticDiffAnswer,
-                                        semanticDiffScale:
-                                            success.semanticDiffScale,
-                                        index: index,
-                                        semanticDiffLabels:
-                                            success.semanticDiffLabels,
-                                        size: success.semanticDiffSize,
-                                        shouldAlwaysDisplayValueIndicator:
-                                            _shouldAlwaysDisplayValueIndicator,
-                                      ),
+                    navigateToNextIntervention(
+                      context,
+                      successState.nextPage,
+                      widget.flowSize,
+                      widget.eventId,
+                      successState.nextInterventionType,
+                      widget.eventResult,
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      ...success.semanticDiffLabels
+                          .asMap()
+                          .map(
+                            (index, statement) => MapEntry(
+                              index,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(statement),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: SemanticDiffCard(
+                                      semanticDiffAnswer: _semanticDiffAnswer,
+                                      semanticDiffScale:
+                                          success.semanticDiffScale,
+                                      index: index,
+                                      semanticDiffLabels:
+                                          success.semanticDiffLabels,
+                                      size: success.semanticDiffSize,
+                                      shouldAlwaysDisplayValueIndicator:
+                                          _shouldAlwaysDisplayValueIndicator,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            )
-                            .values
-                            .toList(),
-                      ],
-                    ),
-                  );
-                },
-                errorWidgetBuilder: (errorState) {
-                  return Text('Eita');
-                },
-              ),
+                            ),
+                          )
+                          .values
+                          .toList(),
+                    ],
+                  ),
+                );
+              },
+              errorWidgetBuilder: (errorState) {
+                return Text('Eita');
+              },
             ),
           ),
         ),

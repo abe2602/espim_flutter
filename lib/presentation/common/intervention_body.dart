@@ -165,4 +165,10 @@ class InterventionBodyState extends State<InterventionBody> {
           ),
         ),
       );
+
+  @override
+  void dispose() {
+    _videoPlayerController?.dispose();
+    super.dispose();
+  }
 }

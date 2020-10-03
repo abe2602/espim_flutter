@@ -9,10 +9,9 @@ import 'package:flutter_app/data/cache/programs_cds.dart';
 import 'package:flutter_app/data/cache/user_cds.dart';
 import 'package:flutter_app/data/remote/data_source/auh_rds.dart';
 import 'package:flutter_app/data/remote/data_source/programs_rds.dart';
+import 'package:flutter_app/data/remote/mappers/remote_to_cache_mappers.dart';
 import 'package:flutter_app/data/remote/mappers/remote_to_domain_mappers.dart';
 import 'package:flutter_app/data/remote/model/event_rm.dart';
-
-import 'package:flutter_app/data/remote/mappers/remote_to_cache_mappers.dart';
 
 // Salvar os eventos na cache usando id
 // sempre que eu for para uma nova tela, envio qual é a posição do vetor

@@ -75,79 +75,75 @@ class CustomLikertInterventionPageState
               });
             }
           },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: StreamBuilder<InterventionResponseState>(
-              stream: widget.bloc.onNewState,
-              builder: (context, snapshot) =>
-                  AsyncSnapshotResponseView<Loading, Error, Success>(
-                snapshot: snapshot,
-                successWidgetBuilder: (successState) {
-                  final CustomLikertSuccess success = successState;
-                  _likertAnswer = List.filled(success.likertScales.length,
-                      '1: ${success.likertScales[0]}');
+          child: StreamBuilder<InterventionResponseState>(
+            stream: widget.bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              successWidgetBuilder: (successState) {
+                final CustomLikertSuccess success = successState;
+                _likertAnswer = List.filled(success.likertScales.length,
+                    '1: ${success.likertScales[0]}');
 
-                  return InterventionBody(
-                    statement: successState.intervention.statement,
-                    mediaInformation:
-                        successState.intervention.mediaInformation,
-                    nextPage: successState.nextPage,
-                    next: successState.intervention.next,
-                    nextInterventionType: successState.nextInterventionType,
-                    eventId: widget.eventId,
-                    flowSize: widget.flowSize,
-                    orderPosition: successState.intervention.orderPosition,
-                    onPressed: () {
-                      widget.eventResult.interventionResultsList.add(
-                        InterventionResult(
-                          interventionType: 'question',
-                          startTime: _startTime,
-                          endTime: DateTime.now().millisecondsSinceEpoch,
-                          interventionId:
-                              successState.intervention.interventionId,
-                          answer: createLikertTypeResponse(
-                              _likertAnswer.length - 1, _likertAnswer),
-                        ),
-                      );
+                return InterventionBody(
+                  statement: successState.intervention.statement,
+                  mediaInformation: successState.intervention.mediaInformation,
+                  nextPage: successState.nextPage,
+                  next: successState.intervention.next,
+                  nextInterventionType: successState.nextInterventionType,
+                  eventId: widget.eventId,
+                  flowSize: widget.flowSize,
+                  orderPosition: successState.intervention.orderPosition,
+                  onPressed: () {
+                    widget.eventResult.interventionResultsList.add(
+                      InterventionResult(
+                        interventionType: 'question',
+                        startTime: _startTime,
+                        endTime: DateTime.now().millisecondsSinceEpoch,
+                        interventionId:
+                            successState.intervention.interventionId,
+                        answer: createLikertTypeResponse(
+                            _likertAnswer.length - 1, _likertAnswer),
+                      ),
+                    );
 
-                      setState(() {
-                        _shouldAlwaysDisplayValueIndicator = false;
-                      });
+                    setState(() {
+                      _shouldAlwaysDisplayValueIndicator = false;
+                    });
 
-                      navigateToNextIntervention(
-                        context,
-                        successState.nextPage,
-                        widget.flowSize,
-                        widget.eventId,
-                        successState.nextInterventionType,
-                        widget.eventResult,
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: LikertCard(
-                                likertScale: success.likertScales,
-                                index: 0,
-                                likertAnswer: _likertAnswer,
-                                shouldAlwaysDisplayValueIndicator:
-                                    _shouldAlwaysDisplayValueIndicator,
-                              ),
+                    navigateToNextIntervention(
+                      context,
+                      successState.nextPage,
+                      widget.flowSize,
+                      widget.eventId,
+                      successState.nextInterventionType,
+                      widget.eventResult,
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: LikertCard(
+                              likertScale: success.likertScales,
+                              index: 0,
+                              likertAnswer: _likertAnswer,
+                              shouldAlwaysDisplayValueIndicator:
+                                  _shouldAlwaysDisplayValueIndicator,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                errorWidgetBuilder: (errorState) {
-                  return Text('Eita');
-                },
-              ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              errorWidgetBuilder: (errorState) {
+                return Text('Eita');
+              },
             ),
           ),
         ),
