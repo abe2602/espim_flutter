@@ -19,7 +19,7 @@ import '../model/program_rm.dart';
 extension InterventionRMToCM on InterventionRM {
   InterventionCM toCM() => InterventionCM(
         interventionId: interventionId,
-        type: _getInterventionType(type, questionType, statement),
+        type: _getInterventionType(type, questionType, mediaType),
         statement: statement,
         orderPosition: orderPosition,
         isFirst: isFirst,

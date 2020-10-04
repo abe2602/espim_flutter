@@ -1,4 +1,5 @@
 import 'package:domain/model/intervention.dart';
+import 'package:domain/model/intervention_type.dart';
 
 abstract class InterventionResponseState {}
 
@@ -18,7 +19,7 @@ class Success implements InterventionResponseState {
 
   final int nextPage;
   final Intervention intervention;
-  final String nextInterventionType;
+  final InterventionType nextInterventionType;
   final String mediaUrl;
 }
 

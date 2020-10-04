@@ -1,5 +1,6 @@
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/l10n.dart';
@@ -66,8 +67,8 @@ class TaskInterventionPageState extends State<TaskInterventionPage> {
     }
   }
 
-  void _onPressed(String interventionType, int interventionId, int nextPage,
-      String nextInterventionType) {
+  void _onPressed(InterventionType interventionType, int interventionId,
+      int nextPage, InterventionType nextInterventionType) {
     widget.eventResult.interventionResultsList.add(
       InterventionResult(
         interventionType: interventionType,

@@ -1,4 +1,5 @@
 import 'package:domain/model/intervention.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/model/task_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/foundation.dart';
@@ -52,12 +53,13 @@ class TaskInterventionBloc with SubscriptionBag {
       }
 
       yield TaskInterventionSuccess(
-          appPackage: currentIntervention.appPackage,
-          taskParameters: currentIntervention.taskParameters,
-          startFromNotification: currentIntervention.startFromNotification,
-          nextPage: currentIntervention.next,
-          intervention: currentIntervention,
-          nextInterventionType: nextIntervention?.type ?? '');
+        appPackage: currentIntervention.appPackage,
+        taskParameters: currentIntervention.taskParameters,
+        startFromNotification: currentIntervention.startFromNotification,
+        nextPage: currentIntervention.next,
+        intervention: currentIntervention,
+        nextInterventionType: nextIntervention?.type ?? InterventionType.none,
+      );
     } catch (error) {
       print(error.toString());
     }

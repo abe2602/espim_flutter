@@ -1,5 +1,6 @@
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
@@ -115,7 +116,7 @@ class MultipleAnswerInterventionPage extends StatelessWidget {
 
                   eventResult.interventionResultsList.add(
                     InterventionResult(
-                      interventionType: 'question',
+                      interventionType: InterventionType.multipleAnswer,
                       startTime: _startTime,
                       endTime: DateTime.now().millisecondsSinceEpoch,
                       interventionId: successState.intervention.interventionId,

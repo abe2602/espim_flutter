@@ -1,7 +1,7 @@
 import 'package:domain/data_repository/user_data_repository.dart';
 import 'package:domain/model/settings.dart';
 import 'package:domain/use_case/use_case.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class ChangeSettingsUC extends UseCase<ChangeSettingsUCParams, void> {
   ChangeSettingsUC({

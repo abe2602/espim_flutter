@@ -1,7 +1,7 @@
 import 'package:domain/data_repository/user_data_repository.dart';
 import 'package:domain/model/settings.dart';
 import 'package:domain/use_case/use_case.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class GetSettingsUC extends UseCase<void, Settings> {
   GetSettingsUC({
@@ -11,6 +11,5 @@ class GetSettingsUC extends UseCase<void, Settings> {
   final UserDataRepository userRepository;
 
   @override
-  Future<Settings> getRawFuture({void params}) =>
-      userRepository.getSettings();
+  Future<Settings> getRawFuture({void params}) => userRepository.getSettings();
 }

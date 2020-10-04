@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class Observer {
   Observer({
@@ -14,7 +14,6 @@ class Observer {
         assert(email != null),
         assert(role != null),
         assert(observerContacts != null);
-
 
   final int id;
 

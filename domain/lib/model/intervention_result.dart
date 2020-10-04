@@ -1,4 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:domain/model/intervention_type.dart';
+import 'package:meta/meta.dart';
 
 class InterventionResult {
   const InterventionResult({
@@ -12,7 +13,7 @@ class InterventionResult {
         assert(endTime != null),
         assert(interventionId != null);
 
-  final String interventionType;
+  final InterventionType interventionType;
   final int startTime;
   final int endTime;
   final String answer;

@@ -1,5 +1,6 @@
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class SemanticDiffInterventionPageState
                   onPressed: () {
                     widget.eventResult.interventionResultsList.add(
                       InterventionResult(
-                        interventionType: 'question',
+                        interventionType: InterventionType.semanticDiff,
                         startTime: _startTime,
                         endTime: DateTime.now().millisecondsSinceEpoch,
                         interventionId:

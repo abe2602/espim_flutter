@@ -1,7 +1,7 @@
 import 'package:domain/model/event.dart';
 import 'package:domain/model/observer.dart';
 import 'package:domain/model/participant.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class Program {
   const Program({

@@ -1,5 +1,5 @@
 import 'package:domain/model/event.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 import '../data_repository/programs_data_repository.dart';
 import 'use_case.dart';

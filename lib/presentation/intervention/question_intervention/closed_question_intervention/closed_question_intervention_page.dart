@@ -1,6 +1,6 @@
+import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
-import 'package:domain/model/question_intervention.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +128,7 @@ class ClosedQuestionCardState extends State<ClosedQuestionCard> {
   }
 
   void _onPressed(
-      BuildContext context, QuestionIntervention questionIntervention) {
+      BuildContext context, ClosedQuestionIntervention questionIntervention) {
     if (widget.flowSize == widget.successState.nextPage) {
       Navigator.of(context).popUntil((route) => route.isFirst);
     } else {
@@ -144,7 +144,7 @@ class ClosedQuestionCardState extends State<ClosedQuestionCard> {
 
   @override
   Widget build(BuildContext context) {
-    final QuestionIntervention questionIntervention =
+    final ClosedQuestionIntervention questionIntervention =
         widget.successState.intervention;
 
     return InterventionBody(

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:domain/data_repository/files_data_repository.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 import 'use_case.dart';
 

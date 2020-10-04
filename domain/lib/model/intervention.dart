@@ -1,20 +1,20 @@
-import 'package:flutter/foundation.dart';
+import 'package:domain/model/intervention_type.dart';
+import 'package:meta/meta.dart';
 
 import 'complex_condition.dart';
 import 'media_information.dart';
 
 class Intervention {
   Intervention(
-      {
-        @required this.interventionId,
-        @required this.type,
-        @required this.statement,
-        @required this.orderPosition,
-        @required this.isFirst,
-        @required this.next,
-        @required this.isObligatory,
-        this.complexConditions,
-        this.mediaInformation})
+      {@required this.interventionId,
+      @required this.type,
+      @required this.statement,
+      @required this.orderPosition,
+      @required this.isFirst,
+      @required this.next,
+      @required this.isObligatory,
+      this.complexConditions,
+      this.mediaInformation})
       : assert(interventionId != null),
         assert(type != null),
         assert(statement != null),
@@ -25,7 +25,7 @@ class Intervention {
 
   final int interventionId;
 
-  final String type;
+  final InterventionType type;
 
   final String statement;
 
