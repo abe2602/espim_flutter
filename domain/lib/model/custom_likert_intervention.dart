@@ -1,5 +1,5 @@
 import 'package:domain/model/intervention.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class CustomLikertIntervention extends Intervention {
   CustomLikertIntervention(

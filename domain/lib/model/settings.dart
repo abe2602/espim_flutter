@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class Settings {
   const Settings({
@@ -14,5 +14,4 @@ class Settings {
   final bool isMobileNetworkEnabled;
 
   final bool isNotificationOnMediaEnabled;
-
 }

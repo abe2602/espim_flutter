@@ -1,4 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,7 +32,9 @@ class InterventionBody extends StatefulWidget {
         assert(eventId != null),
         assert(flowSize != null),
         assert(orderPosition != null);
-  final String statement, nextInterventionType;
+
+  final String statement;
+  final InterventionType nextInterventionType;
   final List<MediaInformation> mediaInformation;
   final Widget child;
   final int eventId, flowSize, nextPage, next, orderPosition;

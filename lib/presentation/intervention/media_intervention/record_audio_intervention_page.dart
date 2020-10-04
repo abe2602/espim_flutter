@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/upload_file_uc.dart';
@@ -123,7 +124,8 @@ class _RecordAudioView extends StatefulWidget {
         assert(isObligatory != null),
         assert(bloc != null);
 
-  final String statement, nextInterventionType;
+  final String statement;
+  final InterventionType nextInterventionType;
   final List<MediaInformation> mediaInformation;
   final MediaInterventionBloc bloc;
   final int eventId, flowSize, nextPage, nextIntervention, orderPosition;

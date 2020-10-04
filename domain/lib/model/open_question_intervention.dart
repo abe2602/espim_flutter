@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 import 'intervention.dart';
 
-class QuestionIntervention extends Intervention {
-  QuestionIntervention(
+class OpenQuestionIntervention extends Intervention {
+  OpenQuestionIntervention(
       {@required this.questionType,
       this.questionConditions,
       this.questionAnswers,

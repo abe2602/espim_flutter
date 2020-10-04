@@ -1,3 +1,4 @@
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
@@ -33,7 +34,7 @@ class ClosedQuestionInterventionBloc with SubscriptionBag {
   final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
   final _onTryAgainSubject = PublishSubject<InterventionResponseState>();
   final _onClosedQuestionNewActionSubject =
-      PublishSubject<Tuple3<String, int, String>>();
+      PublishSubject<Tuple3<InterventionType, int, String>>();
   final _navigateToNextInterventionSubject =
       BehaviorSubject<Tuple2<String, int>>();
 
@@ -47,15 +48,15 @@ class ClosedQuestionInterventionBloc with SubscriptionBag {
   Sink<Tuple2<String, int>> get navigateToNextInterventionSink =>
       _navigateToNextInterventionSubject.sink;
 
-  Sink<Tuple3<String, int, String>> get onNewActionSubjectSink =>
+  Sink<Tuple3<InterventionType, int, String>> get onNewActionSubjectSink =>
       _onClosedQuestionNewActionSubject.sink;
 
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
-  Stream<Tuple3<String, int, String>> get navigateToNextIntervention =>
-      _onClosedQuestionNewActionSubject;
+  Stream<Tuple3<InterventionType, int, String>>
+      get navigateToNextIntervention => _onClosedQuestionNewActionSubject;
 
-  Stream<Tuple3<String, int, String>> _getNextIntervention() async* {
+  Stream<Tuple3<InterventionType, int, String>> _getNextIntervention() async* {
     final informationToNavigate = _navigateToNextInterventionSubject.value;
 
     try {

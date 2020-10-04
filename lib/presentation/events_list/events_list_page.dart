@@ -12,6 +12,7 @@ import 'package:flutter_app/presentation/common/async_snapshot_response_view.dar
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
+import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:provider/provider.dart';
 
 import 'events_list_bloc.dart';
@@ -251,9 +252,9 @@ class ProgramCard extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height/7,
+                    height: MediaQuery.of(context).size.height / 7,
                     decoration: BoxDecoration(
-                      color: event.color,
+                      color: event.color.toColor(),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(borderRadius),
@@ -275,7 +276,7 @@ class ProgramCard extends StatelessWidget {
                   Expanded(
                     child: Container(
                       alignment: Alignment.topLeft,
-                      height: MediaQuery.of(context).size.height/7,
+                      height: MediaQuery.of(context).size.height / 7,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15, top: 10),
                         child: Column(
@@ -287,7 +288,8 @@ class ProgramCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: MediaQuery.of(context).size.height/37,
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 37,
                                 color: Colors.black,
                               ),
                             ),
@@ -297,7 +299,8 @@ class ProgramCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                fontSize: MediaQuery.of(context).size.height/39,
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 39,
                                 color: SenSemColors.mediumGray,
                               ),
                             ),

@@ -1,3 +1,5 @@
+import 'package:domain/model/intervention_type.dart';
+
 class RouteNameBuilder {
   static const root = '/';
   static const login = 'login';
@@ -29,37 +31,37 @@ class RouteNameBuilder {
   static const recordAudioInterventionModal = 'recordAudioInterventionModal';
   static const takePictureInterventionModal = 'takePictureInterventionModal';
 
-  static String interventionType(
-      String interventionType, int eventId, int orderPosition, int flowSize) {
+  static String interventionType(InterventionType interventionType, int eventId,
+      int orderPosition, int flowSize) {
     switch (interventionType) {
-      case 'task':
+      case InterventionType.task:
         return '$taskIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'record_video':
+      case InterventionType.recordVideo:
+        return '$recordVideoIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case InterventionType.recordAudio:
         return '$recordAudioIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'record_audio':
-        return '$recordAudioIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
-        break;
-      case 'take_picture':
+      case InterventionType.takePicture:
         return '$takePictureIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'open_question':
+      case InterventionType.openQuestion:
         return '$openQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'closed_question':
+      case InterventionType.closedQuestion:
         return '$closedQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'likert':
+      case InterventionType.likert:
         return '$likertIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'custom_likert':
+      case InterventionType.customLikert:
         return '$customLikertIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'semantic_diff':
+      case InterventionType.semanticDiff:
         return '$semanticDiffIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'multiple_answer':
+      case InterventionType.multipleAnswer:
         return '$multiQuestionIntervention/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       default:
@@ -68,37 +70,37 @@ class RouteNameBuilder {
     }
   }
 
-  static String modalInterventionType(
-      String interventionType, int eventId, int orderPosition, int flowSize) {
+  static String modalInterventionType(InterventionType interventionType,
+      int eventId, int orderPosition, int flowSize) {
     switch (interventionType) {
-      case 'task':
+      case InterventionType.task:
         return '$taskInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'record_video':
+      case InterventionType.recordVideo:
+        return '$recordVideoInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
+        break;
+      case InterventionType.recordAudio:
         return '$recordAudioInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'record_audio':
-        return '$recordAudioInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
-        break;
-      case 'take_picture':
+      case InterventionType.takePicture:
         return '$takePictureInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'open_question':
+      case InterventionType.openQuestion:
         return '$openQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'closed_question':
+      case InterventionType.closedQuestion:
         return '$closedQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'likert':
+      case InterventionType.likert:
         return '$likertInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'custom_likert':
+      case InterventionType.customLikert:
         return '$customLikertInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'semantic_diff':
+      case InterventionType.semanticDiff:
         return '$semanticDiffInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
-      case 'multiple_answer':
+      case InterventionType.multipleAnswer:
         return '$multiQuestionInterventionModal/$eventId?orderPosition=$orderPosition&flowSize=$flowSize';
         break;
       default:

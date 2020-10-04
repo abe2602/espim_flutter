@@ -1,11 +1,13 @@
+import 'package:domain/model/closed_question_intervention.dart';
 import 'package:domain/model/complex_condition.dart';
 import 'package:domain/model/custom_likert_intervention.dart';
 import 'package:domain/model/empty_intervention.dart';
 import 'package:domain/model/intervention.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/model/likert_intervention.dart';
 import 'package:domain/model/media_information.dart';
 import 'package:domain/model/multiple_answer_intervention.dart';
-import 'package:domain/model/question_intervention.dart';
+import 'package:domain/model/open_question_intervention.dart';
 import 'package:domain/model/record_audio_intervention.dart';
 import 'package:domain/model/record_video_intervention.dart';
 import 'package:domain/model/semantic_diff_intervention.dart';
@@ -32,7 +34,7 @@ extension InterventionCMToDM on InterventionCM {
         {
           return TakePictureIntervention(
             interventionId: interventionId,
-            type: type,
+            type: InterventionType.takePicture,
             statement: statement,
             orderPosition: orderPosition,
             isFirst: isFirst,
@@ -47,7 +49,7 @@ extension InterventionCMToDM on InterventionCM {
         {
           return RecordVideoIntervention(
             interventionId: interventionId,
-            type: type,
+            type: InterventionType.recordVideo,
             statement: statement,
             orderPosition: orderPosition,
             isFirst: isFirst,
@@ -62,7 +64,7 @@ extension InterventionCMToDM on InterventionCM {
         {
           return RecordAudioIntervention(
             interventionId: interventionId,
-            type: type,
+            type: InterventionType.recordAudio,
             statement: statement,
             orderPosition: orderPosition,
             isFirst: isFirst,
@@ -77,7 +79,7 @@ extension InterventionCMToDM on InterventionCM {
         {
           return EmptyIntervention(
             interventionId: interventionId,
-            type: type,
+            type: InterventionType.empty,
             statement: statement,
             orderPosition: orderPosition,
             isFirst: isFirst,
@@ -95,7 +97,7 @@ extension InterventionCMToDM on InterventionCM {
             appPackage: appPackage,
             startFromNotification: startFromNotification,
             taskParameters: taskParameters,
-            type: type,
+            type: InterventionType.task,
             statement: statement,
             orderPosition: orderPosition,
             isFirst: isFirst,
@@ -111,7 +113,7 @@ extension InterventionCMToDM on InterventionCM {
           if (questionType == 4) {
             return SemanticDiffIntervention(
               interventionId: interventionId,
-              type: 'semantic_diff',
+              type: InterventionType.semanticDiff,
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,
@@ -128,7 +130,7 @@ extension InterventionCMToDM on InterventionCM {
               questionAnswers: questionAnswers,
               questionConditions: questionConditions,
               interventionId: interventionId,
-              type: 'likert',
+              type: InterventionType.likert,
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,
@@ -142,7 +144,7 @@ extension InterventionCMToDM on InterventionCM {
           if (questionType == 31) {
             return CustomLikertIntervention(
               interventionId: interventionId,
-              type: 'custom_likert',
+              type: InterventionType.customLikert,
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,
@@ -158,7 +160,7 @@ extension InterventionCMToDM on InterventionCM {
               questionAnswers: questionAnswers,
               questionConditions: questionConditions,
               interventionId: interventionId,
-              type: 'multiple_answer',
+              type: InterventionType.multipleAnswer,
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,
@@ -168,13 +170,28 @@ extension InterventionCMToDM on InterventionCM {
               complexConditions: complexConditions?.toDM(),
               mediaInformation: mediaInformation?.toDM(),
             );
-          } else {
-            return QuestionIntervention(
+          } else if (questionType == 1) {
+            return ClosedQuestionIntervention(
               questionType: questionType,
               questionAnswers: questionAnswers,
               questionConditions: questionConditions,
               interventionId: interventionId,
-              type: type,
+              type: InterventionType.closedQuestion,
+              statement: statement,
+              orderPosition: orderPosition,
+              isFirst: isFirst,
+              next: next,
+              isObligatory: isObligatory,
+              complexConditions: complexConditions?.toDM(),
+              mediaInformation: mediaInformation?.toDM(),
+            );
+          } else {
+            return OpenQuestionIntervention(
+              questionType: questionType,
+              questionAnswers: questionAnswers,
+              questionConditions: questionConditions,
+              interventionId: interventionId,
+              type: InterventionType.openQuestion,
               statement: statement,
               orderPosition: orderPosition,
               isFirst: isFirst,

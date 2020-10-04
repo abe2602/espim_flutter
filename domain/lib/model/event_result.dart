@@ -1,5 +1,5 @@
 import 'package:domain/model/intervention_result.dart';
-import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
 // precisa do participantId e endTime no RM
 class EventResult {

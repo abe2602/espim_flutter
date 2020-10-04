@@ -1,3 +1,4 @@
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:domain/use_case/validate_empty_field_uc.dart';
 import 'package:flutter/foundation.dart';
@@ -63,7 +64,7 @@ class OpenQuestionInterventionBloc with SubscriptionBag {
   final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
   final _onTryAgainSubject = PublishSubject<InterventionResponseState>();
   final _onClosedQuestionNewActionSubject =
-      PublishSubject<Tuple2<String, int>>();
+      PublishSubject<Tuple2<InterventionType, int>>();
   final _navigateToNextInterventionSubject = BehaviorSubject<int>();
 
   String nextInterventionClosedQuestion = '';
@@ -71,8 +72,7 @@ class OpenQuestionInterventionBloc with SubscriptionBag {
   Stream<InputStatusVM> get openQuestionInputStatusStream =>
       _openQuestionTextInputStatusSubject.stream;
 
-  Stream<void> get aux =>
-      _onOpenQuestionNewAction.stream;
+  Stream<void> get aux => _onOpenQuestionNewAction.stream;
 
   Stream<void> get onNavigationActionStream =>
       _onNavigationActionSubject.stream;
@@ -88,7 +88,7 @@ class OpenQuestionInterventionBloc with SubscriptionBag {
   Sink<int> get navigateToNextInterventionSink =>
       _navigateToNextInterventionSubject.sink;
 
-  Sink<Tuple2<String, int>> get onNewActionSubjectSink =>
+  Sink<Tuple2<InterventionType, int>> get onNewActionSubjectSink =>
       _onClosedQuestionNewActionSubject.sink;
 
   String get openQuestionText =>
@@ -96,10 +96,10 @@ class OpenQuestionInterventionBloc with SubscriptionBag {
 
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
-  Stream<Tuple2<String, int>> get navigateToNextIntervention =>
+  Stream<Tuple2<InterventionType, int>> get navigateToNextIntervention =>
       _onClosedQuestionNewActionSubject;
 
-  Stream<Tuple2<String, int>> _getNextIntervention() async* {
+  Stream<Tuple2<InterventionType, int>> _getNextIntervention() async* {
     try {
       final newIntervention = await getInterventionUC.getFuture(
         params: GetInterventionUCParams(
@@ -130,7 +130,6 @@ class OpenQuestionInterventionBloc with SubscriptionBag {
           nextPage: currentIntervention.next,
           intervention: currentIntervention,
           nextInterventionType: nextIntervention.type);
-
     } catch (error) {
       print('erro no bloc  ' + error.toString());
     }

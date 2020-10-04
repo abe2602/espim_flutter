@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:domain/exceptions.dart';
 import 'package:domain/model/event_result.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -12,7 +13,13 @@ import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 
 extension StringToColor on String {
-  Color toColor() => Color(int.parse(substring(1, 7), radix: 16) + 0xFF000000);
+  Color toColor() {
+    if (this == 'none') {
+      return SenSemColors.primaryColor;
+    } else {
+      return Color(int.parse(substring(1, 7), radix: 16) + 0xFF000000);
+    }
+  }
 }
 
 //Sempre que o foco é perdido, da um trigger no listener
@@ -50,7 +57,7 @@ void navigateToNextIntervention(
   int nextPosition,
   int flowSize,
   int eventId,
-  String type,
+  InterventionType type,
   EventResult eventResult,
 ) {
   if (nextPosition == 0) {

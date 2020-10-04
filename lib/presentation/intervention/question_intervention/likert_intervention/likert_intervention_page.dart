@@ -1,17 +1,17 @@
 import 'package:domain/model/event_result.dart';
 import 'package:domain/model/intervention_result.dart';
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
+import 'package:flutter_app/presentation/common/likert_card.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/intervention_models.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import 'file:///C:/Users/Abe/Desktop/Programming/espim_flutter/lib/presentation/common/likert_card.dart';
 
 import 'likert_intervention_bloc.dart';
 import 'likert_intervention_models.dart';
@@ -97,7 +97,7 @@ class LikertInterventionPageState extends State<LikertInterventionPage> {
                   onPressed: () {
                     widget.eventResult.interventionResultsList.add(
                       InterventionResult(
-                        interventionType: 'question',
+                        interventionType: InterventionType.likert,
                         startTime: _startTime,
                         endTime: DateTime.now().millisecondsSinceEpoch,
                         interventionId:

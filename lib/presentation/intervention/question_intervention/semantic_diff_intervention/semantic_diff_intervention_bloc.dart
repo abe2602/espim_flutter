@@ -53,7 +53,7 @@ class SemanticDiffInterventionBloc with SubscriptionBag {
       var valuePositive = 0, valueNegative = 0, i = index - 1, j = index + 1;
       semanticDiffScales[index] = '0';
 
-      while(i >= 0) {
+      while (i >= 0) {
         semanticDiffScales[i] = (valueNegative - 1).toString();
         semanticDiffScales[j] = (valuePositive + 1).toString();
         i--;
@@ -78,67 +78,5 @@ class SemanticDiffInterventionBloc with SubscriptionBag {
 
   void dispose() {
     _onNewStateSubject.close();
-  }
-}
-
-List<String> getLikertScales(String likertScale) {
-  switch (likertScale) {
-    case '5 AGREEMENT':
-      return [
-        'Strongly disagree',
-        'Disagree',
-        'Neutral',
-        'Agree',
-        'Strongly Agree'
-      ];
-      break;
-    case '7 AGREEMENT':
-      return [
-        'Strongly disagree',
-        'Somewhat disagree',
-        'Disagree',
-        'Neutral',
-        'Somewhat agree',
-        'Agree',
-        'Strongly Agree'
-      ];
-      break;
-    case '5 FREQUENCY':
-      return ['Never', 'Rarely', 'Sometime', 'Often', 'Always'];
-      break;
-    case '7 FREQUENCY':
-      return [
-        'Never',
-        'Almost never',
-        'Rarely',
-        'Sometime',
-        'Often',
-        'Almost always',
-        'Always'
-      ];
-      break;
-    case '5 SATISFACTION':
-      return [
-        'Very dissatisfied',
-        'Dissatisfied',
-        'Neutral',
-        'Satisfied',
-        'Very Satisfied'
-      ];
-      break;
-    case '7 SATISFACTION':
-      return [
-        'Very dissatisfied',
-        'Dissatisfied',
-        'Somewhat dissatisfied',
-        'Neutral',
-        'Somewhat satisfied',
-        'Satisfied',
-        'Very satisfied'
-      ];
-      break;
-    default:
-      return [];
-      break;
   }
 }

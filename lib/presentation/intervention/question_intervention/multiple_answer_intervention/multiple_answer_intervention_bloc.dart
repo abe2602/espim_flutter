@@ -1,3 +1,4 @@
+import 'package:domain/model/intervention_type.dart';
 import 'package:domain/use_case/get_intervention_uc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app/presentation/common/subscription_bag.dart';
@@ -32,7 +33,7 @@ class MultipleAnswerInterventionBloc with SubscriptionBag {
   final _onNewStateSubject = BehaviorSubject<InterventionResponseState>();
   final _onTryAgainSubject = PublishSubject<InterventionResponseState>();
   final _onClosedQuestionNewActionSubject =
-  PublishSubject<Tuple2<String, int>>();
+      PublishSubject<Tuple2<InterventionType, int>>();
   final _navigateToNextInterventionSubject = BehaviorSubject<int>();
 
   String nextInterventionClosedQuestion = '';
@@ -45,15 +46,15 @@ class MultipleAnswerInterventionBloc with SubscriptionBag {
   Sink<int> get navigateToNextInterventionSink =>
       _navigateToNextInterventionSubject.sink;
 
-  Sink<Tuple2<String, int>> get onNewActionSubjectSink =>
+  Sink<Tuple2<InterventionType, int>> get onNewActionSubjectSink =>
       _onClosedQuestionNewActionSubject.sink;
 
   Stream<InterventionResponseState> get onNewState => _onNewStateSubject;
 
-  Stream<Tuple2<String, int>> get navigateToNextIntervention =>
+  Stream<Tuple2<InterventionType, int>> get navigateToNextIntervention =>
       _onClosedQuestionNewActionSubject;
 
-  Stream<Tuple2<String, int>> _getNextIntervention() async* {
+  Stream<Tuple2<InterventionType, int>> _getNextIntervention() async* {
     try {
       final newIntervention = await getInterventionUC.getFuture(
         params: GetInterventionUCParams(
@@ -84,7 +85,6 @@ class MultipleAnswerInterventionBloc with SubscriptionBag {
           nextPage: currentIntervention.next,
           intervention: currentIntervention,
           nextInterventionType: nextIntervention.type);
-
     } catch (error) {
       print('erro no bloc  ' + error.toString());
     }
