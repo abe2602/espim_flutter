@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/camera_file.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
@@ -168,8 +169,15 @@ class _TakePictureViewState extends State<_TakePictureView> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () {
-                  takePicture(ImageSource.camera);
+                onTap: () async {
+                  final isGranted = await askCameraPermission();
+
+                  if (isGranted) {
+                    await takePicture(ImageSource.camera);
+                  } else {
+                    //todo: Mostrar Dialog de permissão
+                    print('Sem permission, cabron!');
+                  }
                 },
                 child: _cameraFile == null
                     ? Stack(

@@ -13,11 +13,11 @@ import 'package:flutter_app/presentation/common/async_snapshot_response_view.dar
 import 'package:flutter_app/presentation/common/iconed_text.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
+import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_body.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:record_mp3/record_mp3.dart';
 
@@ -211,8 +211,15 @@ class _RecordAudioViewState extends State<_RecordAudioView> {
             else
               Container(),
             GestureDetector(
-              onLongPressStart: (_) {
-                _startRecording();
+              onLongPressStart: (_) async {
+                final isGranted = await askMicrophonePermission();
+
+                if (isGranted) {
+                  await _startRecording();
+                } else {
+                  //todo: Mostrar Dialog de permissão
+                  print('Sem permission, cabron!');
+                }
               },
               onLongPressEnd: (_) {
                 _stopRecording();
@@ -235,24 +242,12 @@ class _RecordAudioViewState extends State<_RecordAudioView> {
         ),
       );
 
-  Future<bool> _checkPermission() async {
-    final permissionHashMap = await [
-      Permission.microphone,
-    ].request();
-
-    return permissionHashMap[Permission.microphone] == PermissionStatus.granted;
-  }
-
   Future<void> _startRecording() async {
-    if (await _checkPermission()) {
-      _recordFilePath = await _getFilePath();
-      _isComplete = false;
-      RecordMp3.instance.start(_recordFilePath, (type) {
-        setState(() {});
-      });
-    } else {
-      // todo: fazer algo
-    }
+    _recordFilePath = await _getFilePath();
+    _isComplete = false;
+    RecordMp3.instance.start(_recordFilePath, (type) {
+      setState(() {});
+    });
   }
 
   void _stopRecording() {

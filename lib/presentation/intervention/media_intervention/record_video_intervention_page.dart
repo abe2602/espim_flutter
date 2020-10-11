@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
+import 'package:flutter_app/presentation/common/camera_file.dart';
 import 'package:flutter_app/presentation/common/internet_video_player.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
@@ -182,7 +183,14 @@ class _RecordVideoViewState extends State<_RecordVideoView> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  await _recordVideo(ImageSource.camera);
+                  final isGranted = await askCameraPermission();
+
+                  if (isGranted) {
+                    await _recordVideo(ImageSource.camera);
+                  } else {
+                    //todo: Mostrar Dialog de permissão
+                    print('Sem permission, cabron!');
+                  }
                 },
                 child: _videoFile == null
                     ? Stack(
