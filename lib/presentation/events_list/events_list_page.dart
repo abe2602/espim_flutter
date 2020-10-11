@@ -11,6 +11,7 @@ import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_action_listener.dart';
+import 'package:flutter_app/presentation/common/sensem_button.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
 import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:provider/provider.dart';
@@ -95,49 +96,62 @@ class EventsListPage extends StatelessWidget {
               final eventsList = successState.eventsList;
               final user = successState.user;
 
-              return RefreshIndicator(
-                onRefresh: () async => bloc.onTryAgain.add(null),
-                child: ListView.builder(
-                  key: UniqueKey(),
-                  itemCount: eventsList.length,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8, top: 15, bottom: 15, right: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              S.of(context).welcome + user.name,
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w400,
-                                color: SenSemColors.mediumGray,
-                              ),
+              return Stack(
+                children: [
+                  RefreshIndicator(
+                    onRefresh: () async => bloc.onTryAgain.add(null),
+                    child: ListView.builder(
+                      key: UniqueKey(),
+                      itemCount: eventsList.length,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8, top: 15, bottom: 15, right: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  S.of(context).welcome + user.name,
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: SenSemColors.mediumGray,
+                                  ),
+                                ),
+                                Text(
+                                  S
+                                      .of(context)
+                                      .ongoing_events(eventsList.length - 1),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: SenSemColors.mediumGray,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              S
-                                  .of(context)
-                                  .ongoing_events(eventsList.length - 1),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: SenSemColors.mediumGray,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return ProgramCard(
-                        event: eventsList[index],
-                        borderRadius: 4,
-                        index: index,
-                      );
-                    }
-                  },
-                ),
+                          );
+                        } else {
+                          return ProgramCard(
+                            event: eventsList[index],
+                            borderRadius: 4,
+                            index: index,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
+                    child: SensemButton(
+                      buttonText: S.of(context).refresh_label,
+                      onPressed: () => bloc.onTryAgain.add(null),
+                    ),
+                  ),
+                ],
               );
             },
             errorWidgetBuilder: (errorState) {
@@ -171,9 +185,7 @@ class EventsListPage extends StatelessWidget {
                         ),
                         FlatButton(
                           color: SenSemColors.royalBlue,
-                          onPressed: () {
-                            bloc.onTryAgain.add(null);
-                          },
+                          onPressed: () => bloc.onTryAgain.add(null),
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             child: Center(

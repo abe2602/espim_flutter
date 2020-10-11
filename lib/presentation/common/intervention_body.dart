@@ -50,19 +50,16 @@ class InterventionBodyState extends State<InterventionBody> {
   AssetsAudioPlayer get _assetsAudioPlayer => AssetsAudioPlayer.withId('audio');
   bool _isAudioPlaying;
   IconData _buttonIcon;
-  ScrollController scrollController;
 
   @override
   void initState() {
     _isAudioPlaying = true;
     _buttonIcon = Icons.pause_circle_filled;
-    scrollController = ScrollController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) => FixedButtonScrollableBody(
-        scrollController: scrollController,
         fixedChild: SensemButton(
           onPressed: widget.onPressed,
           buttonText:
