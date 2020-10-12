@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:domain/exceptions.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -27,20 +29,27 @@ class AuthRDS {
 
                 return googleSignIn.email;
               },
-            ).catchError((onError) {
+            ).catchError(
+              (onError) {
+                dio.options.headers[HttpHeaders.authorizationHeader] =
+                    'Token 8769c2dd8dca82c850188b62e9603e3d790bd88d';
 
-              dio.options.headers[HttpHeaders.authorizationHeader] =
-                  'Token 8769c2dd8dca82c850188b62e9603e3d790bd88d';
-
-              return 'abe2602@gmail.com';
-            }),
-          ).catchError((error) {
-            print(error);
+                return googleSignIn.email;
+              },
+            ),
+          )
+          .catchError(
+        (error) {
+          if (error is PlatformException && error.code == 'network_error') {
+            throw NoConnectionException();
+          } else {
             throw error;
-  });
+          }
+        },
+      );
 
-  Future<void> login(String email) => dio
-          .get('participants/search/findByEmail?email=$email');
+  Future<void> login(String email) =>
+      dio.get('participants/search/findByEmail?email=$email');
 
   Future<void> logout() => googleSignIn.signOut().then((_) => null);
 }

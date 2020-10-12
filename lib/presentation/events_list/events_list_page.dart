@@ -50,9 +50,7 @@ class EventsListPage extends StatelessWidget {
         title: Text(S.of(context).events_label),
         actions: <Widget>[
           PopupMenuButton<String>(
-            onSelected: (_) {
-              //Navigator.pop(context);
-            },
+            onSelected: (_) {},
             itemBuilder: (context) => _appBarOptions
                 .map(
                   (choice) => PopupMenuItem<String>(
@@ -83,7 +81,7 @@ class EventsListPage extends StatelessWidget {
         onReceived: (event) {
           if (event is LogoutSuccess) {
             Navigator.of(context, rootNavigator: false).pushNamedAndRemoveUntil(
-                RouteNameBuilder.loginPage(), (route) => false);
+                RouteNameBuilder.loginPage(), (_) => false);
           }
         },
         child: StreamBuilder(

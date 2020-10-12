@@ -6,4 +6,4 @@ class Error extends LoginResponseState {}
 
 class LoginError extends Error {}
 
-class NoInternetError extends Error {}
+class NoConnectionError extends Error {}

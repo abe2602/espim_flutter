@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:domain/exceptions.dart';
 import 'package:domain/model/event_result.dart';
@@ -7,10 +6,10 @@ import 'package:domain/model/intervention_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/generated/l10n.dart';
 import 'package:flutter_app/presentation/common/input_status_vm.dart';
 import 'package:flutter_app/presentation/common/route_name_builder.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 extension StringToColor on String {
   Color toColor() {
@@ -70,6 +69,16 @@ void navigateToNextIntervention(
   }
 }
 
+extension DialogUtils on Widget {
+  Future<T> showAsDialog<T>(BuildContext context,
+          {bool isMaterialDismissible = true}) async =>
+      showDialog(
+        context: context,
+        builder: (context) => this,
+        barrierDismissible: isMaterialDismissible,
+      );
+}
+
 String createLikertTypeResponse(int length, List<String> answerList) {
   var semanticDiffAnswerString = '';
 
@@ -82,44 +91,8 @@ String createLikertTypeResponse(int length, List<String> answerList) {
   return semanticDiffAnswerString;
 }
 
-class CameraFile extends StatelessWidget {
-  const CameraFile({
-    @required this.cameraFile,
-    @required this.changeFileAction,
-    @required this.fileWidget,
-  }) : assert(cameraFile != null);
+Future<PermissionStatus> askCameraPermission() async =>
+    Permission.camera.request();
 
-  final File cameraFile;
-  final Function changeFileAction;
-  final Widget fileWidget;
-
-  @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 18),
-                height: MediaQuery.of(context).size.height / 3,
-                width: MediaQuery.of(context).size.width,
-                color: SenSemColors.lightGray2,
-              ),
-              fileWidget,
-            ],
-          ),
-          FlatButton(
-            onPressed: changeFileAction,
-            color: SenSemColors.lightRoyalBlue,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                S.of(context).change_file_label,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      );
-}
+Future<PermissionStatus> askMicrophonePermission() async =>
+    Permission.microphone.request();

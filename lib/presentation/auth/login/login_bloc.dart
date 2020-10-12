@@ -10,7 +10,8 @@ import 'login_models.dart';
 
 class LoginBloc with SubscriptionBag {
   LoginBloc({@required this.loginUC}) : assert(loginUC != null) {
-    _onLoginSubject.stream.flatMap((value) => _login())
+    _onLoginSubject.stream
+        .flatMap((value) => _login())
         .listen(_onNewActionEvent.add)
         .addTo(subscriptionsBag);
   }
@@ -24,13 +25,13 @@ class LoginBloc with SubscriptionBag {
 
   Sink<void> get onLogin => _onLoginSubject.sink;
 
-  Stream<LoginResponseState> _login() async*{
+  Stream<LoginResponseState> _login() async* {
     try {
       await loginUC.getFuture();
       yield Success();
-    }catch (error) {
-      if(error is NoInternetException) {
-        yield NoInternetError();
+    } catch (error) {
+      if (error is NoConnectionException) {
+        yield NoConnectionError();
       } else {
         yield LoginError();
       }

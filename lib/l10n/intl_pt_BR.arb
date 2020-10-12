@@ -7,8 +7,12 @@
   "notifications_description": "Se existir uma tarefa agendada, você receberá alertas em seu dispositivo como lembrete para executa-las. Para começar uma tarefa, simplesmente clique na notificação ou responda ao alarme.",
   "got_it_label": "ENTENDI",
   "begin_label": "COMEÇAR",
-  "non_blocking_generic_error_message": "Oops! Alguma coisa deu errado. \n Tente novamente mais tarde!",
-  "non_blocking_no_internet_error_message": "Parece que você está offline \n Tente se conectar à uma rede Wifi!",
+  "generic_error_primary_text": "Oops! Algo não está certo.",
+  "generic_error_secondary_text": "Tente novamente mais tarde.",
+  "generic_error_button_text": "Fechar",
+  "no_internet_primary_text": "Parece que você está sem internet!",
+  "no_internet_secondary_text": "Tente se conectar à uma rede.",
+  "no_internet_button_text": "Fechar",
   "events_label": "Eventos",
   "settings_label": "Configurações",
   "sign_out_label": "Sair",
@@ -39,5 +43,12 @@
   "landscape_layout_mode_title_label": "Tela na horizontal",
   "landscape_layout_mode_subtitle_label": "Mudar a orientação da tela",
   "wait_please_label": "Aguarde, por favor!",
-  "record_audio_label": "PRESSIONE PARA GRAVAR"
+  "record_audio_label": "PRESSIONE PARA GRAVAR",
+  "permission_denied_permanently_primary_text": "Você precisa de permissões para continuar!",
+  "permission_denied_permanently_secondary_text": "Clique em Configurações e adicione-as.",
+  "permission_denied_permanently_primary_button_text": "Configurações",
+  "permission_denied_permanently_secondary_button_text": "Fechar",
+  "permission_denied_primary_text": "Parece que você negou a permissão!",
+  "permission_denied_secondary_text": "Por favor, tente novamente.",
+  "permission_denied_primary_button_text": "Fechar"
 }

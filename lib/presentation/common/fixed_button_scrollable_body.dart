@@ -6,12 +6,10 @@ class FixedButtonScrollableBody extends StatefulWidget {
   const FixedButtonScrollableBody({
     @required this.child,
     @required this.fixedChild,
-    @required this.scrollController,
   }) : assert(child != null);
 
   final Widget child;
   final Widget fixedChild;
-  final ScrollController scrollController;
 
   @override
   _FixedButtonScrollableBodyState createState() =>
@@ -19,17 +17,25 @@ class FixedButtonScrollableBody extends StatefulWidget {
 }
 
 class _FixedButtonScrollableBodyState extends State<FixedButtonScrollableBody> {
+  ScrollController scrollController;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: FadingEdgeScrollView.fromSingleChildScrollView(
-              shouldDisposeScrollController: true,
+              shouldDisposeScrollController: false,
               gradientFractionOnEnd: 0.05,
               gradientFractionOnStart: 0,
               child: SingleChildScrollView(
-                controller: widget.scrollController,
+                controller: scrollController,
                 padding: const EdgeInsets.all(20),
                 child: widget.child,
               ),
@@ -41,4 +47,10 @@ class _FixedButtonScrollableBodyState extends State<FixedButtonScrollableBody> {
           ),
         ],
       );
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 }

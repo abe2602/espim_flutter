@@ -9,10 +9,13 @@ import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
+import 'package:flutter_app/presentation/common/action_dialog/permission_permanently_denied_action_dialog.dart';
+import 'package:flutter_app/presentation/common/alert_dialog/permission_denied_alert_dialog.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/iconed_text.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
 import 'package:flutter_app/presentation/common/sensem_colors.dart';
+import 'package:flutter_app/presentation/common/view_utils.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_bloc.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_body.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
@@ -211,8 +214,17 @@ class _RecordAudioViewState extends State<_RecordAudioView> {
             else
               Container(),
             GestureDetector(
-              onLongPressStart: (_) {
-                _startRecording();
+              onLongPressStart: (_) async {
+                final status = await askMicrophonePermission();
+
+                if (status == PermissionStatus.granted) {
+                  await _startRecording();
+                } else if (status == PermissionStatus.denied) {
+                  await PermissionDeniedAlertDialog().showAsDialog(context);
+                } else {
+                  await PermissionPermanentlyDeniedActionDialog()
+                      .showAsDialog(context);
+                }
               },
               onLongPressEnd: (_) {
                 _stopRecording();
@@ -235,24 +247,12 @@ class _RecordAudioViewState extends State<_RecordAudioView> {
         ),
       );
 
-  Future<bool> _checkPermission() async {
-    final permissionHashMap = await [
-      Permission.microphone,
-    ].request();
-
-    return permissionHashMap[Permission.microphone] == PermissionStatus.granted;
-  }
-
   Future<void> _startRecording() async {
-    if (await _checkPermission()) {
-      _recordFilePath = await _getFilePath();
-      _isComplete = false;
-      RecordMp3.instance.start(_recordFilePath, (type) {
-        setState(() {});
-      });
-    } else {
-      // todo: fazer algo
-    }
+    _recordFilePath = await _getFilePath();
+    _isComplete = false;
+    RecordMp3.instance.start(_recordFilePath, (type) {
+      setState(() {});
+    });
   }
 
   void _stopRecording() {

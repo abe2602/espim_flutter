@@ -41,8 +41,7 @@ class EventsListBloc with SubscriptionBag {
 
   Stream<EventsListResponseState> get onNewState => _onNewStateSubject;
 
-  Stream<EventsListResponseState> get onActionEvent =>
-      _onNewActionEvent.stream;
+  Stream<EventsListResponseState> get onActionEvent => _onNewActionEvent.stream;
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
@@ -73,7 +72,7 @@ class EventsListBloc with SubscriptionBag {
         );
       }
     } catch (error) {
-      if (error is NoInternetException) {
+      if (error is NoConnectionException) {
         yield NoInternetError();
       } else {
         yield GenericError();

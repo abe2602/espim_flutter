@@ -113,21 +113,61 @@ class S {
     );
   }
 
-  /// `Oops! Something went wrong!\n Please try again later!`
-  String get non_blocking_generic_error_message {
+  /// `Oops! Something went wrong!`
+  String get generic_error_primary_text {
     return Intl.message(
-      'Oops! Something went wrong!\n Please try again later!',
-      name: 'non_blocking_generic_error_message',
+      'Oops! Something went wrong!',
+      name: 'generic_error_primary_text',
       desc: '',
       args: [],
     );
   }
 
-  /// `Looks like you're offline! \n Try connection to the Internet!`
-  String get non_blocking_no_internet_error_message {
+  /// `Please try again later.`
+  String get generic_error_secondary_text {
     return Intl.message(
-      'Looks like you\'re offline! \n Try connection to the Internet!',
-      name: 'non_blocking_no_internet_error_message',
+      'Please try again later.',
+      name: 'generic_error_secondary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get generic_error_button_text {
+    return Intl.message(
+      'Close',
+      name: 'generic_error_button_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Looks like you're offline!`
+  String get no_internet_primary_text {
+    return Intl.message(
+      'Looks like you\'re offline!',
+      name: 'no_internet_primary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try connection to the Internet.`
+  String get no_internet_secondary_text {
+    return Intl.message(
+      'Try connection to the Internet.',
+      name: 'no_internet_secondary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get no_internet_button_text {
+    return Intl.message(
+      'Close',
+      name: 'no_internet_button_text',
       desc: '',
       args: [],
     );
@@ -450,6 +490,76 @@ class S {
     return Intl.message(
       'HOLD TO RECORD',
       name: 'record_audio_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must have the permissions turn on to continue!`
+  String get permission_denied_permanently_primary_text {
+    return Intl.message(
+      'You must have the permissions turn on to continue!',
+      name: 'permission_denied_permanently_primary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please, click on Settings and allow the permissions.`
+  String get permission_denied_permanently_secondary_text {
+    return Intl.message(
+      'Please, click on Settings and allow the permissions.',
+      name: 'permission_denied_permanently_secondary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get permission_denied_permanently_primary_button_text {
+    return Intl.message(
+      'Settings',
+      name: 'permission_denied_permanently_primary_button_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get permission_denied_permanently_secondary_button_text {
+    return Intl.message(
+      'Close',
+      name: 'permission_denied_permanently_secondary_button_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It seems like you denied the permission!`
+  String get permission_denied_primary_text {
+    return Intl.message(
+      'It seems like you denied the permission!',
+      name: 'permission_denied_primary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please, try it again!`
+  String get permission_denied_secondary_text {
+    return Intl.message(
+      'Please, try it again!',
+      name: 'permission_denied_secondary_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get permission_denied_primary_button_text {
+    return Intl.message(
+      'Close',
+      name: 'permission_denied_primary_button_text',
       desc: '',
       args: [],
     );
