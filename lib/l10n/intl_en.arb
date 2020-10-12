@@ -7,8 +7,12 @@
   "notifications_description": "If you have a task  scheduled, you will receive alerts on your device to remember to execute them. To start the tasks, simply click on the notification icon or respond to the sound alert.",
   "got_it_label": "GOT IT",
   "begin_label": "BEGIN",
-  "non_blocking_generic_error_message": "Oops! Something went wrong!\n Please try again later!",
-  "non_blocking_no_internet_error_message": "Looks like you're offline! \n Try connection to the Internet!",
+  "generic_error_primary_text": "Oops! Something went wrong!",
+  "generic_error_secondary_text": "Please try again later.",
+  "generic_error_button_text": "Close",
+  "no_internet_primary_text": "Looks like you're offline!",
+  "no_internet_secondary_text": "Try connection to the Internet.",
+  "no_internet_button_text": "Close",
   "events_label": "Events",
   "settings_label": "Settings",
   "sign_out_label": "Sign out",
@@ -40,5 +44,12 @@
   "landscape_layout_mode_title_label": "Landscape layout",
   "landscape_layout_mode_subtitle_label": "Changes layout orientation",
   "wait_please_label": "Wait, please!",
-  "record_audio_label": "HOLD TO RECORD"
+  "record_audio_label": "HOLD TO RECORD",
+  "permission_denied_permanently_primary_text": "You must have the permissions turn on to continue!",
+  "permission_denied_permanently_secondary_text": "Please, click on Settings and allow the permissions.",
+  "permission_denied_permanently_primary_button_text": "Settings",
+  "permission_denied_permanently_secondary_button_text": "Close",
+  "permission_denied_primary_text": "It seems like you denied the permission!",
+  "permission_denied_secondary_text": "Please, try it again!",
+  "permission_denied_primary_button_text": "Close"
 }

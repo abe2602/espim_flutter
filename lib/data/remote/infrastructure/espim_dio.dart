@@ -30,7 +30,7 @@ class EspimDio extends DioForNative {
           .catchError(
         (error) {
           if (error is DioError && error.error is SocketException) {
-            throw NoInternetException();
+            throw NoConnectionException();
           } else {
             throw error;
           }

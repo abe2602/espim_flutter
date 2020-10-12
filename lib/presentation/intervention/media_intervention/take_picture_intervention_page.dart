@@ -9,6 +9,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
+import 'package:flutter_app/presentation/common/action_dialog/permission_permanently_denied_action_dialog.dart';
+import 'package:flutter_app/presentation/common/alert_dialog/permission_denied_alert_dialog.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/camera_file.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_app/presentation/intervention/media_intervention/common/
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_body.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../intervention_models.dart';
@@ -170,13 +173,15 @@ class _TakePictureViewState extends State<_TakePictureView> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  final isGranted = await askCameraPermission();
+                  final status = await askCameraPermission();
 
-                  if (isGranted) {
+                  if (status == PermissionStatus.granted) {
                     await takePicture(ImageSource.camera);
+                  } else if (status == PermissionStatus.denied) {
+                    await PermissionDeniedAlertDialog().showAsDialog(context);
                   } else {
-                    //todo: Mostrar Dialog de permissão
-                    print('Sem permission, cabron!');
+                    await PermissionPermanentlyDeniedActionDialog()
+                        .showAsDialog(context);
                   }
                 },
                 child: _cameraFile == null

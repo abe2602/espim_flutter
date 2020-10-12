@@ -2,7 +2,7 @@ abstract class SensemException implements Exception {}
 
 class NoMoreInterventionsException implements SensemException {}
 
-class NoInternetException implements SensemException {}
+class NoConnectionException implements SensemException {}
 
 class GenericException implements SensemException {}
 

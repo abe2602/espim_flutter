@@ -9,6 +9,8 @@ import 'package:domain/use_case/upload_file_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/generated/l10n.dart';
+import 'package:flutter_app/presentation/common/action_dialog/permission_permanently_denied_action_dialog.dart';
+import 'package:flutter_app/presentation/common/alert_dialog/permission_denied_alert_dialog.dart';
 import 'package:flutter_app/presentation/common/async_snapshot_response_view.dart';
 import 'package:flutter_app/presentation/common/iconed_text.dart';
 import 'package:flutter_app/presentation/common/intervention_body.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_app/presentation/intervention/media_intervention/common/
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_body.dart';
 import 'package:flutter_app/presentation/intervention/media_intervention/common/media_intervention_models.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:record_mp3/record_mp3.dart';
 
@@ -212,13 +215,15 @@ class _RecordAudioViewState extends State<_RecordAudioView> {
               Container(),
             GestureDetector(
               onLongPressStart: (_) async {
-                final isGranted = await askMicrophonePermission();
+                final status = await askMicrophonePermission();
 
-                if (isGranted) {
+                if (status == PermissionStatus.granted) {
                   await _startRecording();
+                } else if (status == PermissionStatus.denied) {
+                  await PermissionDeniedAlertDialog().showAsDialog(context);
                 } else {
-                  //todo: Mostrar Dialog de permissão
-                  print('Sem permission, cabron!');
+                  await PermissionPermanentlyDeniedActionDialog()
+                      .showAsDialog(context);
                 }
               },
               onLongPressEnd: (_) {

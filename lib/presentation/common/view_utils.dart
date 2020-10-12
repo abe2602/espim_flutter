@@ -69,6 +69,16 @@ void navigateToNextIntervention(
   }
 }
 
+extension DialogUtils on Widget {
+  Future<T> showAsDialog<T>(BuildContext context,
+          {bool isMaterialDismissible = true}) async =>
+      showDialog(
+        context: context,
+        builder: (context) => this,
+        barrierDismissible: isMaterialDismissible,
+      );
+}
+
 String createLikertTypeResponse(int length, List<String> answerList) {
   var semanticDiffAnswerString = '';
 
@@ -81,8 +91,8 @@ String createLikertTypeResponse(int length, List<String> answerList) {
   return semanticDiffAnswerString;
 }
 
-Future<bool> askCameraPermission() async =>
-    Permission.camera.request().isGranted;
+Future<PermissionStatus> askCameraPermission() async =>
+    Permission.camera.request();
 
-Future<bool> askMicrophonePermission() async =>
-    Permission.microphone.request().isGranted;
+Future<PermissionStatus> askMicrophonePermission() async =>
+    Permission.microphone.request();
